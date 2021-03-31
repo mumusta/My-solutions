@@ -1,0 +1,84 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+
+
+using namespace std;
+
+int main(){
+
+	int n, m; vector <pair<int, vector< pair<int, int> >>> vectree;
+	vector< pair<int, int> > temp;
+	while (cin >> n >> m){
+		for (int ks = 0; ks < n; ks++){
+			int nonzI; scanf("%i", &nonzI);
+			if (nonzI == 0){
+				temp.push_back(make_pair(0, 0));
+				vectree.push_back(make_pair(ks + 1, temp));
+				temp.clear();
+			}
+			else {
+				for (int x = 0; x < nonzI; x++){
+					int a; scanf("%i", &a);
+					temp.push_back(make_pair(a, 0));
+				}
+				for (int xx = 0; xx < nonzI; xx++){
+					int b; scanf("%i", &b);
+					temp[xx].second = b;
+				}
+				vectree.push_back(make_pair(ks + 1, temp));
+				temp.clear();
+			}
+		}
+		printf("%i %i\n", m, n);
+		for (int u = 0; u < m; u++){
+			vector <int> index, seta;
+			int cw = 0;
+			for (int i = 0; i < n; i++){
+				int size = vectree[i].second.size();
+				for (int ii = 0; ii < size; ii++){
+					if (vectree[i].second[ii].first == u + 1){
+						cw++;
+						index.push_back(i + 1); seta.push_back(vectree[i].second[ii].second);
+						break;
+					}
+					if (vectree[i].second[ii].first > u + 1){
+						break;
+					}
+				}
+			}
+			if (cw == 0) printf("0\n\n");
+			else {
+				printf("%i", cw);
+				for (int j = 0; j < cw; j++){
+					printf(" %i", index[j]);
+				}
+				printf("\n");
+				for (int l = 0; l < cw; l++){
+					if (l == 0){
+						printf("%i", seta[l]) ; continue;
+					}
+					printf(" %i", seta[l]);
+				}
+				printf("\n");
+				seta.clear(); index.clear();
+			}
+		}
+		vectree.clear(); temp.clear();
+	}
+
+
+	return 0;
+}

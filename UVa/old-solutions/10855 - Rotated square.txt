@@ -1,0 +1,166 @@
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+
+using namespace std;
+
+void D0(string str2[], vector <char>& vstr2, int size){
+
+	for (int x = 0; x < size; x++){
+
+		for (int y = 0; y < size; y++){
+
+			vstr2.push_back(str2[x][y]);
+		}
+	}
+}
+
+void D90(string str2[], vector <char>& vstr2, int size){
+
+	for (int x = 0; x < size; x++){
+
+		for (int y = size - 1; y >= 0; y--){
+
+			vstr2.push_back(str2[y][x]);
+		}
+	}
+}
+
+void D180(string str2[], vector <char>& vstr2, int size){
+
+	for (int x = size - 1; x >= 0; x--){
+
+		for (int y = size - 1; y >= 0; y--){
+
+			vstr2.push_back(str2[x][y]);
+		}
+	}
+}
+
+void D270(string str2[], vector <char>& vstr2, int size){
+
+	for (int x = size - 1; x >= 0; x--){
+
+		for (int y = 0; y < size; y++){
+
+			vstr2.push_back(str2[y][x]);
+		}
+	}
+}
+
+bool areequal(vector <char> temp, vector <char> vstr2){
+	bool isit = true;
+
+	if (temp.size() != vstr2.size()){
+		isit = false;
+		return isit;
+	}
+
+	for (int x = 0; x < vstr2.size(); x++){
+
+		if (temp[x] != vstr2[x]){
+			isit = false;
+			return isit;
+		}
+	}
+
+	return isit;
+}
+
+int count_the_occ(string str1[], int num1, vector <char> vstr2, int num2){
+
+	vector <char> temp;
+	int count = 0;
+
+	for (int x = 0; x < num1 - (num2 - 1); x++){
+
+		for (int y = 0; y < num1 - (num2 - 1); y++){
+
+			if (str1[x][y] == vstr2[0]){
+
+				for (int i = x; i < x + num2; i++){
+
+					for (int ii = y; ii < y + num2; ii++){
+
+						temp.push_back(str1[i][ii]);
+					}
+				}
+
+				if (areequal(temp, vstr2))
+					count++;
+				
+				temp.clear();
+			}
+		}
+	}
+
+	return count;
+}
+
+int main() {
+
+	int num1, num2, count0 = 0, count90 = 0, count180 = 0, count270 = 0;
+	vector <char> vstr2;
+	string* str1 ;
+	string* str2 ;
+
+	while (cin >> num1 >> num2){
+
+		if (num1 == 0 && num2 == 0)
+			break;
+
+		else {
+
+			str1 = new string[num1];
+			str2 = new string[num2];
+
+			for (int x = 0; x < num1; x++){
+				cin >> str1[x];
+			}
+
+			for (int y = 0; y < num2; y++){
+				cin >> str2[y];
+			}
+
+			D0(str2, vstr2, num2);
+			count0 = count_the_occ(str1, num1, vstr2, num2);
+			vstr2.clear();
+
+			D90(str2, vstr2, num2);
+			count90 = count_the_occ(str1, num1, vstr2, num2);
+			vstr2.clear();
+
+			D180(str2, vstr2, num2);
+			count180 = count_the_occ(str1, num1, vstr2, num2);
+			vstr2.clear();
+
+			D270(str2, vstr2, num2);
+			count270 = count_the_occ(str1, num1, vstr2, num2);
+			vstr2.clear();
+
+			printf("%i %i %i %i\n", count0, count90, count180, count270);
+
+			delete[] str1;
+			delete[] str2;
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	system("pause");
+	return 0;
+}

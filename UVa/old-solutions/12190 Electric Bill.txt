@@ -1,0 +1,70 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+using namespace std;
+long long int calculator(long long int num){
+	long long int total = 0;
+	if (num > 1000000){
+		total += (num - 1000000) * 7;
+		num = num - (num - 1000000);
+	}
+	if (num > 10000){
+		total += (num - 10000) * 5;
+		num = num - (num - 10000);
+	}
+	if (num > 100){
+		total += (num - 100) * 3;
+		num = num - (num - 100);
+	}
+	if (num > 0){
+		total += (num - 0) * 2;
+		num = num - (num - 100);
+	}
+	return total;
+}
+long long int __________________________BS(long long int start, long long int end, long long int total){
+	while (start < end){
+		long long int mid = start + (end - start) / 2;
+		if (calculator(mid) > total) end = mid - 1;
+		else if (calculator(mid) < total) start = mid + 1;
+		else return mid;
+	}
+	return start;
+}
+int main(){
+	long long int a, b;
+	while (cin >> a >>b){
+	if (a == 0 && b == 0) break;	
+	long long int totalcwh = __________________________BS(0, 1000000000, a);
+	long long int start = 0, end = totalcwh, ans1 , ans2; bool done = false;
+	while (start < end){
+		long long int mid = start + (end - start) / 2;
+		if (calculator(mid) - calculator(totalcwh - mid) > b)end = mid - 1;
+		else if (calculator(mid) - calculator(totalcwh - mid) < b)start = mid + 1;
+		else {
+			ans1 = calculator(mid);
+			ans2 = calculator(totalcwh - mid);
+			done = true;
+			break;
+		}
+	}
+	if (done == false){
+		ans1 = calculator(start);
+		ans2 = calculator(totalcwh - start);
+	}
+	if (ans2 < ans1)printf("%i\n", ans2);
+	else printf("%i\n", ans1);
+	}
+	return 0;
+}

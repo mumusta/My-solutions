@@ -1,0 +1,49 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+using namespace std;
+int isprime[1000001];
+int isDDDprime[1000001];
+bool isdigprime(int a){
+	int total = 0;
+	while (a > 0){
+		total += a % 10;
+		a = a / 10;
+	}
+	if (isprime[total]) return true;
+	else return false;
+}
+int main(){
+	fill(isprime, isprime + 1000001, 1);
+	isprime[0] = isprime[1] = 0;
+	for (int i = 2; i * i < 1000001; i++){
+		if (isprime[i]){
+			for (int ii = i * 2; ii < 1000001; ii += i) isprime[ii] = 0;
+		}
+	}
+	int number = 0;
+	for (int iii = 0; iii < 1000001; iii++){
+		if (isprime[iii] && isdigprime(iii)){
+			number++;
+		}
+		isDDDprime[iii] = number;
+	}
+	int t; scanf("%i", &t);
+	for (int z = 0; z < t; z++){
+		int n, m ; scanf("%i%i", &n, &m);
+		if (m == n)printf("%i\n", abs(isDDDprime[m]-isDDDprime[m-1]));
+		else printf("%i\n", abs(isDDDprime[m]-isDDDprime[n]));
+	}
+	return 0;
+}

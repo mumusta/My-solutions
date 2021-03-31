@@ -1,0 +1,6 @@
+Hints: -.
+Tags: Brute Force, Data Structures.
+Difficulty: 1 out of 5.
+Comment: Use array of set < int > to store each row and coloumn separately and then compare the size of each with k.
+Order: O(N^2).
+Links: -.

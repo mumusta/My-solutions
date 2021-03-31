@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define __ 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll MOD(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+int n, e, a, b, c , is , number , mx; V(int) dfs_num, dfs_low, vis, S;
+void SCC(int u, V(V(int)) &graph){
+	dfs_num[u] = dfs_low[u] = number++; int size = graph[u].size();
+	vis[u] = 1; S.pp(u);
+	for (int x = 0; x < size; x++){
+		int v = graph[u][x];
+		if (dfs_num[v] == -1)
+			SCC(v, graph);
+			if (vis[v]) dfs_low[u] = MIN(dfs_low[u], dfs_low[v]);
+		
+	}
+	if (dfs_num[u] == dfs_low[u]){
+		while (true){
+			int j = S.back(); S.pop_back(); vis[j] = 0;
+			if (j == u) break;
+		}
+		is++;
+	}
+}
+int main() {
+	while (s("%d%d", &n, &e) == 2){
+		if (n == 0 && e == 0) break;
+		V(V(int)) graph(n); dfs_num.clear(); dfs_low.clear(); vis.clear(); S.clear();
+		dfs_num.assign(n, -1); dfs_low.assign(n, 0); vis.assign(n, 0);
+		for (int x = 0; x < e; x++){
+			s("%d%d%d", &a, &b, &c);
+			if (c == 1){
+				graph[a-1].pp(b-1);
+			}
+			else {
+				graph[a - 1].pp(b - 1); graph[b - 1].pp(a - 1);
+			}
+		}
+		is = 0; int CC = 0; mx = 0;
+		for (int x = 0; x < n; x++){
+			if (dfs_num[x] == -1){
+				number = 0;
+				SCC(x, graph); CC++;
+			}
+		}
+		p("%d\n", (is == 1) ? 1 : 0);
+		graph.clear();
+	}
+	return 0;
+}

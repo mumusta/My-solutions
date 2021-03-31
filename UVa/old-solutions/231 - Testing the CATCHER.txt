@@ -1,0 +1,60 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#define OO 100000000
+//#include <fstream>
+using namespace std;
+vector <int> hits , I;
+int main() {
+	int temp , rep , cw = 0;
+	while (cin >> temp){
+		if (temp == -1)break;
+		hits.push_back(temp*-1);
+		while (cin >> temp){
+			if (temp == -1)break;
+			hits.push_back(temp*-1);
+		}
+		int list_l = 0;
+		int n = hits.size();
+		I.assign(n + 1, OO);
+		I[0] = -OO;
+		rep = 0;
+		for (int x = 0; x < n; x++){
+		//	if (x > 0 && hits[x] == hits[x - 1]) rep++;
+			int start = 0, end = list_l, mid = 0;
+			while (start <= end){
+				mid = (start + end) / 2;
+				if (I[mid] < hits[x]) start = mid + 1;
+				else end = mid - 1;
+			}
+			if (I[start] != hits[x])
+			I[start] = hits[x];
+			else {
+				if (start >= list_l) rep++;
+			}
+			if (start > list_l){
+				list_l = start;
+			}
+		}
+		if (cw != 0)printf("\n\n");
+		printf("Test #%i:\n  maximum possible interceptions: %i", ++cw, list_l + rep);
+		I.clear(); hits.clear();
+	}
+	printf ("\n");
+	return 0;
+}

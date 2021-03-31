@@ -1,0 +1,41 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+int main(){
+	bitset<35> n , a, b;
+	long long int num , k =0;
+	while (cin >> num){
+		if (num == 0)break;
+		n = num; int cw = 0;
+		for (int x = 0; x < 35 ; x++){
+			if (n[x]){
+				cw++;
+				if ((cw & 1) == 1){
+					a[x] = 1;
+				}
+				else {
+					b[x] = 1;
+				}
+			}
+		}
+		long long int z = a.to_ullong(), zz = b.to_ullong();
+		printf("%lld %lld\n", z, zz);
+		a = 0; b = 0;
+	}
+	return 0;
+}

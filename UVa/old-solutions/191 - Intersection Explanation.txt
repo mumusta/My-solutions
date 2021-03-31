@@ -1,0 +1,6 @@
+Hints: The terms top left and bottom right do not imply any ordering of coordinates.
+Tags: Geometry, Segments Intersection.
+Difficulty: 2 out of 5.
+Comment: Very small EPS will return wrong answer, 1e-9 will fit.
+Order: O(1).
+Links: -.

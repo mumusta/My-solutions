@@ -1,0 +1,6 @@
+Hints: -.
+Tags: Geometry, String Parsing.
+Difficulty: 2 out of 5.
+Comment: The length of any diagonal move is equal the number of steps given divided by sqrt(2).
+Order: O(N) for each testcase.
+Links: -.

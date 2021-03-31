@@ -1,0 +1,87 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#include <fstream>
+#define s scanf
+#define p printf
+#define ss scanf_s
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+using namespace std;
+
+int t, w, number_of_tr, dp[31][1001], dp2[31][1001], tr_depth[31], tr_gold[31], tr_cost[31], accepted[31], usedd[31], cw, last[31];
+
+int DP(int index, int used){
+	if (index == number_of_tr) return 0;
+	if (dp[index][used] != -1) return dp[index][used];
+	if (used + tr_cost[index] > t) return dp[index][used] = DP(index + 1, used);
+
+	int c1 = DP(index + 1, used), c2 = tr_gold[index] + DP(index + 1, used + tr_cost[index]);
+	
+	if (c2 > c1){
+		dp2[index][used] = 1;
+		return dp[index][used] = c2;
+	}
+	else {
+		dp2[index][used] = 0;
+		return dp[index][used] = c1;
+	}
+
+}
+
+int main() {
+
+
+	int tt=0;
+	while (cin >> t){
+		s("%d%d", &w, &number_of_tr);
+		mm(dp); cw = 0;tt ++;
+		mm0(dp2);
+		for (int x = 0; x < number_of_tr; x++){
+			s("%d%d", &tr_depth[x], &tr_gold[x]); tr_cost[x] = (w*tr_depth[x]) + (2 * w * tr_depth[x]);
+			accepted[x] = usedd[x] = last[x] = 0;
+		}
+		if (tt != 1)printf("\n");
+		int temp = DP(0, 0);
+		p("%d\n", temp);
+		if (temp == 0) p("0\n");
+		else {
+		int c = 0;
+		for (int i = 0; i < number_of_tr; i ++){
+			if (dp2[i][c]){
+				cw++; last[i] = 1;
+				c += tr_cost[i];
+			}
+		}
+		
+		p("%d\n" , cw);
+		for (int z = 0; z < number_of_tr; z++){
+			if (last[z]){
+				p("%d %d\n", tr_depth[z], tr_gold[z]);
+			}
+		}
+		}
+	}
+
+	return 0;
+}

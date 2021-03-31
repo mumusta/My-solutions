@@ -1,0 +1,47 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+int cw; int fuck[2000];
+bool ifsumequalsquarenumber(int i, int j){
+	i += j;
+	int temp = sqrt(i);
+	return (temp*temp == i) ? true : false;
+}
+void DP___(vector <stack<int>> hanoi, int number, int n){
+	for (int x = 0; x < n; x++){
+		if (hanoi[x].empty() || ifsumequalsquarenumber(number, hanoi[x].top())){
+			if (hanoi[x].empty()){
+				fuck[x] = number - 1;
+			}
+			hanoi[x].push(number);
+			DP___(hanoi, number + 1, n);
+			break;
+		}
+	}
+}
+int main(){
+	vector <stack<int>> hanoi(51 + 1);
+	DP___(hanoi, 1, 51);
+	int n; scanf("%i", &n);
+	for (int x = 0; x < n; x++){
+		int pegs; scanf("%i", &pegs);
+		printf("%i\n", fuck[pegs]);
+		cw = 0; hanoi.clear();
+	}
+	return 0;
+}

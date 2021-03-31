@@ -1,0 +1,6 @@
+Hints: -.
+Tags: Brute Force.
+Difficulty: 1 out of 5.
+Comment: Count the number of occurrence of each frequency and pick the max.
+Order: O(N).
+Links: http://codeforces.com/gym/101498/problem/A.

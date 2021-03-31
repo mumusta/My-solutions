@@ -1,0 +1,54 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#include <fstream>
+#define ss scanf_s
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 100000000
+using namespace std;
+vector <int> priceO, w8O;
+int n, max_container, number_of_iteams , dp[1010][40];
+int DP(int index, int current_w8){
+	if (index == number_of_iteams || current_w8 == 0)return 0;
+	if (dp[index][current_w8] != -1)return dp[index][current_w8];
+	if (w8O[index] > current_w8) return dp[index][current_w8] = DP(index + 1, current_w8);
+	return dp[index][current_w8] = max(DP(index + 1, current_w8), priceO[index] + DP(index + 1, current_w8 - w8O[index]));
+}
+int main() {
+	s("%d", &n);
+	for (int t = 0; t < n; t++){
+		memset(dp, -1, sizeof dp);
+		s("%d", &number_of_iteams);
+		priceO.assign(number_of_iteams, 0); w8O.assign(number_of_iteams, 0);
+		for (int x = 0; x < number_of_iteams; x++){
+			s("%d%d", &priceO[x], &w8O[x]);
+		}
+		int ppl = 0, ans = 0; s("%d", &ppl);
+		for (int i = 0; i < ppl; i++){
+			s("%d", &max_container);
+			ans += DP(0, max_container);
+		}
+		p("%d\n", ans);
+		priceO.clear(); w8O.clear();
+	}
+	return 0;
+}

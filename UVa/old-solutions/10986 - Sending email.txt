@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define __ 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define II pair <int, int>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull; 
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+int OneD(int row, int col, int t_n_o_r) { return row * t_n_o_r + col; }
+ll MOD(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+#define LL pair <ll, ll>
+ll n, m, S, T , a , b , w;
+int main() { int N; s("%d", &N); 
+	for (int t = 0; t < N; t++){
+		s("%lld%lld%lld%lld", &n, &m, &S, &T); p("Case #%d: ", t + 1);
+		V(V(LL)) graph(n); for (int x = 0; x < m; x++) { s("%lld%lld%lld", &a, &b, &w); graph[a].pp(mp(b, w)); graph[b].pp(mp(a, w)); }
+		priority_queue <LL, vector<LL>, greater<LL>> pq; pq.push(mp(0, S)); V(ll)dis(n, OO); dis[S] = 0;
+		while (!pq.empty()){
+			LL top = pq.top(); ll d = top.first, u = top.second; int size = graph[u].size(); pq.pop();
+			if (u == T) break;
+			if (d > dis[u]) continue;
+			for (int x = 0; x < size; x++){
+				LL v = graph[u][x];
+				if (dis[u] + v.second < dis[v.first]){
+					dis[v.first] = dis[u] + v.second; pq.push(mp(dis[v.first], v.first));
+				}
+			}
+		} if (dis[T] == OO) p("unreachable\n"); else p("%lld\n", dis[T]);
+	}
+	return 0;
+}

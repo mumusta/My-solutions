@@ -1,0 +1,127 @@
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+/*
+
+	                                           
+
+
+
+										  
+						  *                     *
+						   *   *           *   *
+						    *        **       *
+						     *     *    *    *
+							  *             *              
+					      *    *           *    *
+				      * * * * * * * * * * * * * * * * 
+							     *       *
+								  *     *
+								   *   *
+								    * *
+								     *
+	
+	
+
+
+	
+	
+
+	Listen! Don't you hear these mad symphonies of grievance and fear ?
+	Melancholy and despair can be sensed when we draw near. Some hear a violin
+	sound, others hear a man moaning in tears. These fields are haunted by
+	nature's most sombre melodies. Suicidal white noise absorbing the essence
+	from light, mirth and vitality.
+
+
+
+*/
+//#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define MOD 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+
+int t, n, temp, main_nodes[101], vis[101], WARNING ;
+
+void printfucks(){ p("+"); for (int x = 0; x < (n + n + 1 - 2); x++) p("-"); p("+\n"); }
+void mark_main(int u, V(V(int)) &graph){
+	main_nodes[u] = 1; int size =  graph[u].size();
+	for (int x = 0; x < size; x++){
+		if (!main_nodes[graph[u][x]]) mark_main(graph[u][x], graph);
+	}}
+
+void water(int u, V(V(int)) &graph){
+	if (u != WARNING){
+		vis[u] = 1; int size = graph[u].size();
+		for (int x = 0; x < size; x++){
+			if (!vis[graph[u][x]]) water(graph[u][x], graph);
+		}
+	}
+}
+
+int main() { 
+
+	freopen("in.txt", "r", stdin);
+	freopen("out.txt", "w", stdout);
+	
+
+	s("%d", &t); 
+	for (int x = 0; x < t; x++){
+		s("%d", &n); V(V(int)) graph(n); mm0(main_nodes);
+		for (int i = 0; i < n; i++){
+			for (int ii = 0; ii < n; ii++){ s("%d", &temp); if (temp == 1 && i != ii){ graph[i].pp(ii); } }
+		} mark_main(0, graph); p("Case %d:\n", x + 1); printfucks();
+
+		for (int x = 0; x < n; x++){
+
+			WARNING = x; mm0(vis); water(0, graph);
+			p("|");
+			for (int i = 0; i < n; i++){
+				if (!main_nodes[x] || !main_nodes[i]) p("N|"); else {
+					if (main_nodes[i] && i == x) p("Y|");
+					else {
+						if (main_nodes[i] && !vis[i]) p("Y|");
+						else p("N|");
+					}
+				}
+			} p("\n"); printfucks();
+
+		}
+
+
+
+		graph.clear();
+	}
+	
+
+
+	system("pause");
+	return 0;
+}

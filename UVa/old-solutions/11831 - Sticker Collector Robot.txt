@@ -1,0 +1,56 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define MOD 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+char grid[101][101] , used[101][101]; int ci, cj, dir; int modulo(int a, int b) { return a >= 0 ? a % b : (b - abs(a%b)) % b; }
+int main() { 
+	//INNN();
+
+	int n, m, c , cw = 0; 
+
+	while (s("%d%d%d", &n, &m, &c) == 3){
+		if (!n && !m && !c) break; cw = 0; mm0(used);
+		for (int x = 0; x < n; x++) {
+			for (int xx = 0; xx < m; xx++){
+				cin >> grid[x][xx]; if (grid[x][xx] == 'N') { ci = x; cj = xx; dir = 0; } if (grid[x][xx] == 'S'){ ci = x; cj = xx; dir = 2; }
+				if (grid[x][xx] == 'L'){ ci = x; cj = xx; dir = 1; } if (grid[x][xx] == 'O'){ ci = x; cj = xx; dir = 3; }
+			}
+		}
+		
+		string str; cin >> str;
+
+		for (int i = 0; i < c; i++){
+			int ti = ci, tj = cj;
+			if (str[i] == 'F'){
+				if (dir == 0){ ti--; }
+				if (dir == 1){ tj++; }
+				if (dir == 2){ ti++; }
+				if (dir == 3){ tj--; }
+			} 
+			if (str[i] == 'D') { dir++; dir = modulo(dir, 4); }
+			if (str[i] == 'E') { dir--; dir = modulo(dir, 4); } // cout << dir << endl << endl;
+			if (ti >= 0 && ti < n && tj >= 0 && tj < m && grid[ti][tj] != '#') { 
+				if ((ci != ti || cj != tj) && grid[ti][tj] == '*' && !used[ti][tj]) { cw++; used[ti][tj] = 1; }
+				ci = ti; cj = tj;
+			}
+		}
+
+		p("%d\n", cw); 
+	}
+	
+	
+		return 0;
+	}

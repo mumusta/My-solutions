@@ -1,0 +1,192 @@
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stdlib.h>
+#include <stack>
+#include <queue>
+#include <iomanip>
+
+using namespace std;
+
+bool isaccending(string str){
+	bool is = true;
+	for (int x = 1; x < str.length(); x++){
+
+		if (str[x - 1] < str[x]){
+			continue;
+		}
+
+		else {
+			is = false;
+			break;
+		}
+	}
+
+	return is;
+}
+
+int main() {
+
+	map<string, int> tree; long long int cont = 0; char a; string s;
+
+	for (int x = 97; x <= 122; x++){
+		cont++;
+		s = "";
+		 a = x;
+
+		 s.push_back(a);
+
+		tree.insert(make_pair(s, cont));
+	}
+
+
+
+	for (int i = 97; i <= 122; i++){
+
+		for (int ii = i + 1; ii <= 122; ii++){
+
+			s = "";
+
+			cont++;
+
+			a = i;
+			s.push_back(a);
+
+			a = ii;
+			s.push_back(a);
+
+			tree.insert(make_pair(s, cont));
+		}
+	}
+
+
+
+	for (int i = 97; i <= 122; i++){
+
+		for (int ii = i + 1; ii <= 122; ii++){
+
+			for (int iii = ii+1; iii <= 122; iii++){
+
+				s = "";
+
+				cont++;
+
+				a = i;
+				s.push_back(a);
+
+				a = ii;
+				s.push_back(a);
+
+				a = iii;
+				s.push_back(a);
+
+				tree.insert(make_pair(s, cont));
+			}
+		}
+	}
+
+
+
+	for (int i = 97; i <= 122; i++){
+
+		for (int ii = i + 1; ii <= 122; ii++){
+
+			for (int iii = ii + 1; iii <= 122; iii++){
+
+				for (int iv = iii + 1; iv <= 122; iv++){
+
+					s = "";
+
+					cont++;
+
+					a = i;
+					s.push_back(a);
+
+					a = ii;
+					s.push_back(a);
+
+					a = iii;
+					s.push_back(a);
+
+					a = iv;
+					s.push_back(a);
+
+					tree.insert(make_pair(s, cont));
+				}
+			}
+		}
+	}
+
+
+
+	for (int i = 97; i <= 122; i++){
+
+		for (int ii = i + 1; ii <= 122; ii++){
+
+			for (int iii = ii + 1; iii <= 122; iii++){
+
+				for (int iv = iii + 1; iv <= 122; iv++){
+
+					for (int v = iv+1; v <= 122; v++){
+
+						s = "";
+
+						cont++;
+
+						a = i;
+						s.push_back(a);
+
+						a = ii;
+						s.push_back(a);
+
+						a = iii;
+						s.push_back(a);
+
+						a = iv;
+						s.push_back(a);
+
+						a = v;
+						s.push_back(a);
+
+						tree.insert(make_pair(s, cont));
+
+					}
+				}
+			}
+		}
+	}
+
+	string str;
+
+	while (cin >> str){
+
+		if (str.length() > 1 && isaccending(str) == false){
+			cout << "0" << endl;
+			continue;
+		}
+
+		else {
+			
+			map<string, int> ::iterator it = tree.find(str);
+
+			cout << (*it).second << endl;
+		}
+
+
+
+
+	}
+
+
+
+
+	system("pause");
+	return 0;
+}
+

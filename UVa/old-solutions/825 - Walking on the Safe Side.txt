@@ -1,0 +1,59 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+//#include <fstream>
+using namespace std; 
+int r, c , big; 
+vector <int> unsafe, dp_memo;
+int index_2d(int i, int j){
+	return (i * big) + j;
+}
+long long int dp(int R, int C){
+	if (R == r - 1 && C == c - 1) return 1;
+	if (R == r || C == c || R < 0 || C < 0 || unsafe[index_2d(R,C)]) return 0;
+	if (dp_memo[index_2d(R, C)] != -1) return dp_memo[index_2d(R, C)];
+	return dp_memo[index_2d(R,C)] = dp(R + 1, C) + dp(R, C + 1);
+}
+int main(){
+	int t; scanf("%i", &t);
+	for (int x = 0; x < t; x++){
+		 scanf("%i%i", &r, &c);
+		 big = (r > c) ? r : c;
+		 big += 5;
+		 unsafe.assign(big*big, 0); dp_memo.assign(big*big, -1);
+		cin.ignore();
+		for (int xx = 0; xx < r; xx++){
+			int  j;
+			string str;
+			getline(cin, str);
+			stringstream ss (str);
+			ss >> j;
+			j = 0;
+			while (true){
+				j = 0;
+				ss >> j;
+				if (j > 0)
+				unsafe[index_2d(xx, (j - 1))] = 1;
+				else break;
+			}
+		}
+		printf("%lld\n", dp(0, 0));
+		if (x != t-1) printf ("\n");
+		unsafe.clear(); dp_memo.clear();
+	}
+	return 0;
+}

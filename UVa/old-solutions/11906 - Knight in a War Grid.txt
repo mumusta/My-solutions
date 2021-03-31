@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define MOD 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll Mod(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int rech[101][101], water[101][101], VIS[101][101], t, r, c, m, n, w;
+void dfs(int i, int j){
+	if (i < 0 || i >= r || j < 0 || j >= c || VIS[i][j] || water[i][j]) return;
+	VIS[i][j] = 1; 
+	dfs(i + m, j + n); dfs(i - m, j - n); dfs(i + m, j - n); dfs(i - m, j + n); dfs(i + n, j + m); dfs(i - n, j - m); dfs(i + n, j - m); dfs(i - n, j + m);}
+int main() { s("%d", &t);
+	for (int x = 0; x < t; x++) { 
+		s("%d%d%d%d%d", &r, &c, &m, &n, &w); mm0(water); mm0(rech); mm0(VIS);
+		for (int xx = 0; xx < w; xx++){
+			int i, j; s("%d%d", &i, &j); water[i][j] = 1;} 
+		int E = 0, O = 0; dfs(0, 0);
+		for (int i = 0; i < r; i++){
+			for (int ii = 0; ii < c; ii++){
+				int vis[101][101]; mm0(vis);
+				if (!water[i][ii] && VIS[i][ii]){ 
+					if (i + m >= 0 && i + m < r && ii + n >= 0 && ii + n < c && !water[i + m][ii + n] && !vis[i + m][ii + n] && VIS[i + m][ii + n]) { rech[i][ii] ++; vis[i + m][ii + n] = 1; }
+					if (i - m >= 0 && i - m < r && ii - n >= 0 && ii - n < c && !water[i - m][ii - n] && !vis[i - m][ii - n] && VIS[i - m][ii - n]) { rech[i][ii] ++; vis[i - m][ii - n] = 1; }
+					if (i + m >= 0 && i + m < r && ii - n >= 0 && ii - n < c && !water[i + m][ii - n] && !vis[i + m][ii - n] && VIS[i + m][ii - n]) { rech[i][ii] ++; vis[i + m][ii - n] = 1; }
+					if (i - m >= 0 && i - m < r && ii + n >= 0 && ii + n < c && !water[i - m][ii + n] && !vis[i - m][ii + n] && VIS[i - m][ii + n]) { rech[i][ii] ++; vis[i - m][ii + n] = 1; }
+					if (i + n >= 0 && i + n < r && ii + m >= 0 && ii + m < c && !water[i + n][ii + m] && !vis[i + n][ii + m] && VIS[i + n][ii + m]) { rech[i][ii] ++; vis[i + n][ii + m] = 1; }
+					if (i - n >= 0 && i - n < r && ii - m >= 0 && ii - m < c && !water[i - n][ii - m] && !vis[i - n][ii - m] && VIS[i - n][ii - m]) { rech[i][ii] ++; vis[i - n][ii - m] = 1; }
+					if (i - n >= 0 && i - n < r && ii + m >= 0 && ii + m < c && !water[i - n][ii + m] && !vis[i - n][ii + m] && VIS[i - n][ii + m]) { rech[i][ii] ++; vis[i - n][ii + m] = 1; }
+					if (i + n >= 0 && i + n < r && ii - m >= 0 && ii - m < c && !water[i + n][ii - m] && !vis[i + n][ii - m] && VIS[i + n][ii - m]) { rech[i][ii] ++; vis[i + n][ii - m] = 1; }
+					}
+				 if (rech[i][ii] % 2 == 0 && rech[i][ii] != 0) E++; else if (rech[i][ii] & 1) O++;}}
+				 if (E == 0 && O == 0) p("Case %d: 1 0\n", x+1);
+	else	p("Case %d: %d %d\n", x+1, E, O);}
+		return 0;
+	}

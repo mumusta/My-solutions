@@ -1,0 +1,65 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+int MAP[8];
+int train_capacity, station_num, orders_num , MAX;
+vector <int> Start, End , Pass_Num , Dollars;
+bool can_fit(int i, int j , int passingers){
+	for (int x = i ; x < j; x++){
+		if (MAP[x] + passingers > train_capacity) return false;
+	}
+	return true;
+}
+void add_to_plain(int i, int j, int pass){
+	for (int x = i; x < j; x++){
+		MAP[x] += pass;
+	}
+}
+void Remove_from___(int i, int j, int pass){
+	for (int x = i; x < j; x++){
+		MAP[x] -= pass;
+	}
+}
+void DP________(int index , int total){
+	if (index == orders_num){
+		if (total > MAX) MAX = total;
+		return;
+	}
+	if (can_fit(Start[index], End[index], Pass_Num[index])){
+		DP________(index + 1, total);
+		add_to_plain(Start[index], End[index], Pass_Num[index]);
+		DP________(index + 1, total + Dollars[index]);
+		Remove_from___(Start[index], End[index], Pass_Num[index]);
+	}
+	else DP________(index + 1, total);
+}
+int main(){
+	while (cin >> train_capacity){
+		scanf("%i%i", &station_num, &orders_num);
+		if (train_capacity == 0 && station_num == 0 && orders_num == 0) break; MAX = 0;
+		Start.assign(orders_num, 0); End.assign(orders_num, 0); Pass_Num.assign(orders_num, 0); Dollars.assign(orders_num, 0);
+		for (int x = 0; x < orders_num; x++){
+			scanf("%i%i%i", &Start[x], &End[x], &Pass_Num[x]);
+			Dollars[x] = (End[x] - Start[x]) * Pass_Num[x];
+		}
+		DP________(0, 0);
+		printf("%i\n", MAX);
+		Start.clear(); End.clear(); Pass_Num.clear(); Dollars.clear(); fill(MAP, MAP + 8, 0);
+	}
+	return 0;
+}

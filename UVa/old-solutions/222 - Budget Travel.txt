@@ -1,0 +1,59 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+double destination, car_capacity, miles_PG, orig_city_cost, stations_num , minn = 100000000;
+vector <double> points_on_map, station_cost;
+void DP__(int index, double total_paid, double gas_i_have){
+	double miles_can_move = gas_i_have * miles_PG;
+	if (index == stations_num){
+		if (total_paid < minn){
+			minn = total_paid;
+		}
+		return;
+	}
+	if (miles_can_move < (points_on_map[index + 1] - points_on_map[index])){
+		double money_i_pay = ((car_capacity - gas_i_have) * station_cost[index])+200.0;
+		double gas_will_burn_to_the_next_dext = (points_on_map[index + 1] - points_on_map[index]) / miles_PG;
+		DP__(index + 1, total_paid + money_i_pay, car_capacity - gas_will_burn_to_the_next_dext);
+	}
+	else {
+		double money_i_pay = ((car_capacity - gas_i_have) * station_cost[index])+200.0;
+		double gas_will_burn_to_the_next_dext = (points_on_map[index + 1] - points_on_map[index]) / miles_PG;
+		DP__(index + 1, total_paid + money_i_pay, car_capacity - gas_will_burn_to_the_next_dext);
+		double gas_will_burn_to_the_next_dext2 = (points_on_map[index + 1] - points_on_map[index]) / miles_PG;
+		DP__(index + 1, total_paid, gas_i_have - gas_will_burn_to_the_next_dext2);
+	}
+}
+int main(){
+	int cw = 0;
+	while (true){
+		scanf("%lf", &destination);
+		if (destination < 0) break;
+		scanf("%lf%lf%lf%lf", &car_capacity, &miles_PG, &orig_city_cost, &stations_num); orig_city_cost *= 100.0;
+		points_on_map.assign(stations_num + 1, 0); station_cost.assign(stations_num, 0); minn = 100000000;
+		for (int x = 0; x < stations_num; x++){
+			scanf("%lf%lf", &points_on_map[x], &station_cost[x]);
+		}
+		points_on_map[(int)stations_num] = destination;
+		double gas_will_burn_to_the_next_dext = (points_on_map[0]) / miles_PG;
+		DP__(0, orig_city_cost, car_capacity - gas_will_burn_to_the_next_dext);
+		printf("Data Set #%i\nminimum cost = $%.2f\n", ++cw, minn/100.0);
+		points_on_map.clear(); station_cost.clear();
+	}
+	return 0;
+}

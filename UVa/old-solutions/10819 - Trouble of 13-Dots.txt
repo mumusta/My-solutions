@@ -1,0 +1,55 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#include <fstream>
+#define s scanf
+#define p printf
+#define ss scanf_s
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+using namespace std;
+vector <int> price, fun;
+int m, n , dp[101][10001];
+int DP(int index, int payed){
+	if (payed > m){
+		if (payed < 1800) return -OO;
+		else {
+			if (payed > m + 200) return -OO;
+		}
+	}
+	if (index == n) {
+		if (payed > m && payed <= 2000) return -OO;
+		return 0;
+	}
+	if (dp[index][payed] != -1) return dp[index][payed];
+	return dp[index][payed] = max(DP(index + 1, payed), DP(index + 1, payed + price[index]) + fun[index]);
+}
+int main() {
+	while (cin >> m){
+		s("%d", &n); mm(dp);
+		price.assign(n, 0); fun.assign(n, 0);
+		for (int x = 0; x < n; x++) s("%d%d", &price[x], &fun[x]);
+		p("%d\n", DP(0, 0));
+		price.clear();fun.clear();
+	}
+	return 0;
+}

@@ -1,0 +1,58 @@
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stdlib.h>
+
+using namespace std;
+
+int main() {
+
+	int num; vector <int> mainpoint; vector<int> number; vector <int> countnum;
+
+	while (cin >> num){
+
+		mainpoint.push_back(num);
+	}
+
+	int size = mainpoint.size();
+
+	for (int x = 0; x < size; x++){
+
+		if (mainpoint[x] == -999) continue;
+
+		number.push_back(mainpoint[x]);
+		countnum.push_back(1);
+		int temp = mainpoint[x];
+		mainpoint[x] = -999;
+
+		for (int y = 0; y < size; y++){
+			if (x == y) continue;
+
+			if (temp == mainpoint[y]){
+				mainpoint[y] = -999;
+				countnum[countnum.size() - 1]++;
+			}
+		}
+	}
+	
+	for (int z = 0; z < number.size(); z++){
+
+		cout << number[z] << " " << countnum[z] << endl;
+	}
+
+
+
+
+
+
+
+	system("pause");
+	return 0;
+}
+

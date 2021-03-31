@@ -1,0 +1,36 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+//#include <fstream>
+using namespace std; 
+int main(){
+	long long int n, sum, ans , temp;
+	while (cin >> n){
+		if (n == 0) break;
+		sum = ans = temp = 0;
+		for (int x = 0; x < n; x++){
+			scanf("%lld", &temp);
+			sum += temp;
+			ans = max(ans, sum);
+			if (sum < 0) sum = 0;
+		}
+		if (ans == 0)printf("Losing streak.\n");
+		else printf("The maximum winning streak is %lld.\n", ans);
+	}
+	return 0;
+}

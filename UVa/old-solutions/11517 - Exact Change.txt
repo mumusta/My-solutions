@@ -1,0 +1,49 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#include <fstream>
+#define s scanf
+#define p printf
+#define ss scanf_s
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+using namespace std;
+int seq[101] , table[101][10001];
+int main() {
+	int t, target, n, get_num, get_rep; s("%d", &t); bool isb = false;
+	for (int x = 0; x < t; x++){
+		s("%d%d", &target, &n); for (int z = 1; z <= n; z++) s("%d", &seq[z]); table[0][0] = 0; get_num = get_rep = OO; isb = false;
+		for (int i = 1; i <= n; i++){ if (isb) break;
+		for (int ii = 1; ii <= 10000; ii++){ if (isb) break;
+				if (i == 1) table[0][ii] = OO;
+				if (ii == 1) table[i][0] = 0;
+				table[i][ii] = table[i - 1][ii];
+				if (ii >= seq[i]) table[i][ii] = min(table[i][ii], table[i - 1][ii - seq[i]] + 1);
+				if (i == n && ii >= target){
+					if (table[i][ii] < OO) { get_rep = table[i][ii]; get_num = ii; isb = true; break; }
+				}
+			}
+		}
+		p("%d %d\n", get_num, get_rep);
+	}
+	return 0;
+}

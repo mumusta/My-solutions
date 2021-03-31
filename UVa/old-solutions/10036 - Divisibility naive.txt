@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define ss scanf_s
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+using namespace std;
+long long int modulo (long long int a, long long int b) { return a >= 0 ? a % b : ( b - abs ( a%b ) ) % b; }
+long long int t , k , n , seq[10001] , dp[10001][101];
+long long int DP (long long int index , long long int total){
+	if (index == n) {if (total == 0) return 1; else return 0;}
+	if (dp[index][total] != -1) return dp[index][total];
+	return dp[index][total] = max (DP(index+1,modulo(total+seq[index] , k)) , DP(index+1,modulo(total-seq[index] , k)));
+}
+int main() {
+s("%lld" , &t);
+for (int x = 0 ; x < t ; x ++){
+	s("%lld%lld" , &n , &k); for (int z = 0 ; z < n ; z ++) s("%lld" , &seq[z]);
+	if (k != 1){
+	mm(dp); int la = DP (1,modulo(seq[0],k)); (la == 1) ? p("Divisible\n") : p("Not divisible\n");} else p("Divisible\n");
+}
+    return 0;
+}

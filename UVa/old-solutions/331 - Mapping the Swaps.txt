@@ -1,0 +1,68 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+//#include <fstream>
+using namespace std;
+vector <int> vec; int minn;
+int assholes[100000];
+bool issorted(){
+	int size = vec.size();
+	for (int x = 0; x < size-1; x++){
+		if (vec[x] > vec[x + 1]) return false;
+	}
+	return true;
+}
+void DP______(int swaps , int n){
+	if (swaps > minn) return;
+	if (issorted()){
+		if (swaps < minn){
+			minn = swaps;
+			assholes[minn]++;
+		}
+		else if (swaps == minn) assholes[minn]++;
+	}
+	for (int x = 0; x < n - 1; x++){
+		if (vec[x] > vec[x + 1]){
+			int temp = vec[x];
+			vec[x] = vec[x + 1];
+			vec[x + 1] = temp;
+			DP______(swaps + 1, n);
+			temp = vec[x];
+			vec[x] = vec[x + 1];
+			vec[x + 1] = temp;
+		}
+	}
+}
+int main(){
+	int num; int cw = 0;
+	while (cin >> num){
+		if (num == 0) break;
+		vec.assign(num, 0); minn = num * (num - 1) / 2;
+		for (int x = 0; x < num; x++){
+			scanf("%i", &vec[x]);
+		}
+		if (issorted()){
+			printf("There are 0 swap maps for input data set %i.\n", ++cw);
+		}
+		else {
+			DP______(0, num);
+			printf("There are %i swap maps for input data set %i.\n", assholes[minn] , ++cw);
+		}
+		vec.clear(); minn = 0; fill(assholes, assholes + (num*num), 0);
+	}
+	return 0;
+}

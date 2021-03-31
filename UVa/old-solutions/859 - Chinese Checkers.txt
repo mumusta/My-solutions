@@ -1,0 +1,84 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define __ 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define II pair <int, int>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull; 
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+int OneD(int row, int col, int t_n_o_r) { return row * t_n_o_r + col; }
+ll MOD(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+//int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+//int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+int X[] = { 1, 0, 0, 1,  1 };
+int Y[] = { 0, 1,-1, 1, -1 };
+int n, m, a, b, si, sii;
+int grid[100][100], dis[100][100];
+bool valido(int i, int j){ if (i > 0 && j > 0 && i <= n && j <= m) return true; else return false; }
+bool cmd(const II &p1 ,const II &p2){
+	if (p1.first != p2.first) return p1.first > p2.first;
+	return p1.second < p2.second;
+}
+int main() {
+	int cw = 0;
+	while (s("%d%d", &n, &m) == 2){
+		cw++; if (cw != 1) p("\n"); mm0(grid);
+		for (int x = 0; x < 2 * (2 * m); x++){ s("%d%d", &a, &b); grid[a][b] = 1; } s("%d%d", &si, &sii); 
+		queue <II> q; q.push(mp(si, sii)); mm(dis); dis[si][sii] = 0; V(II) moves; bool start = true;
+		while (!q.empty()){
+			II u = q.front(); q.pop();
+			if (start){
+				start = false;
+				for (int x = 0; x < 3; x++){
+					int vi = u.first + X[x], vii = u.second + Y[x];
+					if (valido(vi, vii) && !grid[vi][vii]){ moves.pp(mp(vi, vii)); dis[vi][vi] = 1; }
+				}
+			}
+			int vi = u.first + 1, vii = u.second;
+			int Vi = u.first + 2, Vii = u.second;
+			if (valido(vi, vii) && valido(Vi, Vii) && grid[vi][vii] && !grid[Vi][Vii] && dis[Vi][Vii] == -1){
+				dis[Vi][Vii] = dis[u.first][u.second] + 1; q.push(mp(Vi, Vii)); moves.pp(mp(Vi, Vii));
+			}
+
+			vi = u.first + 1, vii = u.second + 1;
+			Vi = u.first + 2, Vii = u.second + 2;
+			if (valido(vi, vii) && valido(Vi, Vii) && grid[vi][vii] && !grid[Vi][Vii] && dis[Vi][Vii] == -1){
+				dis[Vi][Vii] = dis[u.first][u.second] + 1; q.push(mp(Vi, Vii)); moves.pp(mp(Vi, Vii));
+			}
+
+			vi = u.first + 1, vii = u.second - 1;
+			Vi = u.first + 2, Vii = u.second - 2;
+			if (valido(vi, vii) && valido(Vi, Vii) && grid[vi][vii] && !grid[Vi][Vii] && dis[Vi][Vii] == -1){
+				dis[Vi][Vii] = dis[u.first][u.second] + 1; q.push(mp(Vi, Vii)); moves.pp(mp(Vi, Vii));
+			}
+
+			vi = u.first , vii = u.second + 1;
+			Vi = u.first , Vii = u.second + 2;
+			if (valido(vi, vii) && valido(Vi, Vii) && grid[vi][vii] && !grid[Vi][Vii] && dis[Vi][Vii] == -1){
+				dis[Vi][Vii] = dis[u.first][u.second] + 1; q.push(mp(Vi, Vii)); moves.pp(mp(Vi, Vii));
+			}
+
+			vi = u.first , vii = u.second - 1;
+			Vi = u.first , Vii = u.second - 2;
+			if (valido(vi, vii) && valido(Vi, Vii) && grid[vi][vii] && !grid[Vi][Vii] && dis[Vi][Vii] == -1){
+				dis[Vi][Vii] = dis[u.first][u.second] + 1; q.push(mp(Vi, Vii)); moves.pp(mp(Vi, Vii));
+			}
+		} 
+		sort(ALL(moves), cmd); int size = moves.size();
+		for (int x = 0; x < size; x++){
+			p("%d %d %d\n", moves[x].first, moves[x].second, abs(dis[moves[x].first][moves[x].second]));
+		}
+		moves.clear();
+	} 
+	return 0;
+}

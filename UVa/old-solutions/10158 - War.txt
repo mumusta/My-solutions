@@ -1,0 +1,127 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+
+using namespace std;
+
+
+class WAR_NETWORK{
+private:
+	vector <int> p, rank, enimes;
+public:
+	WAR_NETWORK(int n){
+		p.assign(n, 0); rank.assign(n, 0); enimes.assign(n, -1);
+		for (int x = 0; x < n; x++){
+			p[x] = x;
+		}
+	}
+	int findp(int i){
+		if (p[i] == i) return i;
+		return p[i] = findp(p[i]);
+	}
+	bool is_Friends(int a, int b){
+		return findp(a) == findp(b);
+	}
+	bool is_Enimes(int a, int b){
+
+
+		int x = findp(a), y = findp(b);
+
+		if (enimes[x] == y && enimes[y] == x) return true;
+		else return false;
+
+	}
+	void make_Enimes(int a, int b){
+
+		int x = findp(a), y = findp(b);
+
+		if (enimes[x] > -1){
+
+			make_Friend(enimes[x], y , 0);
+			enimes[x] = findp(y);
+		}
+
+		else enimes[x] = y;
+
+
+		if (enimes[y] > -1){
+
+			make_Friend(enimes[y], x , 0);
+			enimes[y] = findp(x);
+		}
+
+		else enimes[y] = x;
+
+	}
+	void make_Friend(int a, int b , int command){
+		if (!is_Friends(a, b)){
+			int x = findp(a), y = findp(b);
+			if (rank[x] > rank[y]){
+				p[y] = x;
+				if (command == 1){
+					if (enimes[y] > -1)
+						make_Enimes(x, enimes[y]);
+				}
+			}
+			else if (rank[x] < rank[y]){
+				p[x] = y;
+				if (command == 1){
+					if (enimes[x] > -1)
+						make_Enimes(y, enimes[x]);
+				}
+			}
+			else {
+				p[x] = y;
+				rank[y] ++;
+
+				if (command == 1){
+					if (enimes[x] > -1)
+						make_Enimes(y, enimes[x]);
+				}
+			}
+		}
+	}
+};
+int main(){
+	int n; scanf("%i", &n);
+	WAR_NETWORK tree(n);
+	int a, b, c;
+	while (cin >> a >> b >> c){
+		if (a == 0 && b == 0 && c == 0) break;
+		if (a == 1){
+			if (!tree.is_Enimes(b, c)){
+				tree.make_Friend(b, c , 1);
+			}
+			else printf("-1\n");
+		}
+		if (a == 2){
+			if (!tree.is_Friends(b, c)){
+				tree.make_Enimes(b, c);
+			}
+			else printf("-1\n");
+		}
+		if (a == 3){
+			if (tree.is_Friends(b, c)) printf("1\n");
+			else printf("0\n");
+		}
+		if (a == 4){
+			if (tree.is_Enimes(b, c)) printf("1\n");
+			else printf("0\n");
+		}
+	}
+		
+
+	return 0;
+}

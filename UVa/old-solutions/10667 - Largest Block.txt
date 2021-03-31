@@ -1,0 +1,85 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+//#include <fstream>
+using namespace std;
+long long int a[101][101];
+int grid, blocks;
+void FILLER(int A, int b, int c, int d){
+	for (int i = A; i <= c; i++){
+		for (int j = b; j <= d; j++){
+			a[i][j] = -999999999;
+		}
+	}
+}
+int main(){
+	int t; scanf("%i", &t);
+	for (int tst = 0; tst < t; tst++){
+		memset(a, 0, sizeof a);
+		scanf("%i%i", &grid, &blocks); bool done = false;
+		for (int x = 0; x < blocks; x++){
+			int A, b, c, d; scanf("%i%i%i%i", &A, &b, &c, &d);
+			FILLER(A - 1, b - 1, c - 1, d - 1);
+		}
+		for (int j = 0; j < grid; j++){
+			for (int jj = 0; jj < grid; jj++){
+				if (a[j][jj] == 0) a[j][jj] = 1;
+				if (a[j][jj] == 1 && !done) done = true;
+				if (jj > 0) a[j][jj] += a[j][jj - 1];
+			}
+		}
+		long long int up = 0, sum = 0, ans = 0, max_up = 0, max_down = 0, max_l = 0, max_r = 0;
+		bool relode = true;
+		for (int l = 0; l < grid; l++){
+			for (int r = l; r < grid; r++){
+				sum = 0; up = 0; relode = true;
+				for (int i = 0; i < grid; i++){
+					if (relode){
+						sum = 0;
+						relode = false;
+						up = i;
+					}
+					if (l > 0) sum += (a[i][r] - a[i][l - 1]);
+					else sum += a[i][r];
+					if (sum > ans){
+						ans = sum;
+						max_up = up;
+						max_down = i;
+						max_l = l;
+						max_r = r;
+					}
+					if (sum < 0){
+						sum = 0;
+						relode = true;
+					}
+					if (sum == ans){
+						if ((i - up + 1)*(r - l + 1) > (max_down - max_up + 1)*(max_r - max_l + 1)){
+							max_up = up;
+							max_down = i;
+							max_l = l;
+							max_r = r;
+						}
+					}
+				}
+			}
+		}
+		if (!done) printf("0\n");
+		else printf("%lld\n",(long long int)(max_down - max_up + 1)*(max_r - max_l + 1));
+	}
+	return 0;
+}

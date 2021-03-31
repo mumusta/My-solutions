@@ -1,0 +1,65 @@
+    #include <iostream>
+    #include <string>
+    #include <stdio.h>
+    #include <vector>
+    using namespace std;
+    int GiveNumberAlph(string str){
+    int cw = 1;
+    bool isr = false;
+    for (int x = 1; x < str.length(); x++){
+    isr = false;
+    for (int y = 0; y < x; y++){
+    if (str[x] == str[y]){
+    isr = true;
+    break;
+    }
+    }
+    if (isr == false)
+    cw++;
+    }
+    return cw;
+    }
+    int main() {
+    string str;
+    int wc = 0;
+    vector <char> mainc;
+    while (cin >> str){
+    wc++;
+    mainc.clear();
+    int ano = GiveNumberAlph(str);
+    if (str == "end")
+    break;
+    if (str.length() == 1)
+    cout << "Case " << wc << ": " << "1" << endl;
+    else {
+    int cw = 0;
+    mainc.push_back(str[0]);
+    mainc.push_back('*');
+    cw++;
+    for (int x = 1; x < str.length(); x++){
+    bool isnot = true;
+    for (int y = 0; y < mainc.size() - 1; y++){
+    if (mainc[y + 1] == '*'){
+    if (mainc[y] >= str[x]){
+    vector<char> ::iterator it = mainc.begin();
+    it += y + 1;
+    mainc.insert(it, str[x]);
+    isnot = false;
+    break;
+    }
+    }
+    }
+    if (isnot){
+    mainc.push_back(str[x]);
+    mainc.push_back('*');
+    cw++;
+    }
+    }
+    if (cw < ano)
+    cout << "Case " << wc << ": " << cw << endl;
+    else
+    cout << "Case " << wc << ": " << ano << endl;
+    }
+    }
+    return 0;
+    }

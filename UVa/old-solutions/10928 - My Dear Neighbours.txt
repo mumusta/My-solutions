@@ -1,0 +1,71 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+
+using namespace std;
+
+int main(){
+	
+	multimap < int, int > tree; vector<int> vec;
+	int n; scanf("%i", &n);
+	cin.ignore();
+	for (int t = 0; t < n; t++){
+
+		int ne; scanf("%i", &ne);
+		cin.ignore();
+		for (int x = 0; x < ne; x++){
+
+			string str;
+			getline(cin, str);
+			int size = str.length();
+			int cw = 1;
+			for (int q = 0; q < size; q++){
+
+				if (str[q] == ' ')cw++;
+			}
+
+			tree.insert(make_pair(cw, x + 1));
+
+		}
+
+		multimap < int, int > ::iterator itt = tree.begin(); vec.push_back((*itt).second);
+		for (multimap < int, int > ::iterator it = tree.begin(); it != tree.end(); it++){
+			if (it == tree.begin()) continue;
+
+			if ((*itt).first == (*it).first){
+				vec.push_back((*it).second);
+			}
+			else break;
+		}
+
+		sort(vec.begin(), vec.end());
+
+		int z = vec.size();
+
+		for (int j = 0; j < z; j++){
+			if (j == 0){
+				printf("%i", vec[j]); continue;
+			}
+			printf(" %i", vec[j]);
+		}
+		printf ("\n");
+
+		vec.clear(); tree.clear();
+
+	}
+
+
+	return 0;
+}

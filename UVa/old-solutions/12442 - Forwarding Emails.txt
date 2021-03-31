@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define MOD 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>        //                                      ^-^   :')
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll Mod(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int n, t, a, b, dp[50005], vis[50005];
+int dfs(int u, V(V(int)) &graph){
+	if (vis[u]) return 0; vis[u] = 1;
+	dp[u] = 0; int size = graph[u].size();
+	for (int x = 0; x < size; x++){
+		dp[u] += (dfs(graph[u][x], graph)+1);
+	} vis[u] = 0; return dp[u];
+}
+int main() {
+	s("%d", &t);
+	for (int x = 0; x < t; x++){
+		s("%d", &n); V(V(int)) graph(n + 5); mm(dp);
+		for (int i = 0; i < n; i++){
+			s("%d%d", &a, &b); graph[a].pp(b);
+		} int Dfs;
+		int node = 0, Maxi = 0; mm0(vis);
+		for (int ii = 1; ii <= n; ii++){
+			if (dp[ii] == -1){ dfs(ii, graph); }
+			 if (Maxi < dp[ii]){
+				 Maxi = dp[ii]; node = ii;
+			}
+		}
+		 p("Case %d: %d\n", x + 1, node); graph.clear();
+	} 
+	return 0;
+}

@@ -1,0 +1,60 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#include <fstream>
+#define s scanf
+#define p printf
+#define ss scanf_s
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+using namespace std;
+int n, x, t, k , dp[101][23][1001];
+vector <int> fun, cost;
+double after_charge(int i) { return i + ((10 / 100.0) * i); }
+int DP(int index, int dishes, int payed){
+	if (dishes > 2 * (n + 1)) return -OO;
+	if (index == k) return 0;
+	if (dp[index][dishes][payed] != -1) return dp[index][dishes][payed];
+	if (after_charge(payed + cost[index]) > x * (n+1)) return dp[index][dishes][payed] = DP(index + 1, dishes, payed);
+	int c1 = 0, c2 = 0, c3 = 0;
+	c1 = DP(index + 1, dishes + 1, payed + cost[index]) + fun[index];
+	c2 = DP(index + 1, dishes, payed);
+	if (after_charge(payed + cost[index] * 2) <= x * (n+1)) c3 = DP(index + 1, dishes + 2, payed + cost[index] * 2) + fun[index] * 2;
+	return dp[index][dishes][payed] = max(c1, max(c2, c3));
+}
+int main() {
+	while (s("%d%d%d%d", &n, &x, &t, &k) == 4){
+		if (n == 0 && x == 0 && t == 0 && k == 0)break;
+		fun.assign(k, 0); cost.assign(k, 0); mm(dp);
+		for (int x = 0; x < k; x++){
+			s("%d", &cost[x]);
+			for (int xx = 0; xx < n + 1; xx++) {
+				int t; s("%d", &t); fun[x] += t;
+			}
+		}
+		double ans = DP(0, 0, t*(n + 1));
+		ans /= (n + 1);
+		p("%.2f\n", ans);
+		fun.clear(); cost.clear();
+	}
+	return 0;
+}

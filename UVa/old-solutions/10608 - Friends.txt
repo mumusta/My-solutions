@@ -1,0 +1,114 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+
+using namespace std;
+
+class CITY {
+
+private :
+
+	vector <int> p, rank, totaloftree;
+	int total = 1;
+
+
+public:
+
+
+	CITY(int n) {
+
+		p.assign(n + 1, 0); rank.assign(n + 1, 0); totaloftree.assign(n + 1, 1);
+
+		for (int x = 1; x < n + 1; x++){
+			p[x] = x;
+		}
+	}
+
+	int findp(int i){
+		if (p[i] == i) return i;
+		return p[i] = findp(p[i]);
+	}
+
+
+	void connecting(int n, int m){
+
+		int x = findp(n), y = findp(m);
+
+		if (x != y){
+
+			if (rank[x] > rank[y]){
+				p[y] = x;
+				totaloftree[x] += totaloftree[y];
+				if (totaloftree[x] > total) total = totaloftree[x];
+			}
+
+			else if (rank[x] < rank[y]){
+
+				p[x] = y;
+				totaloftree[y] += totaloftree[x];
+				if (totaloftree[y] > total) total = totaloftree[y];
+			}
+
+			else {
+
+				p[x] = y;
+				rank[y] ++;
+				totaloftree[y] += totaloftree[x];
+				if (totaloftree[y] > total) total = totaloftree[y];
+			}
+		}
+
+	}
+
+
+
+
+	int max(){
+		return total;
+	}
+
+
+
+
+
+
+
+};
+
+int main(){
+
+
+	
+	int n; scanf("%i", &n);
+
+	for (int x = 0; x < n; x++){
+
+		int a, b; scanf("%i%i", &a, &b);
+		CITY tree(a);
+
+		for (int i = 0; i < b; i++){
+
+			int z, zz; scanf("%i%i", &z, &zz);
+
+			tree.connecting(z, zz);
+		}
+
+		printf("%i\n", tree.max());
+
+	}
+
+	
+	return 0;
+}

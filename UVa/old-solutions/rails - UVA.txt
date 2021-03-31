@@ -1,0 +1,166 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+
+using namespace std;
+
+void maketrain(int wannasize, deque <int> & train){
+
+	for (int x = 1; x <= wannasize; x++){
+
+		train.push_back(x);
+	}
+}
+
+void giveittob(deque <int> &station, deque <int> & train, int temp){
+
+		while (train[0] <= temp){
+
+			station.push_front(train[0]);
+			train.pop_front();
+			if (train.empty())
+				break;
+		}
+
+}
+
+bool checkequality(vector<int> b, vector<int> wanna , int size){
+	bool isequal = true;
+
+	if (b.size() != wanna.size()){
+		isequal = false;
+		return isequal;
+	}
+
+	for (int x = 0; x < size; x++){
+
+		if (b[x] != wanna[x]){
+			isequal = false;
+			return isequal;
+		}
+	}
+
+	return isequal;
+}
+
+
+
+
+int main() {
+
+	deque <int> train;
+	deque <int> station;
+	vector <int> b;
+	vector <int> wanna;
+	int temp = 0;
+	int wannasize;
+	int wanna1 = 0;
+
+	while (cin >> wannasize){
+		
+		if (wannasize == 0)
+			break;
+
+		else if (wannasize == 1){
+			int zp;
+			while (cin >> zp){
+				if (zp == 0){
+					cout << endl;
+				break;
+				}
+
+				else{
+				
+					cout << "Yes" << endl;
+				}
+			}
+		}
+
+
+		else{
+
+
+			while (cin >> wanna1){
+
+				if (wanna1 == 0){
+					cout << endl;
+					break;
+				}
+
+				else{
+
+					train.clear();
+					station.clear();
+					b.clear();
+					wanna.clear();
+					maketrain(wannasize, train);
+					temp = 0;
+
+					wanna.push_back(wanna1);
+
+					for (int i = 1; i < wannasize; i++){
+						int xxx;
+						cin >> xxx;
+						wanna.push_back(xxx);
+					}
+
+					for (int ii = 0; ii < wannasize; ii++){
+
+						if (wanna[ii] > temp){
+							temp = wanna[ii];
+							giveittob(station, train, temp);
+						}
+
+						if (station[0] == wanna[ii]){
+							b.push_back(station[0]);
+							station.pop_front();
+						}
+
+						else {
+							break;
+						}
+					}
+
+					if (checkequality(b, wanna , wanna.size())){
+
+						cout << "Yes" << endl;
+					}
+
+					else{
+
+						cout << "No" << endl;
+					}
+				}
+
+
+			}
+		}
+
+
+
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	return 0;
+}

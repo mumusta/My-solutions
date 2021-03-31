@@ -1,0 +1,85 @@
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stdlib.h>
+#include <stack>
+#include <queue>
+#include <iomanip>
+
+
+using namespace std;
+
+int main() {
+
+	int testcases; cin >> testcases; cin.ignore(); cin.clear();
+	string str; map<string, int> tree; double count = 0;
+	str = ""; cin.ignore();
+
+	for (int t = 0; t < testcases; t++){
+
+		tree.clear(); str = ""; count = 0;
+
+		while (getline(cin, str)){
+			if (str == "")break;
+			if (str == " ")continue;
+			
+			count++;
+			map<string, int> ::iterator it = tree.find(str);
+
+			if (it == tree.end()){
+
+				tree.insert(make_pair(str, 1));
+			}
+
+			else {
+
+				(*it).second++;
+			}
+
+
+
+		}
+
+
+
+		for (map<string, int> :: iterator itr = tree.begin(); itr != tree.end(); itr++){
+			double a = ((*itr).second / count) * 100;
+
+			cout << (*itr).first << " " << fixed << setprecision(4) << a << endl;
+		}
+
+		if (t < testcases - 1){
+			cout << endl;
+		}
+
+		cout.clear();
+
+
+
+
+
+
+
+
+
+
+
+
+
+	}
+
+
+
+
+
+
+	system("pause");
+	return 0;
+}
+

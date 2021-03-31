@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define MOD 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll Mod(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+int  r, l, cw; V(int) colores;
+bool dfs_coloring(int u, int last, V(V(int)) &graph){
+	colores[u] = 1 - last; int size = graph[u].size(), ret = 1; if (colores[u]) r++; else l++;
+	for (int x = 0; x < size; x++){
+		if (colores[graph[u][x]] == OO) ret &= dfs_coloring(graph[u][x], colores[u], graph);
+		else {
+			if (colores[u] == colores[graph[u][x]]) ret = 0;
+		}} return ret;}
+int main() { int t , n , e , a , b; s("%d", &t);
+	for (int x = 0; x < t; x++){
+		s("%d%d", &n, &e); if (e == 0) p("%d\n", n); else {
+			V(V(int)) graph(n); colores.assign(200, OO);
+		for (int z = 0; z < e; z++){
+			s("%d%d", &a, &b); graph[a].pp(b); graph[b].pp(a);
+		}
+		int is = true; cw = 0;
+		for (int i = 0; i < n; i++){
+			r = l = 0;
+			if (colores[i] == OO){
+				is &= dfs_coloring(i, 1, graph);
+				if (l == 0 || r == 0) cw += (MAX(l, r));
+				else cw += (MIN(l, r));
+			}
+			if (!is) break;
+		}
+		if (is){
+			p("%d\n", cw);
+		}
+		else p("-1\n");
+		graph.clear(); colores.clear();
+	  }
+	}
+	return 0;
+}

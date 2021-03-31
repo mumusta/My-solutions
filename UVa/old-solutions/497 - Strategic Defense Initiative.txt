@@ -1,0 +1,71 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#define pp push_back
+//#include <fstream>
+#define OO 100000000
+using namespace std;
+int main() {
+	int n , kw = 0; cin >> n;cin.ignore();cin.ignore(); 
+	for (int tt = 0 ; tt < n ; tt ++){
+		
+		kw++;
+		string str; 
+		vector <int> seq(100000), L(100000), I(100000), last(100000);
+		int cww = 0;
+		while (getline(cin, str)){
+			if (str == "") break;
+			stringstream ss; ss << str;
+			int temp; ss >> temp;
+			seq[cww] = temp; I[cww] = OO;
+			cww++;
+		}
+		I[0] = -OO; I[cww] = OO;
+		int LongIndex = 0;
+		 int list_l = 0;
+		for (int x = 0; x < cww; x++){
+			int start = 0, end = list_l, mid = 0;
+			while (start <= end){
+				mid = (start + end) / 2;
+				if (I[mid] < seq[x]) start = mid + 1;
+				else end = mid - 1;
+			}
+			I[start] = seq[x];
+			L[x] = start;
+			if (start > list_l){
+				list_l = start;
+				LongIndex = x;
+			}
+		}
+		last[0] = seq[LongIndex]; int xw = 1;
+		for (int i = LongIndex - 1; i >= 0; i--){
+			if (seq[i] < seq[LongIndex] && L[i] == L[LongIndex] - 1){
+				last[xw] = seq[i]; xw++;
+				LongIndex = i;
+			}
+		}
+		if (kw != 1) printf("\n");
+		printf("Max hits: %i\n", list_l);
+		for (int z = xw-1; z >= 0; z--){
+			printf("%i\n", last[z]);
+		}
+		cout.clear();
+		seq.clear(); last.clear(); L.clear(); I.clear();
+	}
+	return 0;
+}

@@ -1,0 +1,194 @@
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+
+
+using namespace std;
+
+int main() {
+
+	int a[3][3];
+
+	string str; int count = 0;
+
+	while (getline(cin, str)){
+		count++;
+
+		for (int x = 0; x < 3; x++){
+
+			for (int y = 0; y < 3; y++){
+
+				a[x][y] = 0;
+			}
+		}
+
+		int size = str.length();
+
+		for (int i = 0; i < size; i++){
+
+			if (str[i] == 'a'){
+
+				if (a[0][0] < 9) a[0][0]++;
+				else a[0][0] = 0;
+
+				if (a[0][1] < 9) a[0][1]++;
+				else a[0][1] = 0;
+
+				if (a[1][0] < 9) a[1][0]++;
+				else a[1][0] = 0;
+			}
+
+			if (str[i] == 'b'){
+
+				if (a[0][0] < 9) a[0][0]++;
+				else a[0][0] = 0;
+
+				if (a[0][2] < 9) a[0][2]++;
+				else a[0][2] = 0;
+
+				if (a[1][1] < 9) a[1][1]++;
+				else a[1][1] = 0;
+
+				if (a[0][1] < 9) a[0][1]++;
+				else a[0][1] = 0;
+			}
+
+			if (str[i] == 'c'){
+
+				if (a[0][1] < 9) a[0][1]++;
+				else a[0][1] = 0;
+
+				if (a[0][2] < 9) a[0][2]++;
+				else a[0][2] = 0;
+
+				if (a[1][2] < 9) a[1][2]++;
+				else a[1][2] = 0;
+			}
+
+			if (str[i] == 'd'){
+
+				if (a[0][0] < 9) a[0][0]++;
+				else a[0][0] = 0;
+
+				if (a[1][0] < 9) a[1][0]++;
+				else a[1][0] = 0;
+
+				if (a[2][0] < 9) a[2][0]++;
+				else a[2][0] = 0;
+
+				if (a[1][1] < 9) a[1][1]++;
+				else a[1][1] = 0;
+			}
+
+			if (str[i] == 'e'){
+
+				if (a[0][1] < 9) a[0][1]++;
+				else a[0][1] = 0;
+
+				if (a[1][0] < 9) a[1][0]++;
+				else a[1][0] = 0;
+
+				if (a[1][1] < 9) a[1][1]++;
+				else a[1][1] = 0;
+
+				if (a[1][2] < 9) a[1][2]++;
+				else a[1][2] = 0;
+
+				if (a[2][1] < 9) a[2][1]++;
+				else a[2][1] = 0;
+			}
+
+			if (str[i] == 'f'){
+
+				if (a[1][1] < 9) a[1][1]++;
+				else a[1][1] = 0;
+
+				if (a[1][2] < 9) a[1][2]++;
+				else a[1][2] = 0;
+
+				if (a[0][2] < 9) a[0][2]++;
+				else a[0][2] = 0;
+
+				if (a[2][2] < 9) a[2][2]++;
+				else a[2][2] = 0;
+			}
+
+			if (str[i] == 'g'){
+
+				if (a[1][0] < 9) a[1][0]++;
+				else a[1][0] = 0;
+
+				if (a[2][0] < 9) a[2][0]++;
+				else a[2][0] = 0;
+
+				if (a[2][1] < 9) a[2][1]++;
+				else a[2][1] = 0;
+			}
+
+			if (str[i] == 'h'){
+
+				if (a[1][1] < 9) a[1][1]++;
+				else a[1][1] = 0;
+
+				if (a[2][0] < 9) a[2][0]++;
+				else a[2][0] = 0;
+
+				if (a[2][1] < 9) a[2][1]++;
+				else a[2][1] = 0;
+
+				if (a[2][2] < 9) a[2][2]++;
+				else a[2][2] = 0;
+			}
+
+			if (str[i] == 'i'){
+
+				if (a[1][2] < 9) a[1][2]++;
+				else a[1][2] = 0;
+
+				if (a[2][1] < 9) a[2][1]++;
+				else a[2][1] = 0;
+
+				if (a[2][2] < 9) a[2][2]++;
+				else a[2][2] = 0;
+			}
+
+
+		}
+
+
+		printf("Case #%i:\n", count);
+
+		for (int xx = 0; xx < 3; xx++){
+
+			
+
+			printf("%i %i %i\n", a[xx][0], a[xx][1] , a[xx][2]);
+			
+
+			
+		}
+		
+	}
+
+
+
+
+
+
+
+
+
+	system("pause");
+	return 0;
+}
+

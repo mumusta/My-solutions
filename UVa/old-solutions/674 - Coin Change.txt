@@ -1,0 +1,41 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#include <fstream>
+#define s scanf
+#define p printf
+#define ss scanf_s
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+using namespace std;
+int dp[6][7490], n , seq[] = { 1, 5, 10, 25, 50 };
+int DP(int index, int money){
+	if (money == 0)return 1;
+	if (money < 0 || index == 5) return 0;
+	if (dp[index][money] != -1) return dp[index][money];
+	return dp[index][money] = DP(index + 1, money) + DP(index, money - seq[index]);
+}
+int main() {
+	mm(dp);
+	while (s("%d", &n) != EOF) p("%d\n", DP(0, n));
+	return 0;
+}

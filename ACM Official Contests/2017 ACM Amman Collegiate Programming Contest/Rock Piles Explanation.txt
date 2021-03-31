@@ -1,0 +1,7 @@
+Hints: It is possible that anyone can duplicate the opponent moves to win at particular cases.
+Tags: Game Theory.
+Difficulty: 1 out of 5.
+Comment: If n is odd or m is odd (or both) then Hassan can make the winning move, 
+which is to make the piles ready for him to duplicate any of Abdullah's moves and win.
+Order: O(1) per testcase.
+Links: http://codeforces.com/gym/101498/problem/I.

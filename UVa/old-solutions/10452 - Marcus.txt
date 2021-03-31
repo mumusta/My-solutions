@@ -1,0 +1,56 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+char mapp[10][10];
+char guid[8] = { '@' , 'I', 'E', 'H', 'O', 'V', 'A', '#' };
+void DP___(int i, int j, int go, int row, int col, string ex[]){
+	if (i >= row || i < 0 || j >= col || j < 0) return;
+	if (mapp[i][j] != guid[go])return;
+		if (go == 7){
+		for (int x = 0; x < 7; x++) {
+			cout << ex[x];
+			if (x != 6)
+			printf(" ");
+		}
+		printf("\n");
+		return;
+	}
+	ex[go] = "forth";
+	DP___(i - 1, j, go + 1, row, col, ex);
+	ex[go] = "right";
+	DP___(i, j + 1, go + 1, row, col, ex);
+	ex[go] = "left";
+	DP___(i , j-1, go + 1, row, col, ex);
+}
+int main(){
+	int n; scanf("%i", &n);
+	for (int x = 0; x < n; x++){
+		int a, b; scanf("%i%i", &a, &b);
+		int startr, startc, endr, endc; string ex[7];
+		for (int i = 0; i < a; i++){
+			for (int ii = 0; ii < b; ii++){
+				cin >> mapp[i][ii];
+				if (mapp[i][ii] == '@'){
+					startr = i; startc = ii;
+				}
+			}
+		}
+		DP___(startr, startc, 0, a, b, ex);
+	}
+	return 0;
+}

@@ -1,0 +1,83 @@
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stdlib.h>
+#include <stack>
+#include <queue>
+#include <iomanip>
+
+
+using namespace std;
+
+int main() {
+
+	int testcases; cin >> testcases; map <string, int> tree;
+
+	for (int t = 1; t <= testcases; t++){
+		tree.clear();
+
+		int numberofsubjects; cin >> numberofsubjects;
+
+		for (int i = 0; i < numberofsubjects; i++){
+
+			string a; int b; cin >> a >> b;
+
+			tree.insert(make_pair(a, b));
+
+
+		}
+
+		int d; cin >> d;
+
+		string due; cin >> due;
+
+
+		map <string, int> ::iterator it = tree.find(due);
+
+		if (it == tree.end()){
+
+			printf("Case %i: Do your own homework!\n", t);
+			continue;
+		}
+
+		else {
+
+			if ((*it).second <= d){
+				printf("Case %i: Yesss\n", t);
+				continue;
+			}
+
+			if ((*it).second <= d + 5){
+				printf("Case %i: Late\n", t);
+				continue;
+			}
+
+			if ((*it).second > d + 5){
+				printf("Case %i: Do your own homework!\n", t);
+				continue;
+			}
+		}
+
+
+
+
+
+
+
+
+
+
+	}
+
+
+
+	system("pause");
+	return 0;
+}
+

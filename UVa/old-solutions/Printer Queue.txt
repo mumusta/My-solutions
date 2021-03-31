@@ -1,0 +1,91 @@
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+
+using namespace std;
+
+bool firstabletoprint(deque <int> quee){
+	int first = quee[0];
+	bool is = true;
+
+	for (int x = 1; x < quee.size(); x++){
+
+		if (quee[x] > first){
+
+			is = false;
+			return is;
+		}
+	}
+
+	return is;
+}
+
+int main() {
+
+	deque <int> quee;
+	int me, queelength, testcases , count = 0;
+
+	cin >> testcases;
+
+	for (int x = 0; x < testcases; x++){
+
+		cin >> queelength >> me;
+		count = 0;
+
+		for (int y = 0; y < queelength; y++){
+			int num;
+			cin >> num;
+			quee.push_back(num);
+		}
+
+
+		while (true){
+
+			if (firstabletoprint(quee)){
+
+				if (me == 0){
+					count++;
+					break;
+				}
+
+				else {
+					quee.pop_front();
+					me--;
+					count++;
+				}
+			}
+
+			else {
+
+				if (me == 0)
+					me = quee.size() - 1;
+
+				else{
+					me--;
+				}
+
+				quee.push_back(quee[0]);
+				quee.pop_front();
+				
+			}
+		}
+
+		printf("%i\n", count);
+		quee.clear();
+	}
+
+
+
+
+
+
+
+
+
+	system("pause");
+	return 0;
+}

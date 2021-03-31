@@ -1,0 +1,50 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#include <fstream>
+#define ss scanf_s
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 100000000
+#define mm(a) memset(a , -1 , sizeof a)
+using namespace std;
+vector <int> coins_values;
+int dp[101][50001],number_of_conis , total_sum ;
+int DP(int index, int picked){
+	if (index == number_of_conis) return abs(picked - (total_sum - picked));
+	if (dp[index][picked] != -1) return dp[index][picked];
+	int r1 = DP(index + 1, picked), r2 = DP(index + 1, picked + coins_values[index]);
+	return dp[index][picked] = min(r1, r2);
+}
+int main() {
+	int n; s("%d", &n);
+	for (int t = 0; t < n; t++){
+		mm(dp);
+		s("%d", &number_of_conis); total_sum = 0;
+		coins_values.assign(number_of_conis, 0);
+		for (int x = 0; x < number_of_conis; x++){
+			s("%d", &coins_values[x]); total_sum += coins_values[x];
+		}
+		p("%d\n", DP(0, 0));
+		coins_values.clear();
+	}
+	return 0;
+}

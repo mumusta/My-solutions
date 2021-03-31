@@ -1,0 +1,6 @@
+Hints: -.
+Tags: Geometry, Lines Intersection.
+Difficulty: 1 out of 5.
+Comment: -.
+Order: O(N).
+Links: -.

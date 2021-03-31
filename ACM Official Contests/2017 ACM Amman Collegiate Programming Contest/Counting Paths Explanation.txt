@@ -1,0 +1,8 @@
+Hints: Think of it as you wanna count the number of strings that represent the path.
+Tags: Counting, Number Theory.
+Difficulty: 2 out of 5.
+Comment: A B A B B --> x x x o,
+	 A B A A B --> x x o x and so on,
+	The answer equal 2 * (a - 1)! * [b! * (a - 1 - b)!]^{mod-2}
+Order: O(logN) per testcase.
+Links: http://codeforces.com/gym/101498/problem/D.

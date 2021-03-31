@@ -1,0 +1,110 @@
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+
+using namespace std;
+
+void makequee(int ppl, deque <int> & quee){
+
+	for (int x = 1; x <= ppl; x++){
+
+		quee.push_back(x);
+	}
+}
+
+int main() {
+
+	int ppl;
+	int commandsnummber;
+	char command;
+	deque <int> quee;
+	int count = 0;
+	vector<int> out;
+
+	while (cin >> ppl >> commandsnummber){
+
+		if (ppl == 0 && commandsnummber == 0)
+			break;
+
+		else {
+			count++;
+
+			if (ppl < commandsnummber)
+				makequee(ppl, quee);
+
+			else
+				makequee(commandsnummber, quee);
+			
+			for (int x = 0; x < commandsnummber; x++){
+
+				cin >> command;
+
+				if (command == 'N'){
+					out.push_back(quee[0]);
+					quee.push_back(quee[0]);
+					quee.pop_front();
+				}
+
+				if (command == 'E'){
+
+					int num;
+					cin >> num;
+
+					if (num > commandsnummber){
+
+						deque <int> ::iterator ittt = find(quee.begin(), quee.end(), num);
+
+						if (ittt != quee.end()){
+							quee.push_front(num);
+							quee.erase(ittt);
+						}
+
+						else{
+							quee.push_front(num);
+						}
+					}
+
+					else {
+
+						deque <int> ::iterator it = find(quee.begin(), quee.end(), num);
+
+						quee.push_front(*it);
+
+						quee.erase(it);
+					}
+				}
+			}
+
+		}
+
+		cout << "Case " << count << ":" << endl;
+
+		for (vector <int> ::iterator itt = out.begin(); itt != out.end(); itt++){
+
+			cout << *itt << endl;
+		}
+
+		quee.clear();
+		out.clear();
+	}
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+	system("pause");
+	return 0;
+}

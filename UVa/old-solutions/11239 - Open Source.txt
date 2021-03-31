@@ -1,0 +1,124 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stdlib.h>
+#include <stack>
+#include <queue>
+#include <iomanip>
+
+
+using namespace std;
+
+void addtomapofcounters(set<string> l, map<string, int> &mapofcounters){
+
+	for (set<string> ::iterator it = l.begin(); it != l.end(); it++){
+
+		map<string, int> ::iterator itr = mapofcounters.find(*it);
+
+		if (itr == mapofcounters.end()){
+			mapofcounters.insert(make_pair(*it, 1));
+		}
+
+		else {
+			(*itr).second++;
+		}
+	}
+}
+
+int main() {
+
+	string str; map<string, set<string>> tree; set<string> leaves; string project;
+	map<string, int> mapofcounters; multimap <int, set<string>> lastfuck; set<string> temp;
+
+	while (getline(cin , str)){
+		if (str == "0")
+			break;
+
+		if (str == "1"){
+
+			tree.insert(make_pair(project, leaves));
+			addtomapofcounters(leaves, mapofcounters);
+
+			for (map<string, int> ::iterator see = mapofcounters.begin(); see != mapofcounters.end(); see++){
+
+				if ((*see).second == 1) continue;
+
+				if ((*see).second > 1){
+
+					for (map < string, set<string> > ::iterator era = tree.begin(); era != tree.end(); era++){
+
+						(*era).second.erase((*see).first);
+						
+						
+					}
+				}
+
+			}
+
+			for (map < string, set<string> > ::reverse_iterator x = tree.rbegin(); x != tree.rend(); x++){
+				
+				multimap <int, set<string>> ::iterator xxx = lastfuck.find((*x).second.size());
+				temp.clear(); temp.insert((*x).first);
+				if (xxx == lastfuck.end()){
+					lastfuck.insert(make_pair((*x).second.size(), temp));
+				}
+
+				else {
+					(*xxx).second.insert((*x).first);
+				}
+			}
+
+			for (multimap <int, set<string>> ::reverse_iterator rev = lastfuck.rbegin(); rev != lastfuck.rend(); rev++){
+
+				for (set<string> ::iterator fff = (*rev).second.begin(); fff != (*rev).second.end(); fff++){
+					cout << (*fff) << " " << (*rev).first << endl;
+				}
+			}
+
+
+			tree.clear(); leaves.clear(); project = ""; mapofcounters.clear(); lastfuck.clear();
+		}
+
+
+
+
+		else {
+
+
+			if (isupper(str[0])){
+
+				if (project != ""){
+					tree.insert(make_pair(project, leaves));
+					addtomapofcounters(leaves, mapofcounters);
+				}
+				
+				leaves.clear();
+				project = str;
+			}
+
+			else {
+
+				leaves.insert(str);
+
+			}
+
+
+
+		}
+
+
+
+
+
+	}
+
+
+	return 0;
+}
+

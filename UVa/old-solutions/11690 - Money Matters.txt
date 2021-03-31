@@ -1,0 +1,74 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+vector <int> money; int lol = 999;
+class ex {
+private :
+	vector <int> p, rank;
+public :
+	ex(int n){
+		p.assign(n, 0); rank.assign(n, 0);
+		for (int x = 0; x < n; x++){
+			p[x] = x;
+		}
+	}
+	int findp(int i){
+		if (p[i] == i)return i;
+		return p[i] = findp(p[i]);
+	}
+	void Connected_Friends(int n, int m){
+		int x = findp(n), y = findp(m);
+		if (x != y){
+			if (rank[x] > rank[y]){
+				p[y] = x;
+				money[x] += money[y];
+				lol = money[x];
+			}
+			else if (rank[x] < rank[y]){
+				p[x] = y;
+				money[y] += money[x];
+				lol = money[y];
+			}
+			else {
+				p[x] = y; rank[y] ++;
+				money[y] += money[x];
+				lol = money[y];
+			}
+		}
+	}
+};
+int main(){
+	int tt; scanf("%i", &tt);
+	for (int t = 0; t < tt; t++){
+		int n, m;scanf("%i%i", &n , &m);
+		money.assign(n, 0); ex machina(n);
+		for (int i = 0; i < n; i++){
+			scanf("%i", &money[i]);
+		}
+		for (int ii = 0; ii < m; ii++){
+			int a, b; scanf("%i%i", &a, &b);
+			machina.Connected_Friends(a, b);
+		}
+		if (lol == 0){
+			printf("POSSIBLE\n");
+		}
+		else printf("IMPOSSIBLE\n");
+		lol = 999;
+		money.clear();
+	}
+	return 0;
+}

@@ -1,0 +1,71 @@
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+ 
+using namespace std;
+ 
+void passtonormal(deque <char>& normal, vector <char>& home){
+ 
+for (int x = home.size() - 1; x >= 0; x--){
+ 
+normal.push_front(home[x]);
+}
+ 
+home.clear();
+}
+ 
+ 
+int main() {
+ 
+deque <char> normal;
+vector <char> home;
+bool ishome = false;
+string str;
+ 
+while (cin >> str){
+ishome = false;
+normal.clear();
+home.clear();
+ 
+for (int x = 0; x < str.length(); x++){
+ 
+if (str[x] == '['){
+ishome = true;
+passtonormal(normal,home);
+continue;
+}
+ 
+if (str[x] == ']'){
+ishome = false;
+passtonormal(normal, home);
+continue;
+}
+ 
+else {
+if (ishome){
+home.push_back(str[x]);
+}
+ 
+else{
+normal.push_back(str[x]);
+}
+}
+}
+ 
+ 
+if (home.empty() == false){
+passtonormal(normal, home);
+}
+ 
+ 
+for (deque<char>::iterator it = normal.begin(); it != normal.end(); it++){
+printf("%c", *it);
+}
+ 
+printf("\n");
+}
+ 
+return 0;
+}

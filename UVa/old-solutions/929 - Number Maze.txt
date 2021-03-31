@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define __ 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+//#define II pair <int, int>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull; 
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+int OneD(int row, int col, int t_n_o_r) { return row * t_n_o_r + col; }
+ll MOD(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+ll t, n, m, grid[1000][1000], dis[1000][1000];
+struct Node {
+	int i, ii;
+	Node(int I,int J){
+		i = I; ii = J;}};
+#define II pair <ll, pair<ll,ll>>
+void FILL_(){
+	for (int x = 0; x < n; x++) for (int xx = 0; xx < m; xx++) dis[x][xx] = OO;
+}
+bool valido(int i, int j){
+	if (i < 0 || j < 0 || i >= n || j >= m) return false; return true;
+}
+int main() { s("%lld", &t);
+	for (int T = 0; T < t; T++){
+		s("%lld%lld", &n, &m); for (int i = 0; i < n; i++) for (int ii = 0; ii < m; ii++) s("%lld", &grid[i][ii]);
+		priority_queue <II, vector<II>, greater<II>> pq; pq.push(mp(grid[0][0], mp(0, 0))); FILL_(); dis[0][0] = grid[0][0];
+		while (!pq.empty()){
+			II front = pq.top(); pq.pop(); int d = front.first , ui = front.second.first , uii = front.second.second;
+			if (ui == n - 1 && uii == m - 1) break;
+			if (d > dis[ui][uii]) continue;
+			for (int x = 0; x < 4; x++){
+				int vi = ui + X[x] , vii = uii + Y[x];
+				if (valido(vi, vii) && ((dis[ui][uii] + grid[vi][vii]) < dis[vi][vii])){
+					dis[vi][vii] = dis[ui][uii] + grid[vi][vii]; pq.push(mp(dis[vi][vii], mp(vi, vii)));
+				}
+			}
+		} p("%lld\n", dis[n - 1][m - 1]);
+	}
+	return 0;
+}

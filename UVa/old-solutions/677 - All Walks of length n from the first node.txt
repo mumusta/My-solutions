@@ -1,0 +1,68 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+bitset <101> vis; bool done;
+void DP(int go, vector < vector<int>> graph, int currentnode, int n, vector <int> ex , int maxdp){
+ex[go] = currentnode;
+	if (go == maxdp){
+		done = true;
+		printf("(");
+		for (int x = 0; x < maxdp + 1; x++){
+			if (x != 0){
+				printf(",%i", ex[x]+1);
+			}
+			else printf("%i", ex[x]+1);
+		}
+		printf(")\n");
+		return;
+	}
+	if (!graph[currentnode].empty()){
+		int size = graph[currentnode].size();
+		for (int i = 0; i < size; i++){
+			if (!vis[graph[currentnode][i]]){
+				vis[graph[currentnode][i]]=1;
+				DP(go + 1, graph, graph[currentnode][i], n , ex , maxdp);
+				vis[graph[currentnode][i]]=0;
+			}
+		}
+	}
+	else {
+		return;
+	}
+}
+int main(){
+	int asshole = 0;
+	do{
+if (asshole == -9999) printf("\n");
+		int n, m; scanf("%i%i", &n, &m);vis[0] = 1;
+		vector < vector<int>> graph(n + 1);
+		vector <int> ex(m + 1); done = false;
+		for (int x = 0; x < n; x++){
+			for (int xx = 0; xx < n; xx++){
+				int a; scanf("%i", &a);
+				if (a){
+					graph[x].push_back(xx);
+				}
+			}
+		}
+		DP(0, graph, 0, n, ex, m);
+		if (!done)printf("no walk of length %i\n", m);
+		ex.clear(); graph.clear(); vis = 0;
+	} while (cin >> asshole);
+	return 0;
+}

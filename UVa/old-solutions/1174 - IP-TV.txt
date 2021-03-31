@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define __ 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll MOD(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+int t, n, m;
+class UnionFind {
+private :
+	unordered_map <string, string> parent; unordered_map < string,  int > rank;
+public :
+	void hashing(string u){
+		unordered_map <string, string> ::iterator it = parent.find(u);
+		if (it == parent.end()){
+			parent.insert(mp(u, u)); rank.insert(mp(u, 0));
+		}
+	}
+	string findp(string u) { return (parent[u] == u) ? u : (parent[u] = findp(parent[u])); }
+	bool isUNI(string i, string j) { return (findp(i) == findp(j)); }
+	void connect(string i, string j){
+			string x = findp(i), y = findp(j);
+			if (rank[x] > rank[y]) parent[y] = x; else parent[x] = y;
+			if (rank[x] == rank[y]) rank[y] ++;
+	}
+};
+int main() { s("%d", &t); 
+	for (int T = 0; T < t; T++){
+		if (T != 0) p("\n"); UnionFind MST;
+		s("%d%d", &n, &m); string s1, s2; int s3;
+		V(P(int, P(string, string))) edgelist(m);
+		for (int x = 0; x < m; x++){
+			cin >> s1 >> s2; s("%d", &s3);
+			MST.hashing(s1); MST.hashing(s2);
+			edgelist[x] = mp(s3, mp(s1, s2));
+		} sort(ALL(edgelist)); int total = 0;
+		for (int x = 0; x < m; x++){
+			if (!MST.isUNI(edgelist[x].second.first, edgelist[x].second.second)){
+				total += edgelist[x].first; MST.connect(edgelist[x].second.first, edgelist[x].second.second);
+			}
+		} p("%d\n", total);
+	}
+	return 0;
+}

@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define MOD 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll Mod(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+int B; string grid[101]; int vis[101][101];
+void MFS(int i, int j){
+	if (i < 0 || j < 0 || i >= B || j >= B || vis[i][j] || grid[i][j] == '.') return;
+	vis[i][j] = 1;
+	for (int d = 0; d < 4; d++){
+		MFS(i + X[d], j + Y[d]);
+	}}
+int main() { int t; s("%d", &t);
+	for (int x = 1; x <= t; x++){
+		s("%d", &B); mm0(vis); int cw = 0;
+		for (int z = 0; z < B; z++) cin >> grid[z];
+		for (int i = 0; i < B; i++){
+			for (int ii = 0; ii < B; ii++){
+				if (!vis[i][ii] && grid[i][ii] == 'x'){
+					MFS(i, ii); cw++;
+				}}
+		}p("Case %d: %d\n", x , cw);}
+	return 0;}

@@ -1,0 +1,103 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+
+using namespace std;
+
+int main(){
+
+	int a, b, c , cw = 0;
+
+	while (cin >> a >> b >> c){
+		if (a == 0 && b == 0 && c == 0)break;
+		cw++;
+		
+		bitset<10010> row, col;
+		
+		row.set(); col.set();
+		
+		
+
+		for (int x = 0; x < c; x++){
+
+			int r, c; scanf("%i%i", &r, &c);
+
+			row[r] = 0; col[c] = 0;
+		}
+
+		int z, zz; scanf("%i%i", &z, &zz);
+	
+if (row[z] && col[zz]){
+			if (cw != 1) printf("\n");
+			printf("Case %i: Escaped again! More 2D grid problems!", cw);
+		}
+		else {
+		
+			if (z > -1 && z < a && (zz + 1) > -1 && (zz + 1) < b){
+
+				if (row[z] && col[zz + 1]){
+					if (cw != 1) printf("\n");
+					printf("Case %i: Escaped again! More 2D grid problems!", cw);
+					row = 0; col = 0;
+					continue;
+				}
+			}
+
+			if (z > -1 && z < a && (zz - 1) > -1 && (zz - 1) < b){
+
+				if (row[z] && col[zz - 1]){
+					if (cw != 1) printf("\n");
+					printf("Case %i: Escaped again! More 2D grid problems!", cw);
+					row = 0; col = 0;
+					continue;
+				}
+			}
+
+			if ((z + 1) > -1 && (z + 1) < a && zz > -1 && zz < b){
+
+				if (row[z + 1] && col[zz]){
+					if (cw != 1) printf("\n");
+					printf("Case %i: Escaped again! More 2D grid problems!", cw);
+					row = 0; col = 0;
+					continue;
+				}
+			}
+
+			if ((z - 1) > -1 && (z - 1) < a && zz > -1 && zz < b){
+
+				if (row[z - 1] && col[zz]){
+					if (cw != 1) printf("\n");
+					printf("Case %i: Escaped again! More 2D grid problems!", cw);
+					row = 0; col = 0;
+					continue;
+				}
+			}
+
+				if (cw != 1) printf("\n");
+				printf("Case %i: Party time! Let's find a restaurant!", cw);
+			
+		
+	}
+
+		row = 0; col = 0;
+	}
+
+printf ("\n");
+
+	return 0;
+}

@@ -1,0 +1,49 @@
+    #include <iostream>
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <string>
+    #include <cstring>
+    #include <vector>
+    #include <deque>
+    #include <algorithm>
+    #include <map>
+    #include <set>
+    #include <stack>
+    #include <queue>
+    #include <iomanip>
+    #include <sstream>
+    #include <cmath>
+    #include <bitset>
+    #include <unordered_set>
+    #include <unordered_map>
+    //#include <fstream>
+    using namespace std; 
+    int t, m, c;
+    int prices[25][25];
+    int dp_memo[210][25];
+    int dp(int money, int g){
+    	if (money < 0) return -2;
+    	if (g == c) return m - money;
+    	int &ans = dp_memo[money][g];
+    	if (ans != -1) return ans;
+    	for (int x = 1; x <= prices[g][0]; x++){
+    		ans = max(ans, dp(money - prices[g][x] , g+1));
+    	}
+    	return ans;
+    }
+    int main(){
+    	scanf("%i", &t);
+    	for (int x = 0; x < t; x++){
+    		scanf("%i%i", &m, &c);
+    		for (int i = 0; i < c; i++){
+    			scanf("%i", &prices[i][0]);
+    			for (int ii = 1; ii <= prices[i][0]; ii++)
+    				scanf("%i", &prices[i][ii]);
+    		}
+    		memset(dp_memo, -1, sizeof dp_memo);
+    		int as = dp(m, 0);
+    		if (as < 0) printf("no solution\n");
+    		else printf("%i\n", as);
+    	}
+    	return 0;
+    }

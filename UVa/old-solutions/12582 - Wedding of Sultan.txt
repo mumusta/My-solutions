@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define MOD 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>        //                                      ^-^   :')   64
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll Mod(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+string str; int cw[30];
+
+void buildGRAPH(int l, int r , int father, V(V(int)) &graph){
+	if (l >= r) return;
+	for (int i = l; i <= r; i++){
+		for (int ii = i + 1; ii <= r; ii++){
+			if (str[i] == str[ii]) {
+				graph[father].pp(str[i] - 64); buildGRAPH(i + 1, ii - 1, str[i] - 64, graph);
+				i = ii; break;
+			}
+		}
+	}
+}
+
+void dfs(int u, V(V(int)) &graph){
+	if (!graph[u].empty()){ 
+		int size = graph[u].size();
+		for (int x = 0; x < size; x++){
+			dfs(graph[u][x], graph); cw[u] ++; 
+		} cw[u] ++;
+	} else cw[u] ++;
+}
+
+int main() {
+
+
+	int t; s("%d", &t);
+	for (int x = 1; x <= t; x++){
+		cin >> str; int size = str.length(); V(V(int)) graph(30); mm0(cw); p("Case %d\n", x);
+		buildGRAPH(1, size - 2, str[0] - 64, graph); dfs(str[0] - 64 , graph); cw[str[0] - 64] --;
+		for (int X = 1; X < 28; X++){
+			if (cw[X] > 0){
+				char C = X + 64; p("%c = %d\n", C, cw[X]);
+			}
+		}
+		graph.clear();
+	}
+	return 0;
+}

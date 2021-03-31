@@ -1,0 +1,29 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define ss scanf_s
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+using namespace std;
+long long int table[101][101];
+int main() {
+	for (int x = 1 ; x < 101 ; x ++) table[1][x] = x ;
+	for (int xx = 1 ; xx < 101 ; xx ++) table[xx][1] = 1 ;
+	for (int i = 2 ; i < 101 ; i ++){
+		for (int ii = 2 ; ii < 101 ; ii ++){
+			table[i][ii] += (table[i-1][ii]);
+			table[i][ii] += (table[i][ii-1]);
+			table[i][ii] %= 1000000;
+		}
+	}
+	int n  , k;
+	while (s("%d%d" , &n , &k) == 2){
+		if (n == 0 && k == 0) break;
+		p("%lld\n" , table[n][k]);
+	}
+	return 0;
+}

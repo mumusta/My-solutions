@@ -1,0 +1,70 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#include <fstream>
+#define ss scanf_s
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define mm(a) memset(a , -1 , sizeof a)
+using namespace std;
+
+vector<int> primes;
+int target, bag , isprime[1150] , size , dp[200][15][1150] , MAX;
+
+long long int DP(int index, int picked, int sum){
+
+	if (picked == bag){
+		if (sum == target) return 1;
+		else return 0;
+	}
+	if (index == size) return 0;
+	if (dp[index][picked][sum] != -1) return dp[index][picked][sum];
+	if (sum + primes[index] > target) return 0;
+
+	long long int c1 = DP(index + 1, picked, sum), c2 = DP(index + 1, picked + 1, sum + primes[index]);
+	return dp[index][picked][sum] = c1 + c2;
+}
+
+
+
+int main() {
+	fill(isprime, isprime + 1150, 1);MAX = 0;
+	isprime[0] = isprime[1] = 0;
+	for (int j = 2; j < 1150; j++){
+		if (isprime[j]){
+			primes.pp(j);MAX += j;
+			for (int jj = j * 2; jj < 1150; jj += j) isprime[jj] = 0;
+		}
+	}
+	size = primes.size();
+
+	while (cin >> target){
+		s("%d", &bag); if (target == 0 && bag == 0) break;
+		mm(dp);
+		p("%lld\n", DP(0, 0, 0));
+	}
+
+
+
+	return 0;
+}

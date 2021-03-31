@@ -1,0 +1,58 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+//#include <fstream>
+using namespace std; 
+long long int sum = 0, ans = 0, i = 0, big_I = 0, big_J = 0, longlength;bool re;
+int main(){
+	long long int t , cw = 0; scanf("%lld", &t);
+	for (long long int x = 0; x < t; x++){
+		long long int n; scanf("%lld", &n); 
+		re = true;
+		for (long long int x = 0; x < n-1; x++){
+			long long int temp; scanf("%lld", &temp);
+			if (sum == 0 && re){
+				i = x + 1;re = false;
+			}
+			sum += temp;
+			if (sum > ans){
+				big_I = i; 
+				big_J = x + 2;
+				longlength = big_J - big_I;
+				ans = sum;
+				continue;
+			}
+			else if (sum == ans){
+				if ((x + 2) - i > longlength){
+					big_I = i;
+					big_J = x + 2;
+					longlength = big_J - big_I;
+					ans = sum;
+					continue;
+				}
+			}
+			if (sum < 0) {
+				sum = 0; re = true;
+			}
+		}
+		if (big_J - big_I == 0)printf ("Route %lld has no nice parts\n" , ++cw);
+		else printf("The nicest part of route %lld is between stops %lld and %lld\n", ++cw, big_I, big_J);
+		sum = 0; ans = 0; i = 0; big_I = 0; big_J = 0; longlength = 0;
+	}
+	return 0;
+}

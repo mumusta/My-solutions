@@ -1,0 +1,78 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+using namespace std;
+int motherofcode;
+class Tree_Of_Religions {
+private :
+	vector <int> p, rank, numberofppl , vis;
+public :
+	Tree_Of_Religions(int n){
+		p.assign(n + 1, 0); rank.assign(n + 1, 0); numberofppl.assign(n + 1, 1);
+		vis.assign(n + 1, 0);
+		for (int x = 1; x < n + 1; x++){
+			p[x] = x;
+		}
+	}
+	int findp(int n){
+		if (p[n] == n) return n;
+		return p[n] = findp(p[n]);
+	}
+	void connect(int n, int m){
+		int x = findp(n), y = findp(m);
+		if (x != y){
+			if (rank[x] > rank[y]){
+				p[y] = x;
+				numberofppl[x] += numberofppl[y];
+				motherofcode -= numberofppl[y];
+			}
+			else if (rank[x] < rank[y]){
+				p[x] = y;
+				numberofppl[y] += numberofppl[x];
+				motherofcode -= numberofppl[x];
+			}
+			else {
+				p[x] = y;
+				numberofppl[y] += numberofppl[x];
+				rank[y] ++;
+				motherofcode -= numberofppl[x];
+			}
+		}
+	}
+	int number_of_Religions(int n){
+		int cw = 0;
+		for (int x = 1; x < n + 1; x++){
+			int tempo = findp(x);
+			if (!vis[tempo]) {
+				cw++;
+				vis[tempo] = 1;
+			}
+		}
+		return cw ;
+	}
+};
+int main(){
+	int n, m , cw = 0;
+	while (cin >> n >> m){
+		if (n == 0 && m == 0) break;
+		cw++;
+		Tree_Of_Religions tree(n);
+		for (int x = 0; x < m; x++){
+			int a, b; scanf("%i%i", &a, &b);
+			tree.connect(a, b);
+		}
+		printf("Case %i: %i\n", cw , tree.number_of_Religions(n));
+	}
+	return 0;
+}

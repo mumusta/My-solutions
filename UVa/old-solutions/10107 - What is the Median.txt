@@ -1,0 +1,27 @@
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stdlib.h>
+using namespace std;
+int main() {
+	long long int num; cin >> num;
+	vector <long long int> putinme;
+	putinme.push_back(num);
+	cout << num << endl;
+	while (cin >> num){
+		putinme.push_back(num);
+		sort(putinme.begin(), putinme.end());
+		if (putinme.size() % 2 == 0){
+			cout << (putinme[(putinme.size() / 2) - 1] + putinme[(putinme.size() / 2)]) / 2 << endl;
+		}
+		else {
+			cout << putinme[(putinme.size() / 2)] << endl;
+		}
+	}
+	return 0;
+}

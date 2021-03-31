@@ -1,0 +1,47 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+//#include <fstream>
+using namespace std;
+long long int a[1010][1010];
+int main(){
+	long long int n, m , cw = 0;
+	while (cin >> n){
+		if (cw != 0)printf ("\n");
+		cw ++;
+		scanf("%lld", &m);long long int last = 0;
+		for (long long int x = 0; x < n; x++){
+			for (long long int xx = 0; xx < n; xx++){
+				scanf("%lld", &a[x][xx]);
+				if (xx > 0) a[x][xx] += a[x][xx - 1];
+				if (x > 0)a[x][xx] += a[x - 1][xx];
+				if (xx > 0 && x > 0) a[x][xx] -= a[x - 1][xx - 1];
+				if (x > (m - 2) && xx > (m - 2)){
+					long long int temp = a[x][xx];
+					if (x > (m - 1)) temp -= a[x - m][xx];
+					if (xx > (m - 1)) temp -= a[x][xx - m];
+					if (x > (m - 1) && xx > (m - 1)) temp += a[x - m][xx - m];
+					last += temp;
+					printf("%lld\n", temp);
+				}
+			}
+		}
+		printf("%lld\n", last);
+	}
+	return 0;
+}

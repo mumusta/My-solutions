@@ -1,0 +1,49 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+bitset<2000> vis; int cw; 
+void DP(vector <vector<int>> network, int i, int isize, int go , int n){
+	for (int x = 0; x < isize; x++){
+		if (!vis[((i*n) + network[i][x])] && !vis[((network[i][x]*n) + i)]){
+			vis[((i*n) + network[i][x])] = 1; vis[((network[i][x]*n) + i)] = 1;
+			DP(network, network[i][x], network[network[i][x]].size(),  go + 1, n);
+			vis[((i*n) + network[i][x])] = 0; vis[((network[i][x]*n) + i)] = 0;
+		}
+		else {
+				if (go > cw)
+				cw = go;
+			}
+}
+}
+int main(){
+	int n, m; 
+	while (cin >> n >> m){
+		if (n == 0 && m == 0) break;
+		vector <vector<int>> network(n + 1);
+		for (int x = 0; x < m; x++){
+			int a, b; scanf("%i%i", &a, &b);
+			network[a].push_back(b);
+			network[b].push_back(a);
+		}
+		for (int z = 0 ; z < n ; z ++)
+		DP(network, z, network[z].size(), 0, n);
+		printf("%i\n", cw);
+		network.clear(); vis = 0; cw = 0;
+	}
+	return 0;
+}

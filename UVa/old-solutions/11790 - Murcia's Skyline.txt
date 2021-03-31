@@ -1,0 +1,67 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#include <fstream>
+#define ss scanf_s
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 100000000
+using namespace std;
+int main() {
+	int n; s("%i", &n);
+	for (int t = 0; t < n; t++){
+		int seq_n , max_i = 0 , max_d = 0; s("%i", &seq_n);
+		vector <int> seq(seq_n), w1(seq_n), w2(seq_n), wi(seq_n), L1(seq_n, 1), L2(seq_n, 1);
+		for (int x = 0; x < seq_n; x++){
+			s("%i", &seq[x]);
+		}
+		for (int xx = 0; xx < seq_n; xx++){
+			s("%i", &w1[xx]);wi[xx] = w2[xx] = w1[xx];
+		}
+		for (int i = 0; i < seq_n; i++){
+			max_i = max(max_i, wi[i]);max_d = max(max_d, wi[i]);
+			for (int ii = i + 1; ii < seq_n; ii++){
+				if (seq[ii] > seq[i]){
+					L1[ii] = L1[i] + 1;
+					if (L1[i] + 1 == L1[ii]){
+					if (w1[i] + wi[ii] > w1[ii])
+					w1[ii] = w1[i] + wi[ii];
+					}
+					else w1[ii] = w1[i] + wi[ii];
+				}
+				max_i = max(max_i, w1[ii]);
+				if (seq[ii] < seq[i]){
+					L2[ii] = L2[i] + 1;
+					if ( L2[i] + 1 == L2[ii]){
+					if (w2[i] + wi[ii] > w2[ii])
+					w2[ii] = w2[i] + wi[ii];
+					}
+					else w2[ii] = w2[i] + wi[ii];
+				}
+				max_d = max(max_d, w2[ii]);
+			}
+		}
+		if (max_i >= max_d) p("Case %d. Increasing (%d). Decreasing (%d).\n", t + 1, max_i, max_d);
+		else p("Case %d. Decreasing (%d). Increasing (%d).\n", t + 1, max_d, max_i);
+		seq.clear();  w1.clear(); w2.clear();wi.clear(); L1.clear(); L2.clear();
+	}
+	return 0;
+}

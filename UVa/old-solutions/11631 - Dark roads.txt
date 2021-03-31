@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define __ 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll MOD(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+class UnionFind { private: V(int) parent, rank;
+public: UnionFind(int n){ parent.assign(n, 0); rank.assign(n, 0); for (int x = 0; x < n; x++) parent[x] = x; }
+		int findp(int i) { return (parent[i] == i) ? i : (parent[i] = findp(parent[i])); }
+		bool isfamily(int i, int j) { return (findp(i) == findp(j)); }
+		void marry(int i, int j) { int x = findp(i), y = findp(j); if (rank[x] > rank[y]) parent[y] = x; else parent[x] = y; if (rank[x] == rank[y]) rank[y] ++; }};
+int main() { ll n, m, total = 0 , X , y , z , mst;
+	while (s("%lld%lld", &n, &m) == 2){
+		if (n == 0 && m == 0) break; UnionFind MST(n); V(P(int, P(int, int))) edges(m); total = 0;
+		for (int x = 0; x < m; x++){
+			s("%lld%lld%lld", &X, &y, &z); total += z;
+			edges[x] = mp(z, mp(X, y));
+		} sort(ALL(edges)); mst = 0;
+		for (int x = 0; x < m; x++){
+			if (!MST.isfamily(edges[x].second.first, edges[x].second.second)){ mst += edges[x].first; MST.marry(edges[x].second.first, edges[x].second.second); }
+		} p("%lld\n", total - mst);
+	}
+	return 0;
+}

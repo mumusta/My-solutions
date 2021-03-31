@@ -1,0 +1,57 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+using namespace std;
+int main(){
+	int n, c;
+	while (scanf("%i%i", &n, &c) == 2){
+		vector <bool> isprime(n+1 , true);
+		int *primes = new int[n + 1]; int index = 0;
+		for (int x = 2; x * x <= n; x++){
+			if (isprime[x]){
+				for (int i = x * 2; i <= n; i += x){
+					isprime[i] = 0;
+ 				}
+			}
+		}
+		primes[0] = 1;
+		index ++;
+		for (int q = 2; q <= n; q++){
+			if (isprime[q]){
+				primes[index] = q;
+				index++;
+			}
+		}
+		printf("%i %i:", n, c);
+		if (index % 2 == 0){
+			c = c * 2;
+		}
+		else c = (c * 2) - 1;
+		if (c >= index){
+			for (int x = 0; x < index; x++){
+				printf(" %i", primes[x]);
+			}
+		}
+		else {
+			index = ((index - c) / 2);
+			for (int x = index; x <= c+index-1; x++){
+				printf(" %i", primes[x]);
+			}
+		}
+		printf("\n\n");
+		isprime.clear();
+		delete[] primes;
+	}
+	return 0;
+}

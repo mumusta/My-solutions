@@ -1,0 +1,41 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+using namespace std;
+int cw[1000001];
+int main(){
+	int n, m; while (cin >> n >> m){
+	
+	
+	vector <map<int, int>> vectree(1000001);
+	for (int x = 0; x < n; x++){
+		int a; scanf("%i", &a);
+		cw[a] ++;
+		vectree[a].insert(make_pair(cw[a], x + 1));
+	}
+	for (int i = 0; i < m; i++){
+		int v, vv; scanf("%i%i", &v, &vv);
+		if (v > cw[vv]) printf("0\n");
+		else {
+			map<int, int>::iterator it = vectree[vv].find(v);
+			printf("%i\n", (*it).second);
+		}
+	}
+	
+	vectree.clear();
+	}
+	
+	
+	return 0;
+}

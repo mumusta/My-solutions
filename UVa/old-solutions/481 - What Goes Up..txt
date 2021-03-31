@@ -1,0 +1,57 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#define pp push_back
+//#include <fstream>
+#define OO 100000000
+using namespace std;
+int main() {
+	int n , cw = 0 , list_l , max_index;
+	vector <int> seq(1000000) , L(1000000) , I(1000000) , pri(1000000);
+	while (cin >> n){
+		seq[cw] = n; I[cw] = OO; cw++;
+	}
+	I[0] = -OO; I[cw] = OO;
+	for (int x = 0; x < cw; x++){
+		int start = 0, end = list_l, mid = 0;
+		while (start <= end){
+			mid = (start + end) / 2;
+			if (I[mid] < seq[x]) start = mid + 1;
+			else end = mid - 1;
+
+		}
+		I[start] = seq[x];
+		L[x] = start;
+		if (start >= list_l){
+			list_l = start;
+			max_index = x;
+		}
+	}
+	printf("%i\n-\n", list_l);
+	pri[0] = seq[max_index]; int xw = 1;
+	for (int i = max_index-1; i >= 0; i--){
+		if (L[i] == L[max_index]-1 && seq[i] < seq[max_index]){
+			pri[xw] = seq[i]; xw++;
+			max_index = i;
+		}
+	}
+	for (int z = xw-1; z >= 0; z--){
+		printf("%i\n", pri[z]);
+	}
+	return 0;
+}

@@ -1,0 +1,157 @@
+
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <cmath>
+#include <stdio.h>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+bool isthere(string a[],int size){
+	bool is = false;
+
+	for (int x = 0; x < size; x++){
+
+		if (a[x] == "left" || a[x] == "right"){
+
+			is = true;
+			return is;
+		}
+	}
+
+	return is;
+
+}
+
+int main() {
+
+	int tcase;
+
+	cin >> tcase;
+
+	int* numberofmoves = new int[tcase];
+
+	for (int t = 0; t < tcase; t++){
+
+		numberofmoves[t] = 0;
+		int ferryl = 0, carsnum = 0;
+
+		cin >> ferryl >> carsnum;
+
+		ferryl = ferryl * 100;
+
+		int* carl = new int[carsnum];
+		string* carmap = new string[carsnum];
+		string ferrymap = "left";
+
+		for (int x = 0; x < carsnum; x++){
+
+			cin >> carl[x] >> carmap[x];
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		while (true){
+
+			if (isthere(carmap, carsnum) == false)
+				break;
+
+
+
+
+
+
+			int ferrytank = ferryl;
+
+			if (ferrymap == "left"){
+
+				for (int i2 = 0; i2 < carsnum; i2++){
+					if (carmap[i2] == "left"){
+						if (carl[i2] <= ferrytank){
+
+							carmap[i2] = "NULL";
+							ferrytank = ferrytank - carl[i2];
+						}
+
+						else break;
+					}
+				}
+
+				ferrymap = "right";
+				numberofmoves[t] ++;
+				continue;
+			}
+
+
+			if (ferrymap == "right"){
+
+				for (int i3 = 0; i3 < carsnum; i3++){
+					if (carmap[i3] == "right"){
+						if (carl[i3] <= ferrytank){
+							carmap[i3] = "NULL";
+							ferrytank = ferrytank - carl[i3];
+						}
+
+						else break;
+					}
+				}
+
+				ferrymap = "left";
+				numberofmoves[t] ++;
+				continue;
+
+			}
+
+
+
+
+
+
+
+
+
+		}
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	}
+
+
+	for (int z = 0; z < tcase; z++){
+
+		printf("%d\n", numberofmoves[z]);
+	}
+
+
+
+	
+	return 0;
+}
+

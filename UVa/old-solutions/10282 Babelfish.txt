@@ -1,0 +1,64 @@
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stdlib.h>
+
+using namespace std;
+
+int main() {
+	
+	string str; map <string, string>tree;
+
+	while (getline(cin, str)){
+		string k="", n=""; bool isk = false;
+		if (str == "") break;
+
+		for (int q = 0; q < str.length(); q++){
+			if (str[q] == ' '){
+				isk = true;
+				continue;
+			}
+
+			else {
+				if (isk){
+					k.push_back(str[q]);
+				}
+
+				else {
+					n.push_back(str[q]);
+				}
+			}
+		}
+
+
+		tree.insert(make_pair(k, n));
+	}
+
+	string strr;
+
+	while (cin >> strr){
+
+		map <string, string> ::iterator it = tree.begin();
+
+		it = tree.find(strr);
+
+		if (it == tree.end())
+			cout << "eh" << endl;
+
+		else
+			cout << (*it).second << endl;
+	}
+
+
+
+
+	system("pause");
+	return 0;
+}
+

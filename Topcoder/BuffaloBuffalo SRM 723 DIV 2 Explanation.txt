@@ -1,0 +1,6 @@
+Hints: -.
+Tags: Strings, String Parsing.
+Difficulty: 1 out of 5.
+Comment:  You have to check if the string in a certain format.
+Order: O(N).
+Links: -.

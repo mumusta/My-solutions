@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define __ 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull; //typedef pair<int, int> II;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll MOD(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+int main() { int N , n , pa , c , t; s("%d", &N);
+	for (int T = 0; T < N; T++){
+		s("%d", &n); V(V(int)) graph(n); if (T != 0) p("\n");
+		for (int x = 0; x < n; x++){
+			s("%d%d", &pa, &c); for (int o = 0; o < c; o++){ s("%d", &t); graph[pa].pp(t); }
+		} 
+		int start = 0, end = 0; s("%d%d", &start, &end);
+		queue <int> q; q.push(start); V(int) dis(n, OO); dis[start] = 0; bool again = true; int ans = 0;
+		while (!q.empty() && again){
+			int u = q.front(), size = graph[u].size(); q.pop();
+			for (int x = 0; x < size; x++){
+				int v = graph[u][x];
+				if (dis[v] == OO){
+					dis[v] = dis[u] + 1; if (v == end) { again = false; ans = dis[v]; break; }
+					q.push(v);
+				}
+			}
+		} p("%d %d %d\n", start , end , ans-1);
+	}
+	return 0;
+}

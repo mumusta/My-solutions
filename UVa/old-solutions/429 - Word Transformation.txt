@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define __ 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull; //typedef pair<int, int> II;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll MOD(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+int diff(string s1, string s2){
+	int d = 0; int size = s1.length();
+	for (int x = 0; x < size; x++){
+		if (s1[x] != s2[x]) d++; if (d > 1) return 9;
+	} return d;
+}
+int main() { int t, cw = 0; s("%d", &t); 
+	for (int A = 0; A < t; A++){ cw++;
+		if (cw != 1) { p("\n"); } 
+		string str = ""; unordered_map <string, V(string)> graph; V(string) e; V(string) L;
+		while (getline(cin, str)){
+			if (str == "") continue;
+			if (str[0] == '*') break;
+			graph.insert(mp(str, e)); L.pp(str);
+		}
+		int size = L.size();
+		for (int x = 0; x < size; x++){
+			for (int xx = x + 1; xx < size; xx++){
+				if (L[x].length() == L[xx].length() && diff(L[x], L[xx]) == 1){
+					graph[L[x]].pp(L[xx]); graph[L[xx]].pp(L[x]);
+				}
+			}
+		}
+		while (getline(cin, str)){
+			if (str == "") break;
+			stringstream S(str); string s1, s2; S >> s1; S >> s2;
+			queue <string> q; unordered_map<string, int> dis; for (int x = 0; x < size; x++){ dis.insert(mp(L[x], OO)); }
+			dis[s1] = 0; q.push(s1); int ans = 99; bool complete = true;
+			while (!q.empty()){
+				string u = q.front(); q.pop(); int sz = graph[u].size();
+				for (int x = 0; x < sz; x++){
+					if (dis[graph[u][x]] == OO){
+						dis[graph[u][x]] = dis[u] + 1;
+						if (graph[u][x] == s2){ ans = dis[graph[u][x]]; complete = false; break; }
+						q.push(graph[u][x]);
+					}
+				}
+			} dis.clear();
+			cout << s1; p(" "); cout << s2; p(" %d\n", ans); 
+		}
+	}
+	return 0;
+}

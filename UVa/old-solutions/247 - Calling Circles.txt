@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define __ 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll MOD(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+int n, m , number; unordered_map <string, int> dfs_num, dfs_low, vis; V(string) S; unordered_map <string, unordered_set<string>> graph;
+void SCC(string u){
+	dfs_num[u] = dfs_low[u] = number++; vis[u] = 1; S.pp(u);
+	for (unordered_set<string> ::iterator it = graph[u].begin(); it != graph[u].end(); it++){
+		string v = (*it);
+		if (dfs_num[v] == -1) SCC(v);
+		if (vis[v]) dfs_low[u] = MIN(dfs_low[u], dfs_low[v]);
+	}
+	if (dfs_low[u] == dfs_num[u]){
+		while (1){
+			string v = S.back(); S.pop_back(); vis[v] = 0; cout << v;
+			if (u == v) break; p(", ");
+		} p("\n");
+	}
+}
+int main() { int cw = 0;
+	while (s("%d%d", &n, &m) == 2){
+		if (n == 0 && m == 0) break; cw++; if (cw != 1)p("\n");
+		p("Calling circles for data set %d:\n", cw); unordered_set<string> e;
+		for (int x = 0; x < m; x++){
+			string s1, s2; cin >> s1 >> s2;
+			unordered_map <string, unordered_set<string>> ::iterator it = graph.find(s1);
+			unordered_map <string, unordered_set<string>> ::iterator itt = graph.find(s2);
+			if (it == graph.end()){
+				graph.insert(mp(s1, e)); vis.insert(mp(s1, 0)); dfs_num.insert(mp(s1, -1)); dfs_low.insert(mp(s1, 0));
+			}
+			if (itt == graph.end()){
+				graph.insert(mp(s2, e)); vis.insert(mp(s2, 0)); dfs_num.insert(mp(s2, -1)); dfs_low.insert(mp(s2, 0));
+			}
+			graph[s1].insert(s2);
+		}
+		number = 0;
+		for (unordered_map <string, unordered_set<string>> ::iterator it = graph.begin(); it != graph.end(); it++){
+			string v = (*it).first;
+			if (dfs_num[v] == -1){
+				SCC(v);
+			}
+		}
+		graph.clear(); vis.clear(); dfs_low.clear(); dfs_num.clear(); S.clear();
+	}
+	return 0;
+}

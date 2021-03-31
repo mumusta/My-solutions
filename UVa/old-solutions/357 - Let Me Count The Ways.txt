@@ -1,0 +1,44 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#include <fstream>
+#define s scanf
+#define p printf
+#define ss scanf_s
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+using namespace std;
+long long int seq[] = { 0 ,1, 5, 10, 25, 50 } , OV[6][30001] , n;
+int main() {
+	for (int x = 0; x < 6; x++) OV[x][0] = 1;
+	for (int i = 1; i <= 5; i++){
+		for (int ii = 1; ii <= 30000; ii++){
+			OV[i][ii] = OV[i - 1][ii];
+			if (ii >= seq[i]) OV[i][ii] += OV[i][ii - seq[i]];
+		}
+	}
+	while (s("%lld", &n) == 1){
+		if (OV[5][n] > 1) p("There are %lld ways to produce %lld cents change.\n", OV[5][n] , n);
+		else p("There is only 1 way to produce %lld cents change.\n" , n);
+	}
+	return 0;
+}

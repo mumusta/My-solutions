@@ -1,0 +1,260 @@
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_map>
+#include <unordered_set>
+#include <fstream>
+void INNN() {
+	freopen("in.txt", "r", stdin);freopen("out.txt", "w", stdout);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+	                                           
+
+
+
+										  
+						  *                     *
+						   *   *           *   *
+						    *        **       *
+						     *     *    *    *
+							  *             *              
+					      *    *           *    *
+				      * * * * * * * * * * * * * * * * 
+							     *       *
+								  *     *
+								   *   *
+								    * *
+								     *
+	
+	
+
+
+	
+	
+
+	Listen! Don't you hear these mad symphonies of grievance and fear ?
+	Melancholy and despair can be sensed when we draw near. Some hear a violin
+	sound, others hear a man moaning in tears. These fields are haunted by
+	nature's most sombre melodies. Suicidal white noise absorbing the essence
+	from light, mirth and vitality.
+
+
+
+*/
+//#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define MOD 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll Mod(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+int t , Bii , Bi; string grid[10]; int vis[10][15], USED[10][15];
+
+int Rapeeeeeeeeeee(int i, int j, char target){
+	if (i < 0 || j < 0 || i >= 10 || j >= 15 || vis[i][j] || grid[i][j] != target || USED[i][j]) return 0;
+	int ret = 1; vis[i][j] = 1;
+	for (int x = 0; x < 4; x++){ ret += (Rapeeeeeeeeeee(i + X[x], j + Y[x] , target)); }
+	return ret;
+}
+
+int REMO(int i, int j, char target){
+	if (i < 0 || j < 0 || i >= 10 || j >= 15 || grid[i][j] != target || USED[i][j]) return 0;
+	int ret = 1; USED[i][j] = 1; grid[i][j] = '+';
+	for (int x = 0; x < 4; x++){ ret += (REMO(i + X[x], j + Y[x], target)); }
+	return ret;
+}
+
+void RESHAAAAP(){
+	int MAX_HIGHT = OO, weps = 0 , MAX_WIDE = Bii;
+	for (int ii = 0; ii < 15; ii++){
+		int sh = OO;
+		for (int i = 9; i >= 0; i--){
+			if (sh < 0) break;
+			if (USED[i][ii]){
+				sh = MIN(i - 1, sh);
+				for (; sh >= 0; sh--){
+					if (!USED[sh][ii]){
+						swap(USED[i][ii], USED[sh][ii]); MAX_HIGHT = MIN(MAX_HIGHT, i);
+						swap(grid[i][ii], grid[sh][ii]); break;
+					}
+				}
+			}
+		}
+	}
+
+	Bi = MAX_HIGHT;
+
+	for (int ii = 0; ii < 15; ii++){
+
+		if (USED[9][ii]) weps++;
+		else {
+			if (weps > 0 && !USED[9][ii]){
+
+				for (int i = 9; i >= 0; i--){
+					if (!USED[i][ii]){
+						swap(USED[i][ii], USED[i][ii - weps]);
+						swap(grid[i][ii], grid[i][ii - weps]); MAX_WIDE = MIN(MAX_WIDE, ii - weps + 1);
+					}
+					else break;
+				}
+
+			}
+		}
+
+	}
+
+	Bii = MAX_WIDE;
+
+}
+
+int main() {
+	INNN();
+	s("%d", &t);
+	for (int x = 1; x <= t; x++){
+		if (x != 1) p("\nGame %d:\n\n", x); else p("Game %d:\n\n", x);
+		for (int z = 0; z < 10; z++) cin >> grid[z]; mm0(USED); Bii = 15; Bi = 0;
+		int mv = 0, sr = 0, fk = 0, re = 150;
+		while (true){
+			mm0(vis); int M = 0, I, J; char teo;
+
+			for (int ii = 0; ii < 15; ii++){   // colomn
+				for (int i = 9; i >= 0; i--){    // row
+					if (!USED[i][ii]){
+						if (!vis[i][ii]){
+							int dfs = Rapeeeeeeeeeee(i, ii, grid[i][ii]);
+							if (dfs > M && dfs > 1) {
+								M = dfs; I = i; J = ii; teo = grid[i][ii];
+							}
+						}
+					}
+					
+				}
+			}
+
+			if (M > 0){
+				int MFS = REMO(I, J, teo);
+				fk += MFS; re -= MFS; sr += ((MFS - 2) * (MFS - 2));
+				p("Move %d at (%d,%d): removed %d balls of color %c, got %d points.\n", ++mv,10 - I, J + 1, MFS, teo, ((MFS - 2) * (MFS - 2)));
+				RESHAAAAP();
+			}
+			else {
+				if (fk == 150){
+					sr += (1000);
+					p("Final score: %d, with 0 balls remaining.\n", sr);
+				}
+				else {
+					p("Final score: %d, with %d balls remaining.\n", sr, re);
+				}
+				break;
+			}
+
+		}
+
+
+
+
+
+	}
+
+
+
+
+
+
+
+
+
+	/*
+	
+	return 0;
+}
+	
+	*/
+
+
+
+
+
+
+	freopen("STATUS.txt", "w", stdout);
+	ifstream WQWQW("out.txt");
+	string COH1((std::istreambuf_iterator<char>(WQWQW)), (istreambuf_iterator<char>()));
+	ifstream APDOAP("Answer.txt");
+	string COH2((std::istreambuf_iterator<char>(APDOAP)), (istreambuf_iterator<char>()));
+	(COH1 == COH2) ? printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n                                                                  ACCEPTED!!!!!!!!!!!!!!!!!!!!!!\n") :
+		printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n                                                                  Wrong Answer\n");
+	system("pause");
+	return 0;
+}

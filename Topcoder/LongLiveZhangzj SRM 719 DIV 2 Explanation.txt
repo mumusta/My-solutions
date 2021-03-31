@@ -1,0 +1,6 @@
+Hints: -.
+Tags: Brute Force, Data Structures.
+Difficulty: 1 out of 5.
+Comment: For each word in the speech see if it exists in set of words.
+Order: O(NlogN).
+Links: -.

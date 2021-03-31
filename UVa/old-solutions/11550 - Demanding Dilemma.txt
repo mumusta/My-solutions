@@ -1,0 +1,71 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+using namespace std;
+int main(){
+	int n; scanf("%i", &n);
+	for (int t = 0; t < n; t++){
+		int a, b; scanf("%i%i", &a, &b);
+		if (a == 0 || b == 0){
+			if (a == 0 && b == 0)printf("Yes\n");
+			else if (a == 0 && b != 0)printf("No\n");
+			else if (a != 0 && b == 0)printf("Yes\n");
+		}
+		else {
+			int *cw = new int[b]; vector <pair<int, int>> vec(b);
+			fill(cw, cw + b, 0);
+			for (int i = 0; i < a; i++){
+				for (int ii = 0; ii < b; ii++){
+					int temp; scanf("%i", &temp);
+					if (temp == 1){
+						cw[ii]++;
+						if (cw[ii] < 3){
+							if (cw[ii] == 1)
+							vec[ii].first = i;
+							if (cw[ii] == 2)
+							vec[ii].second = i;
+						}
+					}
+				}
+			}
+			bool isbad = false;
+			for (int j = 0; j < b; j++){
+				if (cw[j] != 2){
+					isbad = true;
+					break;
+				}
+			}
+			if (isbad){
+				printf("No\n");
+			}
+			else {
+				isbad = false;
+				for (int i = 0; i < b; i++){
+					for (int ii = i + 1; ii < b; ii++){
+						if (vec[i].first == vec[ii].first && vec[i].second == vec[ii].second){
+							isbad = true;
+							break;
+						}
+					}
+				}
+				if (isbad){
+					printf("No\n");
+				}
+				else printf("Yes\n");
+			}
+			delete[] cw; vec.clear();
+		}
+	}
+	return 0;
+}

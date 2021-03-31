@@ -1,0 +1,62 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#include <fstream>
+#define s scanf
+#define p printf
+#define ss scanf_s
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+using namespace std;
+int size , total , dp[21][201];
+vector <int> seq;
+bool DP(int index, int sum){
+	if (index == size) return 0;
+	if (sum == total) return dp[index][sum] = 1;
+	if (dp[index][sum] != -1)return dp[index][sum];
+	return dp[index][sum] = max(DP(index + 1, sum), DP(index + 1, sum + seq[index]));
+}
+int main() {
+	int n; s("%d", &n);
+	cin.ignore();
+	for (int x = 0; x < n; x++){
+		string str; mm(dp);
+		getline(cin, str);
+		total = 0; int cw = 0;
+		stringstream sss(str);
+		int temp = 0; sss >> temp;
+		while (temp > 0){
+			seq.pp(temp); total += seq[cw]; cw++;
+			temp = 0;
+			sss >> temp;
+		}
+		size = cw;
+		if (total & 1)p("NO\n");
+		else {
+			total /= 2;
+			if (DP(0, 0)) p("YES\n");
+			else p("NO\n");
+		}
+		seq.clear();
+	}
+	return 0;
+}

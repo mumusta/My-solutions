@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define MOD 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll Mod(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+int main() {
+	int n, m, cw = 0; unordered_map <string, P(vector<string> , int)> graph; unordered_map <string, int> indegree; string s1, s2; vector <string> E;  V(string) sorted;
+	while (s("%d", &n) == 1){
+		graph.clear(); indegree.clear(); cw++; sorted.clear();queue <string>  pros;
+		for (int x = 0; x < n; x++){
+			cin >> s1; graph.insert(mp(s1,mp(E,x))); indegree.insert(mp(s1, 0));
+		} s("%d", &m);
+		for (int x = 0; x < m; x++){
+			cin >> s1 >> s2; graph[s1].first.pp(s2); indegree[s2] ++;
+		}
+		for (unordered_map <string, int> ::iterator it = indegree.begin(); it != indegree.end(); it++){
+			if ((*it).second == 0){ pros.push((*it).first); }
+		}
+		V(P(int, string)) fuck;
+		while (!pros.empty()){
+			while (!pros.empty()){
+				fuck.pp(mp(graph[pros.front()].second, pros.front())); pros.pop();
+			}
+			sort(ALL(fuck));
+			for (int i = 0; i < fuck.size(); i++){
+				pros.push(fuck[i].second);
+			} fuck.clear();
+			string front = pros.front(); pros.pop(); sorted.pp(front);
+			int size = graph[front].first.size();    // pros.push(graph[front][x]);
+			for (int x = 0; x < size; x++){
+				indegree[graph[front].first[x]] --;
+				if (indegree[graph[front].first[x]] == 0){
+					pros.push(graph[front].first[x]);
+				}
+			}
+		}
+		int sz = sorted.size(); p("Case #%d: Dilbert should drink beverages in this order: ", cw); cout << sorted[0];
+		for (int x = 1; x < sz; x++){
+			p(" "); cout << sorted[x];
+		} p(".\n\n"); 
+	}
+	return 0;
+}

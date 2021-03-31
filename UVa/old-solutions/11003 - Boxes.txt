@@ -1,0 +1,49 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#include <fstream>
+#define s scanf
+#define p printf
+#define ss scanf_s
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+using namespace std;
+int n;
+int dp[1005][3001];
+vector <int> W8, MAX;
+int DP(int index, int w8_can_be_hold){
+	if (index == n) return 0;
+	if (w8_can_be_hold == 9999)return dp[index][w8_can_be_hold] = max(DP(index + 1, 9999),1+ DP(index + 1, MAX[index]));
+	if (dp[index][w8_can_be_hold] != -1) return dp[index][w8_can_be_hold];
+	if (W8[index] > w8_can_be_hold) return dp[index][w8_can_be_hold] = DP(index + 1, w8_can_be_hold);
+	return dp[index][w8_can_be_hold] = max(DP(index + 1, w8_can_be_hold),1+ DP(index + 1, min(MAX[index], (w8_can_be_hold - W8[index]))));
+}
+int main() {
+	while (cin >> n){
+		if (n == 0)break; mm(dp);
+		W8.assign(n, 0); MAX.assign(n, 0);
+		for (int x = 0; x < n; x++)	s("%d%d", &W8[x], &MAX[x]);
+		p("%d\n", DP(0, 9999));
+		W8.clear(); MAX.clear();
+	}
+	return 0;
+}

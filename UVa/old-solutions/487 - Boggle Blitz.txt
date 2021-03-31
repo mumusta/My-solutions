@@ -1,0 +1,98 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+//#include <fstream>
+using namespace std;
+vector <char> table;
+int vis[21][21];
+int hash_[100000];
+vector <string> grid; int maxx;
+void DP____________(int i, int j, string ex, int length, int n, vector <set<string>> &permi){
+	if (length >= 3){
+		permi[length].insert(ex);
+		if (length > maxx) maxx = length;
+	}
+	if (vis[i][j] || i < 0 || j < 0 || i == n || j == n || hash_[grid[i][j]]) return;
+	if (length != 0){
+		if (grid[i][j] < ex[length - 1]) return;
+	}
+	vis[i][j] = 1;
+	hash_[grid[i][j]] = 1;
+	DP____________(i + 1, j, ex + grid[i][j], length + 1, n, permi);
+	hash_[grid[i][j]] = 0;
+	vis[i][j] = 0;
+	vis[i][j] = 1;
+	hash_[grid[i][j]] = 1;
+	DP____________(i - 1, j, ex + grid[i][j], length + 1, n, permi);
+	hash_[grid[i][j]] = 0;
+	vis[i][j] = 0;
+	vis[i][j] = 1;
+	hash_[grid[i][j]] = 1;
+	DP____________(i, j + 1, ex + grid[i][j], length + 1, n, permi);
+	hash_[grid[i][j]] = 0;
+	vis[i][j] = 0;
+	vis[i][j] = 1;
+	hash_[grid[i][j]] = 1;
+	DP____________(i, j - 1, ex + grid[i][j], length + 1, n, permi);
+	hash_[grid[i][j]] = 0;
+	vis[i][j] = 0;
+	vis[i][j] = 1;
+	hash_[grid[i][j]] = 1;
+	DP____________(i + 1, j + 1, ex + grid[i][j], length + 1, n, permi);
+	hash_[grid[i][j]] = 0;
+	vis[i][j] = 0;
+	vis[i][j] = 1;
+	hash_[grid[i][j]] = 1;
+	DP____________(i + 1, j - 1, ex + grid[i][j], length + 1, n, permi);
+	hash_[grid[i][j]] = 0;
+	vis[i][j] = 0;
+	vis[i][j] = 1;
+	hash_[grid[i][j]] = 1;
+	DP____________(i - 1, j + 1, ex + grid[i][j], length + 1, n, permi);
+	hash_[grid[i][j]] = 0;
+	vis[i][j] = 0;
+	vis[i][j] = 1;
+	hash_[grid[i][j]] = 1;
+	DP____________(i - 1, j - 1, ex + grid[i][j], length + 1, n, permi);
+	hash_[grid[i][j]] = 0;
+	vis[i][j] = 0;
+}
+int main(){
+	int t; scanf("%i", &t);
+	for (int x = 0; x < t; x++){
+		int n; scanf("%i", &n);
+		grid.assign(n, ""); maxx = 0; vector <set<string>> permi(401);
+		for (int i = 0; i < n; i++){
+			cin >> grid[i];
+		}
+		for (int z = 0; z < n; z++){
+			for (int zz = 0; zz < n; zz++){
+				DP____________(z, zz, "", 0, n, permi);
+			}
+		}
+		for (int j = 3; j <= maxx; j++){
+			for (set<string> ::iterator it = permi[j].begin(); it != permi[j].end(); it++){
+				cout << (*it);
+				printf("\n");
+			}
+		}
+		if (x != t-1)
+		printf("\n");
+		permi.clear(); grid.clear();
+	}
+	return 0;
+}

@@ -1,0 +1,80 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+using namespace std;
+int seen[10000];
+void DP(int a, int b, map <int, vector < pair<pair <int, int>, int> >> tree, int orig){
+	if (seen[b]) {
+		printf("AT %04i CALL TO %04i RINGS 9999\n", a, orig);
+		return;
+	}
+	map <int, vector < pair<pair <int, int>, int> >> ::iterator it = tree.find(b);
+	if (it == tree.end()){
+		printf("AT %04i CALL TO %04i RINGS %04i\n", a, orig, b);
+		return;
+	}
+	else {
+		bool isfind = false;
+		int size = (*it).second.size();
+		for (int x = 0; x < size; x++){
+			if (a >= (*it).second[x].first.first && a <= (*it).second[x].first.second){
+				isfind = true;
+				seen[b] = 1;
+				DP(a, (*it).second[x].second, tree, orig);
+				seen[b] = 0;
+				break;
+			}
+		}
+		if (isfind == false){
+			printf("AT %04i CALL TO %04i RINGS %04i\n", a, orig, b);
+		}
+	}
+}
+int main(){
+	int t; scanf("%i", &t); int cw = 0;
+	cin.ignore(); map <int, vector < pair<pair <int, int>, int> >> tree; bool iclear = false;
+	int a, b, c, d; printf("CALL FORWARDING OUTPUT\n");
+	while (cin >> a){
+		if (a == 0000){
+			printf("SYSTEM %i\n", ++cw);
+			while (cin >> a){
+				if (a == 9000) {
+					iclear = false;
+					break;
+				}
+				cin >> b;
+				DP(a, b, tree, b);
+			}
+		}
+		else {
+			if (iclear == false){
+				tree.clear();
+				cout.clear();
+				iclear = true;
+			}
+			cin >> b >> c >> d;
+			map <int, vector < pair<pair <int, int>, int> >> ::iterator it = tree.find(a);
+			if (it == tree.end()){
+				vector < pair<pair <int, int>, int> > vec;
+				vec.push_back(make_pair(make_pair(b, b + c), d));
+				tree.insert(make_pair(a, vec));
+			}
+			else {
+				(*it).second.push_back(make_pair(make_pair(b, b + c), d));
+			}
+		}
+	}
+	printf("END OF OUTPUT\n");
+	return 0;
+}

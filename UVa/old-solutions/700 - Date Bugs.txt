@@ -1,0 +1,49 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+int previs[10001];
+void marker(int start, int diff){
+	for (int x = start; x < 10000; x+=diff){
+		previs[x] ++;
+	}
+}
+int main(){
+	int a , cw = 0;
+	while (cin >> a){
+		if (a == 0) break;
+		int max = 0;
+		cw++;
+		for (int x = 0; x < a; x++){
+			int i, ii, iii; scanf("%i%i%i", &i, &ii, &iii);
+			if (max < i) max = i;
+			marker(i, iii - ii);
+		}
+		bool done = false; int tempo;
+		for (int i = max; i < 10000; i++){
+			if (previs[i] == a){
+				done = true;
+				tempo = i;
+				break;
+			}
+		}
+		if (done) printf("Case #%i:\nThe actual year is %i.\n\n", cw, tempo);
+		else printf("Case #%i:\nUnknown bugs detected.\n\n", cw);
+		fill(previs, previs + 10001, 0);
+	}
+	return 0;
+}

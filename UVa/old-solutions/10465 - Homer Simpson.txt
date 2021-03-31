@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define ss scanf_s
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef long long int ll;
+using namespace std;
+int table[10001];
+int main() {
+	int a[2] , t , last = 0; while (s("%d%d%d" , &a[0] , &a[1] , &t) == 3){ last = 0;
+		for (int x = 1 ; x <= t ; x ++){
+			table[x] = -OO;
+			for (int i = 0 ; i < 2 ; i ++){
+				if (x >= a[i]) table[x] = max(table[x] , table[x-a[i]] + 1);
+			}
+			if (table[x] > 0) last = x;
+		}
+		if (last == t) p("%d\n" , table[t]); else p("%d %d\n" , table[last] , t-last);
+	}
+    return 0;
+}

@@ -1,0 +1,42 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+using namespace std;
+int isp[20000001];
+int a[100001];
+int b[100001];
+int main(){
+	fill(isp, isp + 20000001, 1);
+	isp[0] = isp[1] = 0;
+	for (int i = 2; i * i < 20000001; i++){
+		if (isp[i]){
+			for (int ii = i * 2; ii < 20000001; ii += i) isp[ii] = 0;
+		}
+	}
+	int last = 3 , index = 1;
+	for (int x = 5; x < 20000001; x += 2){
+		if (index == 100001) break;
+		if (isp[x] && last == x - 2){
+			a[index] = last;
+			b[index] = x;
+			index++;
+		}
+		if (isp[x]) last = x;
+	}
+	int n; 
+	while (cin >> n){
+		printf("(%i, %i)\n", a[n], b[n]);
+	}
+	return 0;
+}

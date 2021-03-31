@@ -1,0 +1,158 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stdlib.h>
+#include <stack>
+#include <queue>
+
+
+using namespace std;
+
+int main() {
+
+	int num; stack<int> undo; priority_queue<int> tree; queue<int> quee;
+	vector<int>istack; vector<int> ipriority_queue; vector<int> iqueue; vector<int>compaire;
+
+	while (cin >> num){
+		istack.clear(); ipriority_queue.clear(); iqueue.clear(); compaire.clear();
+
+		while (undo.empty() == false){
+			undo.pop();
+		}
+
+		while (tree.empty() == false){
+			tree.pop();
+		}
+
+		while (quee.empty() == false){
+			quee.pop();
+		}
+
+
+
+		for (int x = 0; x < num; x++){
+
+			int a, b; cin >> a >> b;
+
+			if (a == 1){
+
+				undo.push(b);
+				tree.push(b);
+				quee.push(b);
+				continue;
+			}
+
+
+			if (a == 2){
+				if (undo.empty() == false){
+					istack.push_back(undo.top());
+					undo.pop();
+				}
+
+				else {
+					istack.push_back(-999);
+				}
+
+				if (tree.empty() == false){
+					ipriority_queue.push_back(tree.top());
+					tree.pop();
+				}
+
+				else {
+					ipriority_queue.push_back(-999);
+				}
+
+				if (quee.empty() == false){
+					iqueue.push_back(quee.front());
+					quee.pop();
+				}
+
+				else {
+					iqueue.push_back(-999);
+				}
+
+				compaire.push_back(b);
+			}
+
+		}
+
+		int size = compaire.size();
+		bool ifstack = true; bool ifpriority_queue = true; bool ifqueue = true;
+
+		for (int i = 0; i < size; i++){
+
+			if (compaire[i] != istack[i]) ifstack = false;
+			if (compaire[i] != ipriority_queue[i]) ifpriority_queue = false;
+			if (compaire[i] != iqueue[i]) ifqueue = false;
+		}
+		
+
+
+		if (ifstack == false && ifpriority_queue == false && ifqueue == false){
+
+			cout << "impossible" << endl;
+			continue;
+		}
+
+		if (ifstack && ifpriority_queue && ifqueue){
+
+			cout << "not sure" << endl;
+			continue;
+		}
+
+		if (ifstack && ifpriority_queue){
+
+			cout << "not sure" << endl;
+			continue;
+		}
+
+		if (ifstack && ifqueue){
+
+			cout << "not sure" << endl;
+			continue;
+		}
+
+		if (ifpriority_queue && ifqueue){
+
+			cout << "not sure" << endl;
+			continue;
+		}
+
+		if (ifstack){
+
+			cout << "stack" << endl;
+			continue;
+		}
+
+		if (ifpriority_queue){
+
+			cout << "priority queue" << endl;
+			continue;
+		}
+
+		if (ifqueue){
+
+			cout << "queue" << endl;
+			continue;
+		}
+
+
+
+
+	}
+
+
+
+
+
+
+
+	return 0;
+}
+

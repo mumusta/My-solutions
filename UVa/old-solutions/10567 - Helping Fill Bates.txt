@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define ss scanf_s
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+using namespace std;
+int main() {
+	string str; cin >> str; vector <vector<int>> tree(130); int l = str.length() , t , start = 0; 
+	for (int x = 0; x < l; x++) tree[(int)str[x]].pp(x); 
+	for (int z = 0; z < 130; z++){
+		if (!tree[z].empty()) sort(tree[z].begin(), tree[z].end());
+	} 
+	s("%d", &t); 
+	for (int i = 0; i < t; i++){
+		string gates; cin >> gates; start = 0; int ll = gates.length() , fi = 0, la = 0; bool is = true;
+		for (int x = 0; x < ll; x++){ 
+			int innn = (int)gates[x];
+			vector <int> ::iterator it = lower_bound(tree[innn].begin(), tree[innn].end(), start); 
+			if (it == tree[(int)gates[x]].end()){
+				is = false; break;
+			}
+			else {
+				int in = tree[innn][it - tree[(int)gates[x]].begin()];
+				start = in + 1; if (x == 0) fi = in; else la = in;
+			}
+		}
+		if (is) p("Matched %d %d\n" , fi , la);
+		else p("Not matched\n");
+	}
+	return 0;
+}

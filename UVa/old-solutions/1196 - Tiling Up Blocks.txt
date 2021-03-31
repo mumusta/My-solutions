@@ -1,0 +1,42 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#define pp push_back
+//#include <fstream>
+//#define OO 100000000
+using namespace std;
+int main() {
+	int n , i , j;
+	while (cin >> n){
+		if (n == 0)break;
+		int dp[101][101] = {}, used[101][101] = {};
+		for (int x = 0; x < n; x++){
+			scanf("%i%i", &i, &j);
+			used[i][j] ++;
+		}
+		for (int v = 1; v < 101; v++){
+			for (int vv = 1; vv < 101; vv++){
+				dp[v][vv] = max(dp[v - 1][vv], dp[v][vv - 1]);
+				dp[v][vv] += used[v][vv];
+			}
+		}
+		printf("%i\n", dp[100][100]);
+	}
+	printf("*\n");
+	return 0;
+}

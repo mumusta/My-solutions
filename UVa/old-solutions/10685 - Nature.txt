@@ -1,0 +1,73 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+using namespace std;
+class Zoo {
+private:
+	vector <int> p, rank, numberrofbbes; int max = 1;
+public :
+	Zoo(int n){
+		p.assign(n + 1, 0); rank.assign(n + 1, 0); numberrofbbes.assign(n + 1, 1);
+		for (int x = 1; x < n + 1; x++){
+			p[x] = x;
+		}
+	}
+	int findp(int n){
+		if (p[n] == n)return n;
+		return p[n] = findp(p[n]);
+	}
+	void connect(int n, int m){
+		int x = findp(n), y = findp(m);
+		if (x != y){
+			if (rank[x] > rank[y]){
+				p[y] = x;
+				numberrofbbes[x] += numberrofbbes[y];
+				if (numberrofbbes[x] > max)max = numberrofbbes[x];
+			}
+			else if (rank[x] < rank[y]){
+				p[x] = y;
+				numberrofbbes[y] += numberrofbbes[x];
+				if (numberrofbbes[y] > max) max = numberrofbbes[y];
+			}
+			else {
+				p[x] = y; rank[y] ++;
+				numberrofbbes[y] += numberrofbbes[x];
+				if (numberrofbbes[y] > max) max = numberrofbbes[y];
+			}
+		}
+	}
+	int getmaxnumberofshainshaaaaahahaahahahahahahahahahahahahahahahahahhahahahahahahahahhahahahahaha(){
+		return max;
+	}
+};
+int main(){
+	int n, m; map <string, int > tree;
+	while (cin >> n >> m){
+		if (n == 0 && m == 0) break;
+		Zoo me(n);
+		for (int i = 1; i <= n; i++){
+			string str; cin >> str;
+			tree.insert(make_pair(str, i));
+		}
+		for (int ii = 0; ii < m; ii++){
+			string str1, str2; cin >> str1 >> str2;
+			map <string, int > ::iterator it = tree.find(str1);
+			map <string, int > ::iterator itt = tree.find(str2);
+			me.connect((*it).second, (*itt).second);
+		}
+		tree.clear();
+		printf("%i\n", me.getmaxnumberofshainshaaaaahahaahahahahahahahahahahahahahahahahahhahahahahahahahahhahahahahaha());
+	}
+	return 0;
+}

@@ -1,0 +1,67 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#include <fstream>
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 100000000
+using namespace std;
+
+int main() {
+	vector <pair<int, pair<int, int>>> seq; // -iq ` (w8 ` old_index)
+	int w8, iq , index = 0;
+
+	while (cin >> w8){
+		index++;
+		scanf("%i", &iq);
+		seq.pp(mp(-iq, mp(w8, index)));
+	}
+
+	sort(seq.begin(), seq.end());
+	int size = seq.size();
+	vector <int> L(size, 1) , list(size);
+	int maxx_size = 0, max_index;
+	for (int i = 0; i < size; i++){
+		for (int ii = i + 1; ii < size; ii++){
+			if (seq[ii].second.first > seq[i].second.first && seq[ii].first > seq[i].first && L[i] + 1 > L[ii]){
+				L[ii] = L[i] + 1;
+				if (L[ii] > maxx_size){
+					maxx_size = L[ii];
+					max_index = ii;
+				}
+			}
+		}
+	}
+
+	printf("%i\n", maxx_size);
+	int xw = 1; list[0] = seq[max_index].second.second;
+	for (int x = max_index - 1; x >= 0; x--){
+		if (seq[x].first < seq[max_index].first && seq[x].second.first < seq[max_index].second.first && L[x] == L[max_index] - 1){
+			max_index = x; list[xw] = seq[x].second.second;
+			xw++;
+		}
+	}
+
+	for (int v = xw - 1; v >= 0; v--){
+		printf("%i\n", list[v]);
+	}
+
+	return 0;
+}

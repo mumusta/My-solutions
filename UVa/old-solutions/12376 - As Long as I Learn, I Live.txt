@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define MOD 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll Mod(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int t , nodes , edges , past[101] , last;
+int dfs(int u, V(P(int, V(int))) &graph){
+	if (past[u]) return 0; past[u] = 1; int size = graph[u].second.size(), nxtmax = 0, nxtindx = 0; last = u;
+	for (int x = 0; x < size; x++){
+		if (graph[graph[u].second[x]].first > nxtmax && !past[graph[u].second[x]]) {
+			nxtmax = graph[graph[u].second[x]].first; nxtindx = graph[u].second[x]; }
+	} return graph[u].first + dfs(nxtindx, graph);}
+int main() { s("%d", &t);
+	for (int x = 1; x <= t; x++){
+		s("%d%d", &nodes, &edges); V(P(int, V(int))) graph(nodes); mm0(past);
+		for (int x = 0; x < nodes; x++) s("%d", &graph[x].first);
+		for (int X = 0; X < edges; X++){
+			int a, b; s("%d%d", &a, &b);
+			graph[a].second.pp(b);
+		} int Dfs = dfs(0, graph);
+		p("Case %d: %d %d\n", x, Dfs , last);}
+		return 0; }

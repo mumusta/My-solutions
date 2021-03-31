@@ -1,0 +1,59 @@
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stdlib.h>
+#include <stack>
+#include <queue>
+#include <iomanip>
+
+using namespace std;
+
+int main() {
+
+	string str; set<string> tree; string temp;
+
+	while (cin >> str){
+		temp = "";
+
+		for (int x = 0; x < str.length(); x++){
+
+			if (isalpha(str[x])){
+
+				if (isupper(str[x])){
+					str[x] = tolower(str[x]);
+				}
+
+				temp.push_back(str[x]);
+			}
+
+			else {
+
+				if (temp.empty() == false){
+					tree.insert(temp);
+					temp = "";
+				}
+			}
+		}
+
+		tree.insert(temp);
+
+	}
+
+	for (set < string > ::iterator it = tree.begin(); it != tree.end(); it++){
+		if (isalpha((*it)[0]) == false)continue;
+
+		cout << *it << endl;
+	}
+
+
+
+	system("pause");
+	return 0;
+}
+

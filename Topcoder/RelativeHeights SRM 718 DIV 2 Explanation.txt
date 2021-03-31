@@ -1,0 +1,6 @@
+Hints: -.
+Tags: Brute Force, Data Structures.
+Difficulty: 1 out of 5.
+Comment: -.
+Order: O(N^2+NlogN).
+Links: -.

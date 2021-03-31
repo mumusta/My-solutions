@@ -1,0 +1,91 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define ss scanf_s
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+using namespace std;
+
+int dp[1003][18280];
+
+int translator (string str){
+int l = str.length() ,subs, subint , total = 0; string substring;
+	for (int x = 1; x < l ; x ++){
+		if (isalpha(str[x])){ subint = 0;
+			substring += str[x];
+		}
+		else if (str[x] == '+') { subs = 0;
+			int ll = substring.length();
+			if (ll == 3){ int temp = (int)substring[0];
+				subs += ((temp - 64) * 26 * 26); temp = (int)substring[1]; subs += ((temp - 64) * 26);temp = (int)substring[2]; subs += (temp - 64);
+			}
+			else if (ll == 2) { int temp = (int)substring[0];
+				subs += ((temp - 64) *26); temp = (int)substring[1]; subs += ((temp - 64));
+			}
+			else {
+				int temp = (int)substring[0]; subs += ((temp - 64));
+			}
+			total += dp[subint][subs]; substring = "";
+		}
+		else { int temp = str[x] - '0';
+			subint *= 10; subint += temp;
+		}
+	}
+
+	int ll = substring.length();subs = 0;
+				if (ll == 3){ int temp = (int)substring[0];
+					subs += ((temp - 64) * 26 * 26); temp = (int)substring[1]; subs += ((temp - 64) * 26);temp = (int)substring[2]; subs += (temp - 64);
+				}
+				else if (ll == 2) { int temp = (int)substring[0];
+					subs += ((temp - 64) *26); temp = (int)substring[1]; subs += ((temp - 64));
+				}
+				else {
+					int temp = (int)substring[0]; subs += ((temp - 64));
+				}
+				total += dp[subint][subs]; substring = "";
+				return total;
+}
+
+int main() {
+
+
+
+
+
+	int r,c,t; s("%d" , &t); for (int x = 0 ; x < t; x ++){s("%d%d" , &c,&r);
+		vector <pair<string , pair<int,int>>> v;
+		for (int i = 1 ; i <= r ; i ++){
+			for (int ii = 1 ; ii <= c ; ii ++){
+
+				string s; cin >> s; if (s[0] == '='){
+					v.pp(mp(s,mp(i,ii))); //dp[i][ii] = translator(s); 
+					dp[i][ii] = 0;
+				}
+				else { dp[i][ii] = 0;
+					stringstream sss(s); sss >> dp[i][ii];
+				}
+			}
+		}
+		int size = v.size();
+		for (int zp = 0; zp < 8; zp ++)for (int z = 0 ; z < size ; z ++) dp[v[z].second.first][v[z].second.second] = translator(v[z].first);
+
+		for (int j = 1 ; j <= r ; j ++){
+			for (int jj = 1 ; jj <= c ; jj ++){
+				if (jj < c)p("%d " , dp[j][jj]); else p("%d" , dp[j][jj]);} p("\n");
+		}v.clear();
+	}
+
+
+
+	
+
+
+
+
+    return 0;
+}

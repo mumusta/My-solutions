@@ -1,0 +1,78 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+//#include <fstream>
+using namespace std;
+vector<int> vec; bool is;
+vector<string> vecs;
+unordered_set<string> tree;
+
+void DP______(string totals, int total, int size , int index , int target){
+
+	if (total > target) return;
+
+	if (total == target){
+		unordered_set<string> ::iterator it = tree.find(totals);
+		if (it == tree.end()){
+			tree.insert(totals);
+			int sz = totals.length();
+			for (int x = 1; x < sz; x++){
+				printf("%c", totals[x]);
+			}
+			printf("\n");
+			is = true;
+		}
+
+		return;
+	}
+
+	for (int x = index; x < size; x++){
+		if (vec[x] <= target)
+		DP______(totals + '+' + vecs[x] , total + vec[x] , size , x+1 , target);
+	}
+
+}
+
+int main(){
+	
+	int t, n; 
+
+	while (cin >> t){
+		scanf("%i", &n);
+		stringstream ss;
+		if (n == 0)break;
+		printf("Sums of %i:\n", t);
+		vec.assign(n, 0); is = false; vecs.assign(n, "");
+
+		for (int x = 0; x < n; x++){
+
+			scanf("%i", &vec[x]);
+			ss << vec[x]; ss >> vecs[x];
+			ss.clear();
+		}
+
+		DP______("", 0, n, 0, t);
+
+		if (!is) printf("NONE\n");
+
+		vec.clear(); tree.clear(); vecs.clear(); tree.clear();
+	}
+	
+
+	return 0;
+}

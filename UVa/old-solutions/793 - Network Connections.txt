@@ -1,0 +1,91 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+using namespace std;
+int a, b;
+class UNION {
+private: vector<int> p, rank;
+public :
+	UNION(int n){
+		rank.assign(n + 1, 0); p.assign(n + 1, 0);
+		for (int x = 1; x <= n; x++){
+			p[x] = x;
+		}
+	}
+	int findset(int i){
+		if (p[i] == i) return i;
+		else {
+			return p[i] = findset(p[i]);
+		}
+	}
+	bool isconnected(int a, int b){
+		return findset(a) == findset(b);
+	}
+	void makeconnection(int a, int b){
+		if (!isconnected(a, b)){
+			int x = findset(a);
+			int y = findset(b);
+			if (rank[x] > rank[y]) p[y] = x;
+			else if (rank[x] < rank[y]) p[x] = y;
+			else {
+				p[x] = y;
+				rank[y] ++;
+			}
+		}
+	}
+};
+void giver(string str){
+	int size = str.length();
+	bool isa = true;
+	a = 0; b = 0;
+	for (int x = 2; x < size; x++){
+		if (str[x] == '\n') break;
+		if (str[x] == ' ') {
+			isa = false;
+			continue;
+		}
+		if (isa){
+			int temp = str[x] - '0';
+			a = (a * 10) + temp;
+		}
+		else {
+			int temp = str[x] - '0';
+			b = (b * 10) + temp;
+		}
+	}
+}
+int main(){
+	int n; scanf("%i", &n);
+	for (int x = 0; x < n; x++){
+		int q; scanf("%i", &q); cin.ignore();
+		UNION tree(q); string str;
+		int cw = 0, notcw = 0;
+		while(getline(cin , str)){
+			if (str == "") break;
+			if (str.length() < 2) continue;
+			giver(str);
+ 			if (str[0] == 'c'){
+				tree.makeconnection(a, b);
+			}
+			else {
+				if (tree.isconnected(a, b)) cw++;
+				else notcw++;
+			}
+		}
+			if (x != 0)printf ("\n\n");
+			printf("%i,%i", cw, notcw); 
+	}
+printf ("\n");
+	return 0;
+}

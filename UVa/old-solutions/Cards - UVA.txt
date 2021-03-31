@@ -1,0 +1,82 @@
+#include "stdafx.h"
+#include <iostream>
+#include <string>
+#include <stdio.h>
+#include <vector>
+
+using namespace std;
+
+int main() {
+
+	int num;
+	vector <int> dq;
+	vector <int> thrown;
+
+	while (cin >> num) {
+	
+
+		if (num == 0)
+			break;
+
+		else if (num == 1){
+
+			cout << "Discarded cards:" << endl;
+			cout << "Remaining card: 1" << endl;
+		}
+
+		else {
+
+			dq.clear();
+			thrown.clear();
+
+			for (int x = 1; x <= num; x++){
+
+				dq.push_back(x);
+			}
+
+			while (dq.size() > 1){
+
+				thrown.push_back(*dq.begin());
+				dq.erase(dq.begin());
+				dq.push_back(*dq.begin());
+				dq.erase(dq.begin());
+			}
+
+
+
+			cout << "Discarded cards:";
+
+			for (vector <int> ::iterator it1 = thrown.begin(); it1 != thrown.end(); it1++){
+
+				cout << " " << *it1;
+
+				if (*it1 == thrown[thrown.size() - 1]){
+					cout << endl;
+					break;
+				}
+
+				else {
+
+					cout << ",";
+				}
+			}
+
+			cout << "Remaining card: " << *dq.begin() << endl;
+
+		}
+}
+
+
+
+
+
+
+
+
+
+	
+
+
+	system("pause");
+	return 0;
+}

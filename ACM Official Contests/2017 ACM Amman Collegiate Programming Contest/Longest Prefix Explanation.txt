@@ -1,0 +1,6 @@
+Hints: Swapping in second string here means, you can form any string from the chars of the second string.
+Tags: Strings, Preprocessing, Brute Force.
+Difficulty: 1 out of 5.
+Comment: Create a freq table for the chars in string b, then move on string a char by char and see if you can form the prefix till now from b.
+Order: O(N).
+Links: http://codeforces.com/gym/101498/problem/B.

@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define __ 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull; //typedef pair<int, int> II;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll MOD(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+int main() { int n, tempo, t, qq, Q; s("%d", &n); V(V(int)) graph(n);
+	for (int x = 0; x < n; x++){
+		s("%d", &tempo); for (int o = 0; o < tempo; o++) { s("%d", &t); graph[x].pp(t); }
+	} s("%d", &qq);
+	for (int x = 0; x < qq; x++){
+		s("%d", &Q); int mx = 0, day = 0, current_day = 1 , day_cw = 0;
+		queue <int> q; q.push(Q); V(int) dis(n, OO); dis[Q] = 0;
+		while (!q.empty()){
+			int u = q.front(); q.pop(); int size = graph[u].size();
+			for (int i = 0; i < size; i++){
+				int v = graph[u][i];
+				if (dis[v] == OO){
+					dis[v] = dis[u] + 1;
+					if (dis[v] == current_day){
+						day_cw++;
+						if (day_cw > mx){
+							mx = day_cw; day = current_day;
+						}
+					}
+					else {
+						current_day++; day_cw = 1;
+						if (day_cw > mx){
+							mx = day_cw; day = current_day;
+						}
+					}
+					q.push(v);
+				}
+			}
+		} if (mx == 0) p("0\n"); else p("%d %d\n", mx, day);
+	}
+	return 0;
+}

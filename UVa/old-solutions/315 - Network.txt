@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define __ 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll MOD(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+int n , dfs_root , root_children , current_num; V(int) parent, isart, dfs_num, dfs_low;
+void articulation_finder(int u, V(V(int)) &graph){
+	dfs_num[u] = dfs_low[u] = current_num++; int size = graph[u].size();
+	for (int x = 0; x < size; x++){
+		int v = graph[u][x];
+		if (dfs_num[v] == -1){
+			parent[v] = u;
+			if (u == dfs_root) root_children++;
+			articulation_finder(v, graph);
+			if (dfs_num[u] <= dfs_low[v]) isart[u] = 1;
+			dfs_low[u] = MIN(dfs_low[u], dfs_low[v]);
+		}
+		else if (parent[u] != v){
+			dfs_low[u] = MIN(dfs_low[u], dfs_num[v]);
+		}
+	}
+}
+int main() {
+	while (s("%d", &n) == 1 && n){
+		V(V(int)) graph(n+1);
+		string str; cin.ignore();
+		while (getline(cin, str)){
+			stringstream S(str); int t , T; S >> t;
+			if (t){
+				while (S >> T){
+					graph[t].pp(T); graph[T].pp(t);
+				}
+			}
+			else break;
+		}
+		parent.clear(); isart.clear(); dfs_num.clear(); dfs_low.clear();
+		parent.assign(n + 1, 0); isart.assign(n + 1, 0); dfs_num.assign(n + 1, -1); dfs_low.assign(n+1,0);
+		for (int x = 1; x <= n; x++){
+			if (dfs_num[x] == -1){
+				dfs_root = x; root_children = current_num = 0; articulation_finder(x,graph);
+				isart[x] = (root_children > 1);
+			}
+		} int cw = 0;
+		for (int x = 1; x <= n; x++){
+			if (isart[x]) cw++;
+		} p("%d\n", cw);
+	}
+	return 0;
+}

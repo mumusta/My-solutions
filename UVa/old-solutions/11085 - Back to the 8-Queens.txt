@@ -1,0 +1,72 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+int allpositions[1000][8]; int index;
+bool areuok(int r, int c, int exr[], int exc[], int size){
+	if (size == 0) return true;
+	for (int x = 0; x < size; x++){
+		if (exr[x] == r || exc[x] == c || (abs(exr[x] - r) == abs(exc[x] - c))){
+			return false;
+		}
+	}
+	return true;
+}
+void DP__(int col, int exr[] , int exc[] , int go){
+	if (col == 8){
+		for (int x = 0; x < 8; x++){
+			allpositions[index][x] = exr[x] +1;
+		}
+		index++;
+		return;
+	}
+	for (int x = 0; x < 8; x++){
+		if (areuok( x, col, exr, exc, go)){
+			exr[go] = x;
+			exc[go] = col;
+			DP__(col + 1, exr, exc, go + 1);
+			exr[go] = 0;
+			exc[go] = 0;
+		}
+	}
+}
+int main(){
+	int exr[8], exc[8];
+	DP__(0, exr, exc, 0);
+	int minn = 999999, cw = 0 , a[8];
+	while (cin >> a[0]){
+		scanf("%i%i%i%i%i%i%i", &a[1], &a[2], &a[3], &a[4], &a[5], &a[6], &a[7]);
+		cw++;
+		int total = 0;minn = 999999;
+		for (int x = 0; x < index; x++){
+			total = 0;
+			if (abs(allpositions[x][0] - a[0]) > 0)total ++;
+			if (abs(allpositions[x][1] - a[1]) > 0)total++;
+			if (abs(allpositions[x][2] - a[2]) > 0)total++;
+			if (abs(allpositions[x][3] - a[3]) > 0)total++;
+			if (abs(allpositions[x][4] - a[4]) > 0)total++;
+			if (abs(allpositions[x][5] - a[5]) > 0)total++;
+			if (abs(allpositions[x][6] - a[6]) > 0)total++;
+			if (abs(allpositions[x][7] - a[7]) > 0)total++;
+			if (total < minn){
+				minn = total;
+			}
+		}
+		printf("Case %i: %i\n", cw, minn);
+	}
+	return 0;
+}

@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define MOD 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll Mod(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+int main() {
+	int n, l , a ,b;
+	while (s("%d", &n) == 1 && n){
+		s("%d", &l); V(V(int)) graph(n);
+		for (int x = 0; x < l; x++){
+			s("%d%d", &a, &b); graph[a].pp(b); graph[b].pp(a);
+		}
+		queue <int> q; q.push(0); V(int) color(n, (int)OO); color[0] = 0; bool bibt = true;
+		while (!q.empty() && bibt){
+			int front = q.front() , size = graph[front].size(); q.pop();
+			for (int x = 0; x < size; x++){
+				if (color[graph[front][x]] == OO){
+					color[graph[front][x]] = 1 - color[front];
+					q.push(graph[front][x]);
+				}
+				else if (color[graph[front][x]] == color[front]){
+					bibt = false; break;
+				}
+			}
+		}
+		if (bibt) p("BICOLORABLE.\n"); else p("NOT BICOLORABLE.\n");
+	}
+	return 0;
+}

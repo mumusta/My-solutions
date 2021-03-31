@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define MOD 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll Mod(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+int t, r, c , vis[100][100]; string grid[101];
+int FLOD(int i, int j){
+	if (i < 0 || j < 0 || i >= r || j >= c || vis[i][j] || grid[i][j] == 'L') return 0;
+	int ret = 1; vis[i][j] = 1;
+	for (int x = 0; x < 8; x++){
+		ret += (FLOD(i + X[x], j + Y[x]));
+	} return ret;
+}
+int main() {
+	s("%d", &t); 
+	for (int x = 0; x < t; x++){
+		if (x != 0) p("\n"); 
+		r = c = 0; int indei, indej; string str; bool done = false;
+		while (getline(cin,str)){
+			if (str == "") {
+				if (done) break;
+				else continue;
+			}
+			else {
+				if (isalpha(str[0])){
+					grid[r] = str; r++; if (r == 1) { c = grid[0].length(); }
+				}
+				else {
+					stringstream S(str); S >> indei; S >> indej; mm0(vis);
+					p("%d\n", FLOD(indei - 1, indej - 1)); cout.clear();
+				}
+				done = true;
+			}
+		}
+	} 
+	return 0;
+}

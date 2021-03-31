@@ -1,0 +1,92 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+
+using namespace std;
+bool fuck_detect;
+
+
+void marker_bitch(bitset<1000010> &bits, int start, int end){
+	
+	for (int x = start; x < end; x++){
+
+		if (!bits[x]){
+			bits[x] = 1;
+			continue;
+		}
+		else {
+			
+				fuck_detect = true;
+				break;
+		}
+	}
+}
+
+	
+
+
+void marker_OVERDOSEEEEEEEEEEEEEEEEEEEEEE(bitset<1000010> &bits, int start, int end, int repete){
+
+	while (true){
+
+		if (end > 1000000) break;
+
+		marker_bitch(bits, start, end);
+
+		start += repete; end += repete;
+	}
+
+}
+
+int main(){
+
+	int n, m; 
+
+	while (cin >> n >> m){
+		if (n == 0 && m == 0) break;
+		bitset<1000010> bits = 0;
+		bitset<1000010> used = 0;
+		fuck_detect = false;
+
+		for (int i = 0; i < n; i++){
+			int a, b; scanf("%i%i", &a, &b);
+
+			if (!fuck_detect){
+
+				marker_bitch(bits, a, b);
+			}
+		}
+
+		for (int ii = 0; ii < m; ii++){
+			int a, b , c; scanf("%i%i%i", &a, &b , &c);
+			if (!fuck_detect){
+
+				marker_OVERDOSEEEEEEEEEEEEEEEEEEEEEE(bits, a, b, c);
+			}
+		}
+
+		if (fuck_detect) printf("CONFLICT\n");
+		else printf("NO CONFLICT\n");
+
+		bits = 0;
+		used = 0;
+
+	}
+
+	return 0;
+}

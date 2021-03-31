@@ -1,0 +1,8 @@
+Hints: The answer of the problem for any n and k equal to the answer of k and n.
+Tags: Mathematics, Counting.
+Difficulty: 1 out of 5.
+Comment: The answer is 
+	((b - a) + 1) + ((a - 1) * 2) --> (a + b) - 1 --> (n + k) - 1,
+	such that a = min(n, k) and b = max(n, k).
+Order: O(1) per testcase.
+Links: http://codeforces.com/gym/101498/problem/E.

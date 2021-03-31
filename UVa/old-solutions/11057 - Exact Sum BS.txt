@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define ss scanf_s
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+using namespace std;
+int main() {
+	long long int n,cw=0; while (s("%lld", &n) == 1){ cw++; if (cw!=1) p("\n\n");
+	long long int b = 0, e = 0, diff = OO, target = 0;
+		vector<long long int> seq(n); for (long long int x = 0; x < n; x++) s("%lld", &seq[x]); sort(seq.begin(), seq.end()); s("%lld", &target);
+		for (long long int i = 0; i < n; i++){
+			if (seq[i] < target  && abs((target - seq[i]) - seq[i]) < diff){
+				vector<long long int> ::iterator in = lower_bound(seq.begin()+i+1, seq.end(), (target - seq[i])); long long int sec = seq[in - (seq.begin())];
+				if (sec + seq[i] == target && abs(sec - seq[i]) < diff) {
+					b = seq[i]; e = sec; diff = abs(sec - seq[i]);
+				}
+			}
+		}
+		(b<e) ? p("Peter should buy books whose prices are %lld and %lld.", b, e) : p("Peter should buy books whose prices are %lld and %lld.", e , b);
+	} p("\n\n");
+	return 0;
+}

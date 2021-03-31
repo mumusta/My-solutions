@@ -1,0 +1,58 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+int cw;
+void DP(vector<bool> bits, int c){
+	if (c == 1) return;
+	vector<bool> subbits(c / 2);
+	int swat = -1;
+	for (int x = 0; x < c; x += 2){
+		swat++;
+		if (bits[x] && bits[x + 1]){
+			subbits[swat] = 1;
+			continue;
+		}
+		else if (!bits[x] && !bits[x + 1]){
+			subbits[swat] = 0;
+			continue;
+		}
+		else {
+			cw++;
+			subbits[swat] = 1;
+			continue;
+		}
+	}
+	DP(subbits, c / 2);
+}
+int main(){
+	int n; scanf("%i", &n);
+	for (int x = 0; x < n; x++){
+		int a, b; scanf("%i%i", &a, &b);
+		int c = pow(2, a);
+		vector<bool> bits; bits.assign(c, true);
+		cw = 0;
+		for (int xx = 0; xx < b; xx++){
+			int t; scanf("%i", &t);
+			bits[t-1] = 0;
+		}
+		DP(bits, c);
+		printf("%i\n", cw);
+		bits.clear();
+	}
+	return 0;
+}

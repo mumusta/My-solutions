@@ -1,0 +1,7 @@
+Hints: -.
+Tags: Geometry, 3D Points.
+Difficulty: 1 out of 5.
+Comment: Get the nearest neighbor for each. 
+For each point and its nearest if the distance less than 10, then res[(int)distance]++.
+Order: O(N^2) it is possible to solve it in O(NlgN).
+Links: -.

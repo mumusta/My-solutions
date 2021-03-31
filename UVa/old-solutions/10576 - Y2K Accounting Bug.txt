@@ -1,0 +1,50 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+bool done; int cw = -999;
+void DP__(long long int sum, int go, int a, int b, int tnum , int numberofdef , int ex[]){
+	if (tnum > 4){
+		long long int toi = 0;
+		for (int x = tnum - 5; x < tnum; x++){
+			toi += ex[x];
+		}
+		if (toi < 0) numberofdef++;
+	}
+	if (go == 12){
+		if (sum >= 0 && numberofdef == 8) {
+			if (sum > cw) cw = sum;
+			done = true;
+		}
+		return;
+	}
+	ex[go] = a;
+	DP__(sum + a, go + 1, a, b, tnum+1, numberofdef , ex);
+	ex[go] = b*-1;
+	DP__(sum - b, go + 1, a, b,  tnum + 1, numberofdef , ex);
+}
+int main(){
+	int a, b;
+	while (cin >> a){
+		scanf("%i", &b);
+		done = false; cw = -999; int ex[12];
+		DP__(0, 0, a, b, 0  , 0, ex);
+		if (done) printf("%i\n", cw);
+		else printf("Deficit\n");
+	}
+	return 0;
+}

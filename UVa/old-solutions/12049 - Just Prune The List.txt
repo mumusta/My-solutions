@@ -1,0 +1,89 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stdlib.h>
+
+using namespace std;
+
+int main() {
+	
+	int testcases,cw = 0; cin >> testcases;
+	multiset <int> tree; int* era; int size , size2;
+
+	for (int x = 0; x < testcases; x++){
+		cw = 0;  tree.clear();
+
+		int a, b; cin >> a >> b;
+		
+		if (a < b){
+			size = a;
+			size2 = b;
+			era = new int[a];
+
+			for (int y = 0; y < a; y++){
+				cin >> era[y];
+			}
+
+			for (int yy = 0; yy < b; yy++){
+				int nn; cin >> nn;
+				tree.insert(nn);
+			}
+		}
+
+		else {
+			size = b;
+			size2 = a;
+			era = new int[b];
+
+			for (int yy = 0; yy < a; yy++){
+				int nn; cin >> nn;
+				tree.insert(nn);
+			}
+
+			for (int y = 0; y < b; y++){
+				cin >> era[y];
+			}
+		}
+
+
+			for (int i = 0; i < size; i++){
+
+				multiset <int> ::iterator it = tree.begin();
+				it = tree.find(era[i]);
+				
+				if (it == tree.end()) continue;
+
+				else {
+					cw++;
+					tree.erase(it);
+				}
+				
+			}
+		
+			int last = 0;
+			
+			last = size - cw;
+			last += (size2 - cw);
+
+			cout << last << endl;
+			delete[] era;
+
+	}
+
+
+
+
+
+
+
+
+	system("pause");
+	return 0;
+}
+

@@ -1,0 +1,65 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#define OO 100000000
+//#include <fstream>
+using namespace std; 
+
+int t, dist , test;
+int air[15][1010];
+int dp_memo[15][1010];
+
+int dp(int r , int c){
+	
+	if (r < 0 || r > 9 || c > dist / 100) return OO;
+	if (c == dist / 100){
+		if (r == 0) return 0;
+		else return OO;
+	}
+	if (dp_memo[r][c] != -1) return dp_memo[r][c];
+	return dp_memo[r][c] = min(dp(r + 1, c + 1) + 60 - air[r][c], min (dp(r, c + 1) + 30 - air[r][c], dp(r - 1, c + 1) + 20 - air[r][c]));
+
+}
+
+int main(){
+	
+	scanf("%i", &t);
+
+	for (int x = 0; x < t; x++){
+
+		scanf("%i", &dist); test = 99999999;
+
+		for (int i = 9; i >= 0; i--){
+			for (int ii = 0; ii < dist / 100; ii++){
+				dp_memo[i][ii] = -1;
+				scanf("%i", &air[i][ii]);
+			}
+		}
+		//memset(dp_memo, -1, sizeof dp_memo);
+
+		printf("%i\n\n", dp(0, 0));
+
+
+	}
+
+
+
+
+	return 0;
+}

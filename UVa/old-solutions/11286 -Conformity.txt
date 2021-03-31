@@ -1,0 +1,96 @@
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stdlib.h>
+#include <stack>
+#include <queue>
+#include <iomanip>
+
+
+using namespace std;
+
+int main() {
+
+	map <set<int>, int> tree; set<int> temp;
+	int num;
+	
+	while (cin >> num){
+		if (num == 0)
+			break;
+
+		tree.clear();
+
+		for (int x = 0; x < num; x++){
+			temp.clear();
+
+			for (int y = 0; y < 5; y++){
+				int code; cin >> code;
+				temp.insert(code);
+			}
+
+			map <set<int>, int> ::iterator it = tree.find(temp);
+
+			if (it == tree.end()){
+
+				tree.insert(make_pair(temp, 1));
+			}
+
+			else {
+
+				(*it).second++;
+			}
+
+		}
+
+		map <set<int>, int> ::iterator to = tree.begin();
+		int compaire = (*to).second; bool isequal = true;
+
+		for (map <set<int>, int> ::iterator hp = tree.begin(); hp != tree.end(); hp++){
+
+			if (compaire != (*hp).second){
+				isequal = false;
+				break;
+			}
+		}
+
+		if (isequal){
+
+			cout << num << endl;
+		}
+
+		else {
+			int max = 0;
+			int kam = 0;
+			for (map <set<int>, int> ::iterator hd = tree.begin(); hd != tree.end(); hd++){
+
+				if ((*hd).second > max){
+					max = (*hd).second;
+					kam = 1;
+					continue;
+				}
+
+				if ((*hd).second == max){
+					kam++;
+				}
+			}
+
+			cout << max*kam << endl;
+		}
+
+
+
+
+
+	}
+
+
+	system("pause");
+	return 0;
+}
+

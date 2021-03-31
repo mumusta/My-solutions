@@ -1,0 +1,6 @@
+Hints: Try point rotation.
+Tags: Geometry, Point Rotation.
+Difficulty: 1 out of 5.
+Comment: move -> rotate -> move -> rotate.
+Order: O(N).
+Links: -.

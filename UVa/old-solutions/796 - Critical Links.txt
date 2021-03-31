@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 1e9
+#define EPS 1e-9
+#define __ 1000000007
+#define V(a) vector <a>
+#define P(a,b) pair <a,b>
+#define ALL(a) a.begin(),a.end()
+#define mm(a) memset(a , -1 , sizeof a)
+#define mm0(a) memset(a , 0 , sizeof a)
+typedef unsigned long long int ull;
+typedef long long int ll; ll MAX(ll a, ll b) { if (a > b) return a; else return b; }
+using namespace std; ll MIN(ll a, ll b) { if (a < b) return a; else return b; }
+ll MOD(ll a, ll b) { return a >= 0 ? a % b : (b - abs(a % b)) % b; }
+int X[] = { 1, 0, -1, 0, 1, -1, -1, 1 };
+int Y[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+int n , number; V(P(int, int)) bridges; V(int) dfs_num, dfs_low, parent;
+void bridge(int u, V(V(int)) &graph){
+	dfs_num[u] = dfs_low[u] = number++; int size = graph[u].size();
+	for (int x = 0; x < size; x++){
+		int v = graph[u][x];
+		if (dfs_num[v] == -1){
+			parent[v] = u;
+			bridge(v, graph);
+			if (dfs_low[v] > dfs_num[u]) bridges.pp(mp(MIN(u, v), MAX(u, v)));
+			dfs_low[u] = MIN(dfs_low[u], dfs_low[v]);
+		}
+		else if (parent[u] != v){
+			dfs_low[u] = MIN(dfs_low[u], dfs_num[v]);
+		}
+	}
+}
+int main() {
+//	int ccc = 0;
+	while (s("%d", &n) == 1){
+	//	ccc ++; if (ccc != 1)p("\n");
+		V(V(int)) graph(n); bridges.clear(); dfs_num.clear(); dfs_low.clear(); parent.clear();
+		dfs_low.assign(n, 0); parent.assign(n, 0); dfs_num.assign(n, -1);
+		for (int x = 0; x < n; x++){
+			int f, i , t; char T; s("%d", &f); cin >> T >> i >> T;
+			for (int ii = 0; ii < i; ii++){
+				s("%d", &t);graph[f].pp(t);
+			}
+		}
+		for (int x = 0; x < n; x++){
+			if (dfs_num[x] == -1){
+				number = 0; bridge(x , graph);
+			}
+		}
+		sort(ALL(bridges));
+		int sz = bridges.size();
+		p("%d critical links\n", sz);
+		for (int x = 0; x < sz; x++){
+			p("%d - %d\n", bridges[x].first, bridges[x].second);
+		}p("\n"); graph.clear();
+	}
+	return 0;
+}

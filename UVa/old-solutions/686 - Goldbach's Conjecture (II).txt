@@ -1,0 +1,42 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+using namespace std;
+int isp[33001];
+int i_COME_HERE[33001];
+int main(){
+	fill(isp, isp + 33001, 1);
+	isp[0] = isp[1] = 0;
+	for (int i = 0; i * i < 33001; i++){
+		if (isp[i]) {
+			for (int ii = i * 2; ii < 33001; ii += i){
+				isp[ii] = 0;
+			}
+		}
+	}
+	int n;
+	while (cin >> n){
+		if (n == 0) break;
+		int cw = 0;
+		for (int x = 2; x < n; x++){
+			if (isp[x] && isp[n - x] && !i_COME_HERE[x] && !i_COME_HERE[n-x]){
+				cw++;
+				i_COME_HERE[x] = i_COME_HERE[n - x] = 1;
+			}
+		}
+		printf("%i\n", cw);
+		fill(i_COME_HERE, i_COME_HERE + (n + 10), 0);
+	}
+	return 0;
+}

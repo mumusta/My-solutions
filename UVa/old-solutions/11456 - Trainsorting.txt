@@ -1,0 +1,67 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#include <fstream>
+#define ss scanf_s
+#define s scanf
+#define p printf
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 100000000
+using namespace std;
+int main() {
+	int n; s("%i", &n);
+	for (int x = 0; x < n; x++){
+		int seq_n; s("%i", &seq_n);
+		vector <int> seq(seq_n), I1(seq_n + 1, OO), I2(seq_n + 1, OO) , L1(seq_n) , L2(seq_n); I1[0] = I2[0] = -OO;
+		for (int xx = 0; xx < seq_n; xx++){
+			s("%i", &seq[xx]);
+		}
+		int ll1 = 0, ll2 = 0;
+		for (int i = seq_n-1; i >= 0; i--){
+			int start = 0, end = ll1, mid = 0;
+			while (start <= end){
+				mid = (start + end) / 2;
+				if (I1[mid] < seq[i]*-1) start = mid + 1;
+				else end = mid - 1;
+			}
+			L1[i] = start;
+			I1[start] = seq[i]*-1;
+			if (start > ll1) ll1 = start;
+		}
+		for (int ii = seq_n - 1; ii >= 0; ii--){
+			int start = 0, end = ll2, mid = 0;
+			while (start <= end){
+				mid = (start + end) / 2;
+				if (I2[mid] < seq[ii]) start = mid + 1;
+				else end = mid - 1;
+			}
+			L2[ii] = start;
+			I2[start] = seq[ii];
+			if (start > ll2) ll2 = start;
+		}
+		int maxe = 0;
+		for (int z = 0; z < seq_n; z++){
+			maxe = max(maxe, L1[z] + L2[z] - 1);
+		}
+		p("%i\n", maxe);
+		seq.clear(); I1.clear(); I2.clear(); L1.clear(); L2.clear();
+	}
+	return 0;
+}

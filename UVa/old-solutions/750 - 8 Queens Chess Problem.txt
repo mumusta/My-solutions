@@ -1,0 +1,56 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+using namespace std;
+int r[8], c[8]; int  a, b , cw;
+bool canbequeenmotherfuckers(int rr, int cc){
+	for (int x = 0; x < cc; x++){ // go lsa
+		if (rr == r[x] || cc == c[x] || abs(r[x] - rr) == abs(c[x] - cc)) return false;
+	}
+	return true;
+}
+bool ifcontain(){
+	for (int z = 0; z < 8; z++){
+		if (a-1 == r[z] && b-1 == c[z]) return true;
+	}
+	return false;
+}
+void _______DP_______(int cc){
+	if (cc == 8 && ifcontain()){
+		printf("%2i     ", ++cw);
+		for (int x = 0; x < 8; x++){
+			printf(" %i", r[x]+1);
+		}
+		printf("\n");
+	}
+	for (int rr = 0; rr < 8; rr++){
+		if (canbequeenmotherfuckers(rr, cc)) {
+			r[cc] = rr; c[cc] = cc;
+			_______DP_______(cc + 1);
+		}
+	}
+}
+int main(){
+	int n; scanf("%i", &n);
+	for (int t = 0; t < n; t++){
+		scanf("%i%i", &a, &b);
+		printf("SOLN       COLUMN\n");
+		printf(" #      1 2 3 4 5 6 7 8\n\n");
+		_______DP_______(0);
+		if (t != n-1)
+		printf("\n");
+		cw = 0;
+	}
+	return 0;
+}

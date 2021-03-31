@@ -1,0 +1,80 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+class NETWORK {
+private :
+	vector<int> p, rank, numberofmutialfriends;
+public:
+	NETWORK(int n){
+		p.assign(n + 1, 0); rank.assign(n + 1, 0); numberofmutialfriends.assign(n + 1, 1);
+		for (int x = 1; x < n + 1; x++){
+			p[x] = x;
+		}
+	}
+	int findp(int i){
+		if (p[i] == i) return i;
+		return p[i] = findp(p[i]);
+	}
+	void connect_and_find_number_of_friends(int n, int m){
+		int x = findp(n), y = findp(m);
+		if (x != y){
+			if (rank[x] > rank[y]){
+				p[y] = x;
+				numberofmutialfriends[x] += numberofmutialfriends[y];
+				printf("%i\n", numberofmutialfriends[x]);
+			}
+			else if (rank[x] < rank[y]){
+				p[x] = y;
+				numberofmutialfriends[y] += numberofmutialfriends[x];
+				printf("%i\n", numberofmutialfriends[y]);
+			}
+			else {
+				p[x] = y; rank[y] ++;
+				numberofmutialfriends[y] += numberofmutialfriends[x];
+				printf("%i\n", numberofmutialfriends[y]);
+			}
+		}
+		else {
+			printf("%i\n", numberofmutialfriends[x]);
+		}
+	}
+};
+int main(){
+	int n; scanf("%i", &n);
+	unordered_map <string, int> tree;
+	for (int x = 0; x < n; x++){
+		int num; scanf("%i", &num);
+		NETWORK facebook(num * 2);
+		int cw = 0;
+		for (int i = 0; i < num; i++){
+			string s, ss; cin >> s >> ss; int a, b;
+			unordered_map <string, int> ::iterator it = tree.find(s);
+			if (it == tree.end()){
+				cw++;
+				tree.insert(make_pair(s, cw));
+			}
+			unordered_map <string, int> ::iterator itt = tree.find(ss);
+			if (itt == tree.end()){
+				cw++;
+				tree.insert(make_pair(ss, cw));
+			}
+			facebook.connect_and_find_number_of_friends(tree[s], tree[ss]);
+		}
+		tree.clear();
+	}
+	return 0;
+}

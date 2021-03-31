@@ -1,0 +1,69 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+using namespace std;
+int adjmat[30][30];
+int matched[30], cw = 0; int tovec[30];
+void DP(vector<int> vec , int size , int go , int row){
+	if (go == 0){
+		for (int x = 0; x < size; x++){
+			if (matched[vec[x]] == 0){
+				cw++;
+				DP(vec, size, go + 1, vec[x]);
+			}
+		}
+	}
+	for (int i = 0; i < size; i++){
+		if (adjmat[row][vec[i]] && !matched[vec[i]]){
+			matched[vec[i]] = 1;
+			matched[row] = 1;
+			DP(vec, size, go + 1, vec[i]);
+		}
+	}
+}
+int main(){
+	int n; scanf("%i", &n);
+	for (int t = 0; t < n; t++){
+		string str;
+		while (cin >> str){
+			if (str[0] == '*')break;
+			adjmat[str[1] - 65][str[3] - 65] = 1;
+			adjmat[str[3] - 65][str[1] - 65] = 1;
+			tovec[str[1] - 65] = 1;
+			tovec[str[3] - 65] = 1;
+		}
+		vector <int> vec;
+		for (int z = 0; z < 30; z++){
+			if (tovec[z]) vec.push_back(z);
+		}
+		DP(vec, vec.size(), 0, 0);
+		cin >> str;
+		int sizee = str.size(); int kw = 0;
+		for (int x = 0; x < sizee; x++){
+			if (str[x] == ',') continue;
+			kw++;
+		}
+		printf("There are %i tree(s) and %i acorn(s).\n", cw, kw - vec.size());
+		vec.clear();
+		cw = 0;
+		fill(matched, matched + 30, 0);
+		fill(tovec, tovec + 30, 0);
+		for (int q = 0; q < 30; q++){
+			for (int qq = 0; qq < 30; qq++){
+				adjmat[q][qq] = 0;
+			}
+		}
+	}
+	return 0;
+}

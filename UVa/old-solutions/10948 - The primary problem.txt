@@ -1,0 +1,46 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+using namespace std;
+int isp[1000001];
+int main(){
+	fill(isp, isp + 1000001, 1);
+	isp[0] = isp[1] = 0;
+	for (int i = 2; i * i < 1000001; i++){
+		if (isp[i]){
+			for (int ii = i * 2; ii < 1000001; ii += i){
+				isp[ii] = 0;
+			}
+		}
+	}
+	int n; 
+	while (cin >> n){
+		if (n == 0) break;
+		bool is = false;
+		if (isp[2] && isp[n - 2]){
+			printf("%i:\n%i+%i\n", n, 2, n - 2);
+		}
+		else {
+			for (int x = 3; x < n; x += 2){
+				if (isp[x] && isp[n - x]){
+					is = true;
+					printf("%i:\n%i+%i\n", n, x, n - x);
+					break;
+				}
+			}
+			if (is == false) printf("%i:\nNO WAY!\n" , n);
+		}
+	}
+	return 0;
+}

@@ -1,0 +1,56 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+ 
+using namespace std;
+ 
+int main(){
+ 
+	int a;
+ 
+	while (cin >> a){
+		int temp0 = a;
+		bitset<32> bits(a);
+ 
+		for (int x = 0; x < 16; x++){
+ 
+			if (x < 8){
+				int temp;
+				temp = bits[x];
+				bits[x] = bits[x + 24];
+				bits[x + 24] = temp;
+			}
+ 
+			else {
+				int temp;
+				temp = bits[x];
+				bits[x] = bits[x + 8];
+				bits[x + 8] = temp;
+			}
+		}
+ 
+ 
+ 
+		long long int a = bits.to_ullong();
+ 
+ 
+		printf("%i converts to %i\n", temp0 ,a);
+	}
+ 
+ 
+	return 0;
+}

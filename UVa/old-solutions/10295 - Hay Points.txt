@@ -1,0 +1,82 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stdlib.h>
+
+using namespace std;
+
+int main() {
+
+	map <string, int> tree;
+	int num1, num2; cin >> num1 >> num2;
+
+	for (int x = 0; x < num1; x++){
+
+		string a; int b; cin >> a >> b;
+		tree.insert(make_pair(a, b));
+	}
+
+	cin.ignore();
+
+	for (int y = 0; y < num2; y++){
+		string str = "", temp = ""; int total=0;
+		getline(cin, str, '.');
+		int size = str.length();
+
+		for (int i = 0; i < size; i++){
+			if (str[i] == '\n'){
+			
+				if (temp.empty() == false){
+					map <string, int> ::iterator it = tree.find(temp);
+					temp = "";
+					if (it == tree.end())continue;
+					else {
+						total += (*it).second;
+					}
+				}
+			}
+			if (str[i] == ' '){
+				if (temp.empty() == false){
+				map <string, int> ::iterator it = tree.find(temp);
+				temp = "";
+				if (it == tree.end())continue;
+				else {
+					total += (*it).second;
+					}
+				}
+			}
+
+			else {
+				if (isalpha(str[i]))
+				temp.push_back(str[i]);
+			}
+
+
+		}
+
+		if (temp.empty() == false){
+			
+				map <string, int> ::iterator it = tree.find(temp);
+				temp = "";
+				if (it == tree.end())temp = "";
+				else {
+					total += (*it).second;
+				}
+		}
+
+		cout << total << endl;
+
+		cout.clear();
+
+	}
+
+
+	return 0;
+}
+

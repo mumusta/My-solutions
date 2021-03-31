@@ -1,0 +1,136 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+
+using namespace std; // 27 ,,,,,,,,,,,,,,,,,,,, - 64
+
+int awake[27];
+int used[27];
+int cw;
+
+
+void DP(vector<pair<int, set<int>>> &vec, int firstly, bool in){
+	if (firstly > 26) return;
+	if (in)vec[firstly].first++;
+	if (vec[firstly].first >= 3 && used[firstly] && !awake[firstly]){
+		cw++; awake[firstly] = 1;
+		for (set<int> ::iterator it = vec[firstly].second.begin(); it != vec[firstly].second.end(); it++){
+			DP(vec, *it , true);
+		}
+	}
+
+	DP(vec, firstly + 1 , false);
+
+}
+
+int main(){
+
+	int n, m;
+
+	while (cin >> n >> m){
+		int mother = 0;
+		vector<pair<int, set<int>>> vec(27);
+
+		char z, zz, zzz; cin >> z >> zz >> zzz;
+		awake[z - 64] = awake[zz - 64] = awake[zzz - 64] = 1;
+
+		for (int x = 0; x < m; x++){
+
+			char a, b; cin >> a >> b;
+			if (!used[a - 64]) mother++;
+			if (!used[b - 64]) mother++;
+			used[a - 64] = used[b - 64] = 1;
+			// wslna l hna b3d ma kona bna5od l input bta3 kol connection wlsa kona hnbd2 n handle l connectionat fl vector w nzbt counter l awake m3 vector l points l gwa ...
+
+			if (vec[a - 64].second.empty())vec[a - 64].first = 0;
+			if (awake[b - 64])vec[a - 64].first++;
+			vec[a - 64].second.insert(b - 64);
+
+			if (vec[b - 64].second.empty())vec[b - 64].first = 0;
+			if (awake[a - 64])vec[b - 64].first++;
+			vec[b - 64].second.insert(a - 64);
+			
+
+		}
+
+		bool thereischanging = true , year_1;
+
+		while (thereischanging){
+			year_1 = false;
+			thereischanging = false;
+			vector <int> index;
+
+			for (int x = 1; x < 27; x++){
+
+				if (used[x] && !awake[x] && vec[x].first >= 3){
+					thereischanging = true;
+					if (!year_1){
+						year_1 = true;
+						cw++;
+					}
+					awake[x] = 1;
+
+					index.push_back(x);
+					
+				}
+
+			}
+
+			if (!index.empty()){
+				int size = index.size();
+				for (int z = 0; z < size; z++){
+					for (set<int> ::iterator it = vec[index[z]].second.begin(); it != vec[index[z]].second.end(); it++){
+						vec[*it].first++;
+					}
+				}
+
+				index.clear();
+			}
+		}
+
+
+
+
+		if (mother + 3 < n){
+			printf("THIS BRAIN NEVER WAKES UP\n");
+			vec.clear(); cw = 0;
+			fill(used, used + 27, 0);
+			fill(awake, awake + 27, 0);
+			continue;
+		}
+		
+
+		bool is = false;
+		for (int x = 1; x < 27; x++){
+
+			if (used[x]){
+				if (!awake[x]){
+					is = true;
+					break;
+				}
+			}
+		}
+
+		if (is) printf("THIS BRAIN NEVER WAKES UP\n");
+		else printf("WAKE UP IN, %i, YEARS\n", cw);
+
+		vec.clear(); cw = 0; 
+		fill(used, used + 27, 0);
+		fill(awake, awake + 27, 0);
+	}
+
+
+	return 0;
+}

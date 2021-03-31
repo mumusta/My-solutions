@@ -1,0 +1,70 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+using namespace std;
+class UNION {
+private :
+	vector <int> p, totaltree , rank;
+public:
+	UNION(int n){
+		p.assign(n, 0); totaltree.assign(n, 1); rank.assign(n, 0);
+		for (int x = 0; x < n; x++){
+			p[x] = x;
+		}
+	}
+	int findp(int i){
+		if (p[i] == i) return i;
+		return p[i] = findp(p[i]);
+	}
+	bool isconnected(int a, int b){
+		return findp(a) == findp(b);
+	}
+	void makeconnection(int a, int b){
+		if (!isconnected(a, b)){
+			int x = findp(a) , y = findp(b);
+			if (rank[x] > rank[y]){
+				p[y] = x;
+				totaltree[x] += totaltree[y];
+			}
+			else if (rank[x] < rank[y]) {
+				p[x] = y;
+				totaltree[y] += totaltree[x];
+			}
+			else {
+				p[y] = x;
+				totaltree[x] += totaltree[y];
+				rank[x] ++;
+			}
+		}
+	}
+	int numberofmembers(int i){
+		return totaltree[findp(i)];
+	}
+};
+int main(){
+	int n, m; 
+	while (cin >> n >> m){
+		if (n == 0 && m == 0)break;
+		UNION tree(n);
+		for (int x = 0; x < m; x++){
+			int temp , first; scanf("%i%i", &temp , &first);
+			for (int i = 1; i < temp; i++){
+				int canni; scanf("%i", &canni);
+				tree.makeconnection(first, canni);
+			}
+		}
+		printf("%i\n", tree.numberofmembers(0));
+	}
+	return 0;
+}

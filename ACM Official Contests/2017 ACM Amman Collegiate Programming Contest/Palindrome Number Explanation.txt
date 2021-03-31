@@ -1,0 +1,7 @@
+Hints: -.
+Tags: -.
+Difficulty:1 out of 5.
+Comment: Solve the problem for all combinations of parity of n and s,
+	critical testcases is when ((n * 9) < s) or (s == 1 && n > 1).
+Order: O(N) per testcase.
+Links: http://codeforces.com/gym/101498/problem/H.

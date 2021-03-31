@@ -1,0 +1,109 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+bitset <10300> quadtree, isparent;
+int currentcommand , FUCKKKKKKKKKKKKKKKKKK;
+void DP(int index,  string map , bool is){
+	for (int x = 1; x <= 4; x++){
+	if (map[currentcommand + 1] == 'p'){
+			currentcommand++;
+			
+			if (is){
+				if (quadtree[index + x] && !isparent[index + x]) {
+					DP((index + x) * 4, map, false);
+				}
+				else {
+					isparent[index + x] = 1;
+					quadtree[index + x] = 1;
+					DP((index + x) * 4, map, true);
+				}
+			}
+		}
+		else if (map[currentcommand + 1] == 'f'){
+			currentcommand++;
+			if (is){
+				if (isparent[index + x]){
+					isparent[index + x] = 0;
+				}
+				quadtree[index + x] = 1;
+			}
+		}
+		else {
+			currentcommand++;
+		}
+	}
+}
+void numberofblackpixels(int depth , int index){
+	if (!isparent[0]) {
+		if (quadtree[0])
+		FUCKKKKKKKKKKKKKKKKKK = 1024;
+		
+		else FUCKKKKKKKKKKKKKKKKKK = 0;
+		return;
+	}
+	for (int x = 1; x <= 4; x++){
+		if (quadtree[index + x] && !isparent[index + x]){
+			FUCKKKKKKKKKKKKKKKKKK += (1024 / double(pow(4, depth)));
+		}
+		else if (quadtree[index + x] && isparent[index + x]){
+			numberofblackpixels(depth + 1, (index + x) * 4);
+		}
+	}
+}
+int main(){
+	int n; scanf("%i", &n);
+	for (int x = 0; x < n; x++){
+		string str1, str2; cin >> str1 >> str2;
+		if (str1.length() > 1){
+			isparent[0] = 1;
+			quadtree[0] = 1;
+			DP(0, str1, true);
+		}
+		else {
+			if (str1 == "f"){
+				isparent[0] = 0;
+				quadtree[0] = 1;
+			}
+			else {
+				isparent[0] = 0;
+				quadtree[0] = 0;
+			}
+		}
+		currentcommand = 0;
+		if (str2.length() > 1){
+			if (isparent[0]){
+				isparent[0] = 1;
+				DP(0, str2, true);
+			}
+		}
+		else {
+			if (str2 == "f"){
+				isparent[0] = 0;
+				quadtree[0] = 1;
+			}
+			
+		}
+		numberofblackpixels(1, 0);
+		printf("There are %i black pixels.\n", FUCKKKKKKKKKKKKKKKKKK);
+		if (x != (n - 1)){
+			isparent = quadtree = 0;
+			FUCKKKKKKKKKKKKKKKKKK = currentcommand = 0;
+		}
+	}
+	return 0;
+}

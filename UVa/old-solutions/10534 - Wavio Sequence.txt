@@ -1,0 +1,65 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <unordered_set>
+#include <unordered_map>
+#include <fstream>
+#define pf push_front
+#define pp push_back
+#define mp make_pair
+#define OO 100000000
+using namespace std;
+int main() {
+	int n;
+	while (cin >> n){
+		vector <int> seq(n),List(n) ,I1(n+1) , I2(n+1) , L1(n) , L2(n);
+		for (int x = 0; x < n; x++){
+			scanf("%i", &seq[x]);
+			I1[x] = I2[x] = OO;
+		}
+		I1[0] = I2[0] = -OO; I1[n] = I2[n] = OO;
+		int ll1 = 0 , ll2 = 0;
+		for (int i = 0; i < n; i++){
+			int start = 0, end = ll1, mid = 0;
+			while (start <= end){
+				mid = (start + end) / 2;
+				if (I1[mid] < seq[i]) start = mid + 1;
+				else end = mid - 1;
+			}
+			I1[start] = seq[i];
+			L1[i] = start;
+			if (start > ll1) ll1 = start;
+		}
+		for (int v = n - 1; v >= 0; v--){
+			int start = 0, end = ll2, mid = 0;
+			while (start <= end){
+			mid = (start + end) / 2;
+			if (I2[mid] < seq[v]) start = mid + 1;
+			else end = mid - 1;
+			}
+			I2[start] = seq[v];
+			L2[v] = start;
+			if (start > ll2) ll2 = start;
+		}
+		int navai_deshlom = 1;
+		for (int i = 0; i < n; i++){
+			navai_deshlom = max(navai_deshlom, min(L1[i], L2[i]));
+		}
+		printf("%i\n", navai_deshlom*2 - 1);
+		seq.clear(); I1.clear(); I2.clear(); L1.clear(); L2.clear();
+	}
+	return 0;
+}

@@ -1,0 +1,63 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+#include <deque>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+using namespace std;
+int maxx , maxarray [1000] , maxindex;
+void takemax(int a[] ,int size , int amax){
+	maxindex = size;
+	maxx = amax;
+	for (int x = 0; x < size; x++){
+		maxarray[x] = a[x];
+	}
+}
+void DP(int total, int dps, int go, int a[], int sizeofa, int lastvisited, int lim , int ex[]){
+	if (go < dps){
+		if (total <= lim && total > maxx){
+			takemax(ex, go, total);
+		}
+		if (total > lim) return;
+	}
+	if (go == dps){
+		if (total <= lim && total > maxx){
+			takemax(ex, go, total);
+		}
+		return;
+	}
+	for (int x = 0; x < sizeofa; x++){
+		if (x > lastvisited){
+			ex[go] = a[x];
+			DP(total + a[x], dps, go + 1, a, sizeofa, x, lim, ex);
+			ex[go] = 0;
+		}
+	}
+}
+int main(){
+	int n, m;
+	while (cin >> n >> m){
+		int *a = new int[m];
+		int *ex = new int[m];
+		for (int x = 0; x < m; x++){
+			scanf("%i", &a[x]);
+		}
+		DP(0, m, 0, a, m, -1, n, ex);
+		for (int i = 0; i < maxindex; i++){
+			printf("%i ", maxarray[i]);
+		}
+		printf("sum:%i\n", maxx);
+		maxx = 0;
+		delete[]a;
+		delete[]ex;
+	}
+	return 0;
+}
